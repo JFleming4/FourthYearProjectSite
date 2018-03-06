@@ -67,3 +67,5 @@ This must be done from the same console in which you set your environment variab
 ```bash
 $ mvn spring-boot:run
 ```
+
+By default, this will run the server on `http://localhost:8080`.
