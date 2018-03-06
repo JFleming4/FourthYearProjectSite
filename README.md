@@ -9,3 +9,20 @@
 We will be doing the 4th year project site.
 
 ### Backlog
+
+
+### Setup
+
+#### Postgresql
+
+```bash
+brew install postgres
+```
+
+```bash
+psql postgres
+```
+
+```bash
+CREATE DATABASE project_manager_dev;
+```
