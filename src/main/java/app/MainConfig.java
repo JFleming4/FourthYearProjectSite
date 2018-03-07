@@ -1,4 +1,4 @@
-package app.deploy;
+package app;
 
 import org.apache.commons.dbcp.BasicDataSource;
 import org.springframework.boot.context.properties.ConfigurationProperties;

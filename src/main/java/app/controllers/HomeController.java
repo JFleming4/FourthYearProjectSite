@@ -1,9 +1,5 @@
 package app.controllers;
 
-import app.models.Professor;
-import app.models.Project;
-import app.models.ProjectCoordinator;
-import app.models.Student;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;

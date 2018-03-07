@@ -91,7 +91,7 @@
                 <configuration>
                     <archive>
                         <manifest>
-                            <mainClass>app.deploy.Application</mainClass>
+                            <mainClass>app.Application</mainClass>
                         </manifest>
                     </archive>
                 </configuration>
