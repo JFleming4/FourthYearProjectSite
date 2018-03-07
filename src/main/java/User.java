@@ -29,9 +29,9 @@ public class User {
         if (obj != null && obj.getClass() == this.getClass())
         {
             User user = (User) obj;
-            return this.firstName.equals(user.getFirstName())
-                    && this.lastName.equals(user.getLastName())
-                    && this.email.equals(user.getEmail());
+            return this.firstName.equals(user.firstName)
+                    && this.lastName.equals(user.lastName)
+                    && this.email.equals(user.email);
         }
         return false;
     }

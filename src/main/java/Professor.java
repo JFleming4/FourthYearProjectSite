@@ -7,10 +7,17 @@ public class Professor extends User {
     private ProjectCoordinator projectCoordinator;
 
 
-    public Professor(String firstName, String lastName, String email)
+    public Professor(String firstName, String lastName, String email, ProjectCoordinator projectCoordinator)
     {
         super(firstName, lastName, email);
         this.projects = new ArrayList<>();
+        this.secondReaderProjects = new ArrayList<>();
+        this.projectCoordinator = projectCoordinator;
+    }
+
+    public Professor(String firstName, String lastName, String email)
+    {
+        this(firstName, lastName, email, null);
     }
 
 
@@ -72,9 +79,9 @@ public class Professor extends User {
         Professor prof = (Professor) obj;
 
         return super.equals(obj)
-                && this.projects.equals(prof.getProjects())
-                && this.secondReaderProjects.equals(prof.secondReaderProjects)
-                && (this.getProjectCoordinator().equals(prof.getProjectCoordinator()));
+                && this.projects.equals(prof.projects)
+                && ((this.secondReaderProjects == null) || (this.secondReaderProjects.equals(prof.secondReaderProjects)))
+                && ((this.projectCoordinator == null) || (this.projectCoordinator.equals(prof.projectCoordinator)));
     }
 
 
