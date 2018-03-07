@@ -1,15 +1,16 @@
 public class Student extends User {
 
-    private int studentNumber;
+    private double studentNumber;
     private String program;
 
     private Project project;
 
-    public Student(String firstName, String lastName, String email, int studentNumber, String program)
+    public Student(String firstName, String lastName, String email, double studentNumber, String program)
     {
         super(firstName, lastName, email);
         this.studentNumber = studentNumber;
         this.program = program;
+        this.project = null;
     }
 
     public void searchForProjects(String searchPhrase)
@@ -21,12 +22,14 @@ public class Student extends User {
      * Attempt to join a project
      * @param project The project they want to join
      */
-    public void joinProject(Project project)
+    public boolean joinProject(Project project)
     {
-        if (project.addStudent(this))
+        if (project.addStudent(this)) {
             this.project = project;
-        else
-            System.out.println("Unable to join this project"); // (for now)
+            return true;
+        }
+        System.out.println("Unable to join this project"); // (for now)
+        return false;
     }
 
 
@@ -47,12 +50,12 @@ public class Student extends User {
 
         if (!(obj instanceof Student)) return false;
 
-        Student stud = (Student) obj;
+        Student student = (Student) obj;
 
         return super.equals(obj)
-                && (this.studentNumber == stud.getStudentNumber())
-                && (this.program.equals(stud.getProgram()))
-                && (this.project.equals(stud.getProject()));
+                && (this.studentNumber == student.studentNumber)
+                && (this.program.equals(student.program))
+                && ((this.project == null) || (this.project.equals(student.project)));
     }
 
 
@@ -60,11 +63,11 @@ public class Student extends User {
     // Get & Set //
     ///////////////
 
-    public int getStudentNumber() {
+    public double getStudentNumber() {
         return studentNumber;
     }
 
-    public void setStudentNumber(int studentNumber) {
+    public void setStudentNumber(double studentNumber) {
         this.studentNumber = studentNumber;
     }
 

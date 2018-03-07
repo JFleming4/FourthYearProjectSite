@@ -17,11 +17,12 @@ public class Project {
     public Project(Professor projectProf, String description, ArrayList<String> restrictions, int maxCapacity)
     {
         this.projectProf = projectProf;
+        this.students = new ArrayList<>();
 
         this.description = description;
         this.restrictions = restrictions;
         this.maxCapacity = maxCapacity;
-        this.currentCapacity = 0;
+        this.currentCapacity = students.size();
 
         isArchived = false;
         isDeleted = false;
