@@ -1,7 +1,6 @@
-package deploy;
+package app.deploy;
 
 import org.apache.commons.dbcp.BasicDataSource;
-import org.omg.Messaging.SYNC_WITH_TRANSPORT;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
