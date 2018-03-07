@@ -1,6 +1,8 @@
+import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.Collections;
 
-public class Project {
+public class Project implements Comparable<Project> {
 
     private Professor projectProf;
     private ArrayList<Student> students;
@@ -11,7 +13,6 @@ public class Project {
     private int currentCapacity;
 
     private boolean isArchived;
-    private boolean isDeleted;
 
 
     public Project(Professor projectProf, String description, ArrayList<String> restrictions, int maxCapacity)
@@ -25,27 +26,38 @@ public class Project {
         this.currentCapacity = students.size();
 
         isArchived = false;
-        isDeleted = false;
     }
 
 
     /**
-     * Attempt to add a student to the project. Check against capacity & restrictions
+     * Attempt to add a student to the project. Check against capacity & restrictions.
+     * Sort the list of students based on their email address.
      * @param student Student to be added
      * @return Boolean whether or not the student was added
      */
     public boolean addStudent(Student student)
     {
-        if (currentCapacity < maxCapacity)
+        if (!isArchived && currentCapacity < maxCapacity)
         {
             if (!restrictions.contains(student.getProgram()))
             {
                 students.add(student);
                 currentCapacity++;
+                Collections.sort(students);
                 return true;
             }
         }
         return false;
+    }
+
+    /**
+     * Add a restriction to the list of restrictions. Sort based on alphabetical order.
+     * @param restriction New restriction
+     */
+    public void addRestriction(String restriction)
+    {
+        restrictions.add(restriction);
+        Collections.sort(restrictions);
     }
 
 
@@ -68,9 +80,21 @@ public class Project {
                 && this.restrictions.equals(pro.restrictions)
                 && this.maxCapacity == pro.maxCapacity
                 && this.currentCapacity == pro.currentCapacity
-                && this.isArchived == pro.isArchived
-                && this.isDeleted == pro.isDeleted;
+                && this.isArchived == pro.isArchived;
     }
+
+
+
+    /**
+     * Determine the "order" of two projects based on their descriptions (alphabetical order)
+     * @param compareProject Project you wish to compare against
+     * @return Negative (less than), 0 (equal), Positive (greater than)
+     */
+    public int compareTo(Project compareProject)
+    {
+        return this.description.compareToIgnoreCase(compareProject.description);
+    }
+
 
     ///////////////
     // Get & Set //
@@ -132,11 +156,4 @@ public class Project {
         this.isArchived = isArchived;
     }
 
-    public boolean isDeleted() {
-        return isDeleted;
-    }
-
-    public void setIsDeleted(boolean isDeleted) {
-        this.isDeleted = isDeleted;
-    }
 }

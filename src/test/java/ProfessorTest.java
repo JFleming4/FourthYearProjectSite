@@ -70,8 +70,7 @@ public class ProfessorTest {
 
         assert !projectCoordinator1.getProjects().contains(project)
                 && !professor1.getProjects().contains(project)
-                && !project.isArchived()
-                && project.isDeleted();
+                && !project.isArchived();
     }
 
     @Test
@@ -84,8 +83,7 @@ public class ProfessorTest {
 
         assert projectCoordinator1.getProjects().contains(project)
                 && professor1.getProjects().contains(project)
-                && project.isArchived()
-                && !project.isDeleted();
+                && project.isArchived();
     }
 
     @Test

@@ -20,6 +20,7 @@ public class ProjectTest {
 
     private final String PROG = "SYSC";
     private final String REST_PROG = "ARTS";
+    private final String AAALRIGHT = "AAAAAAAAAAAAAAAAAlright";
 
     private final int STUD_NO1 = 1;
     private final int STUD_NO2 = 2;
@@ -67,6 +68,14 @@ public class ProjectTest {
         assert project1.addStudent(student1)
                 && project1.addStudent(student2)
                 && !project1.addStudent(student3);
+    }
+
+    @Test
+    public void testAddRestriction()
+    {
+        project1.addRestriction(AAALRIGHT);
+        assert project1.getRestrictions().get(0).equals(AAALRIGHT)
+                && project1.getRestrictions().get(1).equals(REST_PROG);
     }
 
     @Test
@@ -124,13 +133,6 @@ public class ProjectTest {
     {
         project1.setIsArchived(true);
         assert project1.isArchived();
-    }
-
-    @Test
-    public void testGetSetIsDeleted()
-    {
-        project1.setIsDeleted(true);
-        assert project1.isDeleted();
     }
 
 }

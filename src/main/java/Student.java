@@ -1,4 +1,4 @@
-public class Student extends User {
+public class Student extends User implements Comparable<Student> {
 
     private double studentNumber;
     private String program;
@@ -55,7 +55,17 @@ public class Student extends User {
         return super.equals(obj)
                 && (this.studentNumber == student.studentNumber)
                 && (this.program.equals(student.program))
-                && ((this.project == null) || (this.project.equals(student.project)));
+                && ((this.project == null && student.project == null) || (this.project.equals(student.project)));
+    }
+
+    /**
+     * Determine the "order" of two students based on their email addresses (alphabetical order)
+     * @param compareStudent Studentyou wish to compare against
+     * @return Negative (less than), 0 (equal), Positive (greater than)
+     */
+    public int compareTo(Student compareStudent)
+    {
+        return this.getEmail().compareToIgnoreCase(compareStudent.getEmail());
     }
 
 
