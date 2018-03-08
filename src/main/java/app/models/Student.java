@@ -1,7 +1,5 @@
 package app.models;
 
-import org.hibernate.annotations.GeneratorType;
-
 import javax.persistence.*;
 
 @Entity
