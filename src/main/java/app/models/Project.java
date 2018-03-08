@@ -17,6 +17,9 @@ public class Project implements Comparable<Project> {
     @OneToMany(mappedBy = "project", cascade = CascadeType.ALL)
     private List<Student> students;
 
+    @OneToMany(mappedBy = "project", cascade = CascadeType.ALL)
+    private List<FileAttachment> files;
+
     private String description;
 
     @Transient
@@ -35,6 +38,7 @@ public class Project implements Comparable<Project> {
     {
         this.projectProf = projectProf;
         this.students = new ArrayList<>();
+        this.files = new ArrayList<>();
 
         this.description = description;
         this.restrictions = restrictions;
@@ -63,6 +67,21 @@ public class Project implements Comparable<Project> {
                 Collections.sort(students);
                 return true;
             }
+        }
+        return false;
+    }
+
+    /**
+     * Attempt to add a file to the project.
+     * @param file FileAttachment to be added
+     * @return Boolean whether or not the file was added
+     */
+    public boolean addFile(FileAttachment file) {
+        if (!isArchived) {
+            if (files.contains(file)) return false;
+            files.add(file);
+            file.setProject(this);
+            return true;
         }
         return false;
     }
@@ -187,5 +206,13 @@ public class Project implements Comparable<Project> {
 
     public void setSecondReader(Professor secondReader) {
         this.secondReader = secondReader;
+    }
+
+    public List<FileAttachment> getFiles() {
+        return files;
+    }
+
+    public void setFiles(List<FileAttachment> files) {
+        this.files = files;
     }
 }

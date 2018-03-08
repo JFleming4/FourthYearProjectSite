@@ -2,10 +2,7 @@ package app.models.repository;
 
 import app.Application;
 import app.TestConfig;
-import app.models.Professor;
-import app.models.Project;
-import app.models.ProjectCoordinator;
-import app.models.Student;
+import app.models.*;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -18,6 +15,8 @@ import javax.transaction.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import app.models.FileAttachment.FileAttachmentType;
 
 import static org.junit.Assert.*;
 
@@ -33,6 +32,7 @@ public class ProjectRepositoryTest {
     private ProjectCoordinator projectCoordinator;
     private Professor professor;
     private Student student;
+    private FileAttachment file;
     private List<String> restrictions;
 
     private final String FIRST = "FirstName";
@@ -50,6 +50,9 @@ public class ProjectRepositoryTest {
 
     private final int MAX_CAPACITY = 2;
 
+    private final String ASSET_URL = "https://s3.amazom.com/files/s/my_file.txt";
+    private final FileAttachmentType PROJECT_ASSET_TYPE = FileAttachmentType.FINAL_REPORT;
+
 
     @Before
     public void setup() {
@@ -59,6 +62,8 @@ public class ProjectRepositoryTest {
         projectCoordinator = new ProjectCoordinator(FIRST, LAST, EMAIL);
         professor = new Professor(FIRST, LAST, EMAIL, projectCoordinator);
         student = new Student(FIRST, LAST, EMAIL, STUD_NO1, PROG);
+
+        file = new FileAttachment(ASSET_URL, PROJECT_ASSET_TYPE, project);
 
         project = new Project(professor, DESCRIPTION, restrictions, MAX_CAPACITY);
     }
@@ -102,5 +107,15 @@ public class ProjectRepositoryTest {
         Project actualProject = projectRepository.findOne(project.getId());
 
         assertEquals(students, actualProject.getStudents());
+    }
+
+    @Test
+    public void testFileAttachmentAssociation() {
+        project.addFile(file);
+        projectRepository.save(project);
+
+        Project actualProject = projectRepository.findOne(project.getId());
+
+        assertTrue(actualProject.getFiles().contains(file));
     }
 }
