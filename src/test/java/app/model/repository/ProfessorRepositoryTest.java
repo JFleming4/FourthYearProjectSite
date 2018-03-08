@@ -5,6 +5,7 @@ import app.TestConfig;
 import app.model.Professor;
 import app.model.Project;
 import app.model.ProjectCoordinator;
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,6 +13,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -19,6 +21,8 @@ import static org.junit.Assert.assertEquals;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = Application.class)
+@ContextConfiguration(classes = { TestConfig.class })
+@Transactional
 public class ProfessorRepositoryTest {
     @Autowired
     ProfessorRepository professorRepository;
@@ -39,6 +43,7 @@ public class ProfessorRepositoryTest {
 
     private final int MAX_CAPACITY = 2;
 
+    @Before
     public void setUp() {
         restrictions = new ArrayList<>();
         restrictions.add(PROG);

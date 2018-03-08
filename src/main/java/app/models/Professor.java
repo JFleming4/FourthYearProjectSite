@@ -14,7 +14,7 @@ public class Professor extends User implements Comparable<Professor> {
     @OneToMany(mappedBy = "secondReader", cascade = CascadeType.ALL)
     private List<Project> secondReaderProjects;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     private ProjectCoordinator projectCoordinator;
 
     @Id
@@ -32,6 +32,10 @@ public class Professor extends User implements Comparable<Professor> {
     public Professor(String firstName, String lastName, String email)
     {
         this(firstName, lastName, email, null);
+    }
+
+    public Professor() {
+        this(null, null, null);
     }
 
 

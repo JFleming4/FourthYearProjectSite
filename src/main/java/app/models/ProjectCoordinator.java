@@ -18,6 +18,10 @@ public class ProjectCoordinator extends Professor {
         super(firstName, lastName, email);
     }
 
+    public ProjectCoordinator() {
+        this(null, null, null);
+    }
+
     public void setReportDeadline()
     {
 

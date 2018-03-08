@@ -44,6 +44,7 @@ public class Project implements Comparable<Project> {
         isArchived = false;
     }
 
+    public Project() {}
 
     /**
      * Attempt to add a student to the project. Check against capacity & restrictions.

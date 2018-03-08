@@ -25,6 +25,10 @@ public class Student extends User implements Comparable<Student> {
         this.project = null;
     }
 
+    public Student() {
+        this(null, null, null, 0, null);
+    }
+
     public void searchForProjects(String searchPhrase)
     {
 
