@@ -1,10 +1,10 @@
-package app.model.repository;
+package app.models.repository;
 
 import app.Application;
 import app.TestConfig;
-import app.model.Professor;
-import app.model.Project;
-import app.model.ProjectCoordinator;
+import app.models.Professor;
+import app.models.Project;
+import app.models.ProjectCoordinator;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -25,7 +25,7 @@ import static org.junit.Assert.assertEquals;
 @Transactional
 public class ProfessorRepositoryTest {
     @Autowired
-    ProfessorRepository professorRepository;
+    private ProfessorRepository professorRepository;
 
     private Professor professor;
     private ProjectCoordinator projectCoordinator;

@@ -1,6 +1,6 @@
-package app.model.repository;
+package app.models.repository;
 
-import app.model.Professor;
+import app.models.Professor;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
