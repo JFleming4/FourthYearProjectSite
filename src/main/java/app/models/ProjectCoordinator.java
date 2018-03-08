@@ -1,3 +1,5 @@
+package app.models;
+
 public class ProjectCoordinator extends Professor {
 
 

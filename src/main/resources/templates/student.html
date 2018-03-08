@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Fourth Year Project - Student</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+</head>
+<body>
+    <h1 th:text="'Student: '+${student.firstName}+' '+${student.lastName}"></h1>
+    <p><strong>Student ID: </strong><span th:text="${student.studentNumber}"></span></p>
+    <p><strong>Email address: </strong><span th:text="${student.email}"></span></p>
+    <p><strong>Program: </strong><span th:text="${student.program}"></span></p>
+    <button>Change Password</button>
+    <button>Log out</button>
+    <div>
+        <hr/>
+        <h3>Project</h3>
+        <button disabled="true">Create/Join</button>
+        <button disabled="true">Drop</button>
+        <p><strong>Project ID: </strong><span th:text="${student.studentNumber}"></span></p>
+        <p><strong>Project Title: </strong><span th:text="${student.email}"></span></p>
+        <p><strong>Supervisor: </strong><span th:text="'Program: '+${student.program}"></span></p>
+        <p><strong>Second Reader: </strong><span th:text="'Program: '+${student.program}"></span></p>
+
+        <hr/>
+        <h4>Other members</h4>
+        <ul>
+            <li th:each="member : ${project.getStudents()}" th:if="${!member.equals(student)}" >
+                <span th:text="${member.firstName}+' '+${member.lastName}+' ('+${member.email}+')'"></span>
+            </li>
+        </ul>
+        <hr/>
+        <h4>Project Status</h4>
+        <p><strong>Proposal: </strong><span>Submitted</span></p>
+        <p><strong>Oral Presentation: </strong><span>Completed</span></p>
+        <p><strong>Poster Fair: </strong><span></span></p>
+        <p><strong>Final Report: </strong><span></span></p>
+
+    </div>
+    <div>
+        <hr/>
+        <h3>Upload Proposal (PDF)</h3>
+        <button>Choose File</button>
+        <div style="height: 50px; width: 100px">
+            No file chosen
+        </div>
+        <button disabled="true">Upload</button>
+    </div>
+    <div>
+        <hr/>
+        <h3>Oral Presentation</h3>
+        <button disabled="true">View/Update Availability</button>
+    </div>
+    <div>
+        <hr/>
+        <h3>Poster Fair</h3>
+        <button>View/Update Demo</button>
+    </div>
+    <div>
+        <hr/>
+        <h3>Upload Final Report (PDF)</h3>
+        <button>Choose File</button>
+        <div style="height: 50px; width: 100px">
+            No file chosen
+        </div>
+        <button disabled="true">Upload</button>
+    </div>
+</body>
+</html>
