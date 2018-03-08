@@ -8,10 +8,10 @@ import java.util.List;
 @Entity
 public class Project implements Comparable<Project> {
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     private Professor projectProf;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     private Professor secondReader;
 
     @OneToMany(mappedBy = "project", cascade = CascadeType.ALL)
@@ -22,7 +22,7 @@ public class Project implements Comparable<Project> {
 
     private String description;
 
-    @Transient
+    @ElementCollection
     private List<String> restrictions;
     private int maxCapacity;
     private int currentCapacity;
@@ -63,6 +63,9 @@ public class Project implements Comparable<Project> {
             if (!restrictions.contains(student.getProgram()))
             {
                 students.add(student);
+                if(student.getProject() != this){
+                    student.setProject(this);
+                }
                 currentCapacity++;
                 Collections.sort(students);
                 return true;
