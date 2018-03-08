@@ -1,14 +1,25 @@
 package app.models;
 
+import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.List;
 
+@Entity
 public class Professor extends User implements Comparable<Professor> {
 
-    private ArrayList<Project> projects;
-    private ArrayList<Project> secondReaderProjects;
+    @OneToMany(mappedBy = "projectProf", cascade = CascadeType.ALL)
+    private List<Project> projects;
+
+    @OneToMany(mappedBy = "secondReader", cascade = CascadeType.ALL)
+    private List<Project> secondReaderProjects;
+
+    @ManyToOne
     private ProjectCoordinator projectCoordinator;
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private Long id;
 
     public Professor(String firstName, String lastName, String email, ProjectCoordinator projectCoordinator)
     {
@@ -31,7 +42,7 @@ public class Professor extends User implements Comparable<Professor> {
      * @param restrictions Project restrictions
      * @param studentCapacity Project capacity (how many students can join)
      */
-    public void createProject(String description, ArrayList<String> restrictions, int studentCapacity)
+    public void createProject(String description, List<String> restrictions, int studentCapacity)
     {
         Project project = new Project(this, description, restrictions, studentCapacity);
 
@@ -137,15 +148,15 @@ public class Professor extends User implements Comparable<Professor> {
     // Get & Set //
     ///////////////
 
-    public ArrayList<Project> getProjects() {
+    public List<Project> getProjects() {
         return projects;
     }
 
-    public void setProjects(ArrayList<Project> projects) {
+    public void setProjects(List<Project> projects) {
         this.projects = projects;
     }
 
-    public ArrayList<Project> getSecondReaderProjects() {
+    public List<Project> getSecondReaderProjects() {
         return secondReaderProjects;
     }
 
@@ -159,5 +170,13 @@ public class Professor extends User implements Comparable<Professor> {
 
     public void setProjectCoordinator(ProjectCoordinator projectCoordinator) {
         this.projectCoordinator = projectCoordinator;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 }

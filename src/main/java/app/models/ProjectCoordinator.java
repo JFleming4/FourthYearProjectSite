@@ -1,6 +1,16 @@
 package app.models;
 
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+
+@Entity
 public class ProjectCoordinator extends Professor {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private Long id;
 
 
     public ProjectCoordinator(String firstName, String lastName, String email)
@@ -37,5 +47,15 @@ public class ProjectCoordinator extends Professor {
 
         ProjectCoordinator pjc = (ProjectCoordinator) obj;
         return super.equals(obj);
+    }
+
+    @Override
+    public Long getId() {
+        return id;
+    }
+
+    @Override
+    public void setId(Long id) {
+        this.id = id;
     }
 }

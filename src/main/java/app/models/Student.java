@@ -1,10 +1,20 @@
 package app.models;
 
+import org.hibernate.annotations.GeneratorType;
+
+import javax.persistence.*;
+
+@Entity
 public class Student extends User implements Comparable<Student> {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private Long id;
 
     private double studentNumber;
     private String program;
 
+    @ManyToOne
     private Project project;
 
     public Student(String firstName, String lastName, String email, double studentNumber, String program)
@@ -97,5 +107,13 @@ public class Student extends User implements Comparable<Student> {
 
     public void setProject(Project project) {
         this.project = project;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 }
