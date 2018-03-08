@@ -1,3 +1,5 @@
+package app.models;
+
 public class User {
 
     private String firstName;

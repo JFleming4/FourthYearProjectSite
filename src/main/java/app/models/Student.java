@@ -1,3 +1,5 @@
+package app.models;
+
 public class Student extends User implements Comparable<Student> {
 
     private double studentNumber;
