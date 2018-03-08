@@ -13,23 +13,24 @@ We will be doing the 4th year project site.
 - [Issue #20 Project Objects + Test](https://github.com/JFleming4/FourthYearProjectSite/pull/20)
 - [Issue #16 Configure Postgresql on Heroku](https://github.com/JFleming4/FourthYearProjectSite/issues/16)
 - [Issue #21 Add an initial landing page](https://github.com/JFleming4/FourthYearProjectSite/issues/21)
-#### Issues for Milestone 1
-- [Issue #11 File Attatchments Entity](https://github.com/JFleming4/FourthYearProjectSite/issues/11)
 - [Issue #10 Prof Entity](https://github.com/JFleming4/FourthYearProjectSite/issues/10)
 - [Issue #9 Student Entity](https://github.com/JFleming4/FourthYearProjectSite/issues/9)
 - [Issue #8 Project Model Entity](https://github.com/JFleming4/FourthYearProjectSite/issues/8)
+- [Issue #7 Set up database Models](https://github.com/JFleming4/FourthYearProjectSite/issues/7)
 - [Issue #6 Student Menu Page](https://github.com/JFleming4/FourthYearProjectSite/issues/6)    
+- [Issue #5 Project Model](https://github.com/JFleming4/FourthYearProjectSite/issues/5)
+- [Issue #4 Project Coordinator Model](https://github.com/JFleming4/FourthYearProjectSite/issues/4)
+- [Issue #3 Student Model](https://github.com/JFleming4/FourthYearProjectSite/issues/3)
+- [Issue #2 Prof Model](https://github.com/JFleming4/FourthYearProjectSite/issues/2)
+- [Issue #29 Deploy to Heroku](https://github.com/JFleming4/FourthYearProjectSite/issues/29)
+#### Issues for Milestone 1 Complete
 #### Issues for Milestone 2
+- [Issue #11 File Attatchments Entity](https://github.com/JFleming4/FourthYearProjectSite/issues/11)
 - [Issue #15 Oral Presentation Availability Picker](https://github.com/JFleming4/FourthYearProjectSite/issues/15)
 - [Issue #14 Prof menu](https://github.com/JFleming4/FourthYearProjectSite/issues/14)
 - [Issue #13 File Uploads](https://github.com/JFleming4/FourthYearProjectSite/issues/13)
 - [Issue #12 Authentication and Authorization](https://github.com/JFleming4/FourthYearProjectSite/issues/12)
 #### Unassigned issues
-- [Issue #7 Set up database Models](https://github.com/JFleming4/FourthYearProjectSite/issues/7)
-- [Issue #5 Project Model](https://github.com/JFleming4/FourthYearProjectSite/issues/5)
-- [Issue #4 Project Coordinator Model](https://github.com/JFleming4/FourthYearProjectSite/issues/4)
-- [Issue #3 Student Model](https://github.com/JFleming4/FourthYearProjectSite/issues/3)
-- [Issue #2 Prof Model](https://github.com/JFleming4/FourthYearProjectSite/issues/2)
 
 
 ### Setup
