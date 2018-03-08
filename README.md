@@ -1,4 +1,7 @@
 # Sysc4806 Group 42
+
+[![Build Status](https://travis-ci.org/JFleming4/FourthYearProjectSite.svg?branch=master)](https://travis-ci.org/JFleming4/FourthYearProjectSite)
+
 ### Memebers
 - Derek Stride
 - Justin Fleming
