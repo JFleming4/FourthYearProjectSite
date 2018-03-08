@@ -164,7 +164,7 @@ public class Professor extends User implements Comparable<Professor> {
         return secondReaderProjects;
     }
 
-    public void setSecondReaderProjects(ArrayList<Project> secondReaderProjects) {
+    public void setSecondReaderProjects(List<Project> secondReaderProjects) {
         this.secondReaderProjects = secondReaderProjects;
     }
 

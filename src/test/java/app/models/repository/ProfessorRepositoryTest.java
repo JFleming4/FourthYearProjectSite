@@ -54,11 +54,42 @@ public class ProfessorRepositoryTest {
     }
 
     @Test
-    public void testProfessorsAssociations() {
+    public void testProfessor() {
         professorRepository.save(professor);
-
         Professor actualProfessor = professorRepository.findOne(professor.getId());
 
         assertEquals(professor, actualProfessor);
+    }
+
+    @Test
+    public void testProjectAssociation() {
+        List<Project> projects = new ArrayList<>();
+        projects.add(project);
+        professor.setProjects(projects);
+
+        professorRepository.save(professor);
+        Professor actualProfessor = professorRepository.findOne(professor.getId());
+
+        assertEquals(projects, actualProfessor.getProjects());
+    }
+
+    @Test
+    public void testProjectCoordinatorAssociation() {
+        professorRepository.save(professor);
+        Professor actualProfessor = professorRepository.findOne(professor.getId());
+
+        assertEquals(projectCoordinator, actualProfessor.getProjectCoordinator());
+    }
+
+    @Test
+    public void testSecondReaderAssociation() {
+        List<Project> projects = new ArrayList<>();
+        projects.add(project);
+        professor.setSecondReaderProjects(projects);
+
+        professorRepository.save(professor);
+        Professor actualProfessor = professorRepository.findOne(professor.getId());
+
+        assertEquals(projects, actualProfessor.getSecondReaderProjects());
     }
 }
