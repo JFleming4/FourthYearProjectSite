@@ -1,22 +1,37 @@
 package app.models;
 
+import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.List;
 
+@Entity
 public class Project implements Comparable<Project> {
 
+    @ManyToOne
     private Professor projectProf;
-    private ArrayList<Student> students;
+
+    @ManyToOne
+    private Professor secondReader;
+
+    @OneToMany(mappedBy = "project", cascade = CascadeType.ALL)
+    private List<Student> students;
 
     private String description;
-    private ArrayList<String> restrictions;
+
+    @Transient
+    private List<String> restrictions;
     private int maxCapacity;
     private int currentCapacity;
 
     private boolean isArchived;
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private Long id;
 
-    public Project(Professor projectProf, String description, ArrayList<String> restrictions, int maxCapacity)
+
+    public Project(Professor projectProf, String description, List<String> restrictions, int maxCapacity)
     {
         this.projectProf = projectProf;
         this.students = new ArrayList<>();
@@ -29,6 +44,7 @@ public class Project implements Comparable<Project> {
         isArchived = false;
     }
 
+    public Project() {}
 
     /**
      * Attempt to add a student to the project. Check against capacity & restrictions.
@@ -109,11 +125,11 @@ public class Project implements Comparable<Project> {
         this.projectProf = projectProf;
     }
 
-    public ArrayList<Student> getStudents() {
+    public List<Student> getStudents() {
         return students;
     }
 
-    public void setStudents(ArrayList<Student> students) {
+    public void setStudents(List<Student> students) {
         this.students = students;
     }
 
@@ -125,11 +141,11 @@ public class Project implements Comparable<Project> {
         this.description = description;
     }
 
-    public ArrayList<String> getRestrictions() {
+    public List<String> getRestrictions() {
         return restrictions;
     }
 
-    public void setRestrictions(ArrayList<String> restrictions) {
+    public void setRestrictions(List<String> restrictions) {
         this.restrictions = restrictions;
     }
 
@@ -157,4 +173,19 @@ public class Project implements Comparable<Project> {
         this.isArchived = isArchived;
     }
 
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public Professor getSecondReader() {
+        return secondReader;
+    }
+
+    public void setSecondReader(Professor secondReader) {
+        this.secondReader = secondReader;
+    }
 }
