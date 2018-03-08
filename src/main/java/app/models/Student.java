@@ -109,6 +109,9 @@ public class Student extends User implements Comparable<Student> {
 
     public void setProject(Project project) {
         this.project = project;
+        if(!project.getStudents().contains(this)) {
+            project.addStudent(this);
+        }
     }
 
     public Long getId() {

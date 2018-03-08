@@ -22,8 +22,8 @@ public class HomeController {
 
     @GetMapping("/student")
     public String student(Model model) {
-        Student student = studentRepository.findFirstByOrderById();
         Project project = projectRepository.findFirstByOrderById();
+        Student student = project.getStudents().get(0);
         model.addAttribute("student", student);
         model.addAttribute("project", project);
 
