@@ -80,9 +80,9 @@ postgres=# CREATE DATABASE project_manager_dev;
 Note: unless you've changed it, the password will probably be `""`.
 
 ```bash
-$ export SYSC_DATABASE_URL="jdbc:postgresql://localhost/project_manager_dev"
-$ export SYSC_DATABASE_USERNAME="myusername"
-$ export SYSC_DATABASE_PASSWORD="mypassword"
+$ export SYSC_DATABASE_URL="jdbc:postgresql://localhost/project_manager_dev" # do not change this
+$ export SYSC_DATABASE_USERNAME="myusername" # change this to your postgres username
+$ export SYSC_DATABASE_PASSWORD="mypassword" # change this to "" or the password you set
 ```
 
 #### Run the server
