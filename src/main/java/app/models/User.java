@@ -1,6 +1,10 @@
 package app.models;
 
+import javax.persistence.CascadeType;
 import javax.persistence.MappedSuperclass;
+import javax.persistence.OneToMany;
+import java.util.ArrayList;
+import java.util.List;
 
 @MappedSuperclass
 public class User {
@@ -9,11 +13,15 @@ public class User {
     private String lastName;
     private String email;
 
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    private List<TimeSlot> timeSlots;
+
     public User(String firstName, String lastName, String email)
     {
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
+        this.timeSlots = new ArrayList<>();
     }
 
     public void enterAvailability()
@@ -39,6 +47,17 @@ public class User {
                     && this.email.equals(user.email);
         }
         return false;
+    }
+
+    /**
+     * Add a TimeSlot to the list of availability
+     * @param ts the TimeSlot to add
+     */
+    public void addTimeSlot(TimeSlot ts) {
+        if(!timeSlots.contains(ts)) {
+            timeSlots.add(ts);
+            ts.setUser(this);
+        }
     }
 
 
