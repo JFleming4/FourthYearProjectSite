@@ -107,7 +107,7 @@ public class FileController {
         fileAttachmentRepository.save(fileAttachment);
         if (oldFile != null) {
             fileAttachmentRepository.delete(oldFile.getId());
-            // storageService.delete(uploadedFile); TODO(derek): Delete Old File
+            storageService.delete(uploadedFile.getOriginalFilename());
         }
     }
 }

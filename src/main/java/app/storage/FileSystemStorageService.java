@@ -66,6 +66,11 @@ public class FileSystemStorageService implements StorageService {
     }
 
     @Override
+    public void delete(String filename) {
+        load(filename).toFile().delete();
+    }
+
+    @Override
     public Resource loadAsResource(String filename) {
         try {
             Path file = load(filename);
