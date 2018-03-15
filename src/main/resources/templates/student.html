@@ -3,6 +3,9 @@
 <head>
     <title>Fourth Year Project - Student</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+    <script src="/file_attachment.js"></script>
 </head>
 <body>
     <h1 th:text="'Student: '+${student.firstName}+' '+${student.lastName}"></h1>
@@ -38,12 +41,12 @@
     </div>
     <div>
         <hr/>
-        <h3>Upload Proposal (PDF)</h3>
-        <button>Choose File</button>
-        <div style="height: 50px; width: 100px">
-            No file chosen
-        </div>
-        <button disabled="true">Upload</button>
+        <h3>Upload Proposal (.pdf, .doc, .docx)</h3>
+        <form enctype="multipart/form-data" th:action="${'/student/' + student.getId() + '/upload_proposal'}" method="post">
+            <input id="proposal-file" type="file" name="proposal" accept=".pdf,.doc,.docx" />
+            <br>
+            <input type="submit" />
+        </form>
     </div>
     <div>
         <hr/>

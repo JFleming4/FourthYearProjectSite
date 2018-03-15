@@ -6,8 +6,11 @@ import app.models.ProjectCoordinator;
 import app.models.Student;
 import app.models.repository.ProjectRepository;
 import app.models.repository.StudentRepository;
+import app.storage.FileSystemStorageService;
+import app.storage.StorageService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -22,6 +25,13 @@ public class Application {
 
     public static void main(String[] args) {
         SpringApplication.run(Application.class);
+    }
+
+    @Bean
+    CommandLineRunner init(StorageService storageService) {
+        return (args) -> {
+            storageService.init();
+        };
     }
 
     @Bean
