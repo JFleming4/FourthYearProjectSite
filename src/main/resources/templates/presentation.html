@@ -5,6 +5,21 @@
     <title>Fourth Year Project - Presentation Picker</title>
 </head>
 <body>
-<h>WHAT UP</h>
+<h>Oral Presentation Picker</h>
+<p>Select Available Times</p>
+<form>
+<ul>
+<th:block th:each="timeSlot : ${timeSlots}">
+    <li>
+        <div>
+            <span th:text="${timeSlot.day}"></span></br>
+            <span th:text="${timeSlot.startHour}:${timeSlot.startMinute}"></span>
+            <input type="checkbox">
+        </div>
+    </li>
+</th:block>
+</ul>
+    <input type="submit" value="Submit">
+</form>
 </body>
 </html>
