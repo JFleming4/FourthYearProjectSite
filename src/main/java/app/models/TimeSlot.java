@@ -1,9 +1,6 @@
 package app.models;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 @Entity
 public class TimeSlot implements Comparable<TimeSlot>{
@@ -14,17 +11,18 @@ public class TimeSlot implements Comparable<TimeSlot>{
     private Day day;
     private int startHour;
     private int startMinute;
+
+    @ManyToOne(cascade = CascadeType.ALL)
     private User user;
 
     /***
      * Create an available time slot
-     * @param user the user that is associated
      * @param day of the week
      * @param startHour should be 0 - 23
      * @param startMinute should be 0 or 30
      */
-    public TimeSlot(User user, Day day, int startHour, int startMinute) {
-        this.user = user;
+    public TimeSlot(Day day, int startHour, int startMinute) {
+        this.user = null;
         this.day = day;
         this.startHour = startHour;
         this.startMinute = startMinute;
@@ -32,19 +30,71 @@ public class TimeSlot implements Comparable<TimeSlot>{
 
     /***
      * Create an available time slot
-     * @param user the user that is associated
      * @param day of the week
      * @param startTime in 24hour clock i.e. 22:30
      */
-    public TimeSlot(User user, Day day, String startTime) {
+    public TimeSlot(Day day, String startTime) {
         this(
-                user,
                 day,
                 new Integer(startTime.split(":")[0]),
                 new Integer(startTime.split(":")[1])
         );
     }
 
+    /***
+     * create a duplicate TimeSlot with a null user
+     * @param ts TimeSlot to duplicate
+     */
+    public TimeSlot(TimeSlot ts) {
+        this(ts.day, ts.startHour, ts.startMinute);
+    }
+
+    public Day getDay() {
+        return this.day;
+    }
+
+    public void setDay(Day day) {
+        this.day = day;
+    }
+
+    public User getUser() {
+        return this.user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
+
+    public int getStartHour() {
+        return this.startHour;
+    }
+
+    public void setStartHour(int sh) {
+        this.startHour = sh;
+    }
+
+    public int getStartMinute() {
+        return this.startMinute;
+    }
+
+    public void setStartMinute(int sm) {
+        this.startMinute = sm;
+    }
+
+    public Long getId() {
+        return this.id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+
+    /***
+     * Compare to other time slots for sorting
+     * @param ts the timeslot to be compared
+     * @return 1 for greater than, 0 for equal, -1 for less than
+     */
     public int compareTo(TimeSlot ts)
     {
         if(this.day == ts.day) {
@@ -73,7 +123,7 @@ public class TimeSlot implements Comparable<TimeSlot>{
         if(o instanceof TimeSlot) {
             TimeSlot ts = (TimeSlot) o;
             return ts.day.equals(this.day) && ts.startMinute == this.startMinute &&
-                    ts.startHour == this.startHour;
+                    ts.startHour == this.startHour && this.user.equals(ts.user);
         }
         return false;
     }

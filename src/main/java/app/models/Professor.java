@@ -17,6 +17,9 @@ public class Professor extends User implements Comparable<Professor> {
     @ManyToOne(cascade = CascadeType.ALL)
     private ProjectCoordinator projectCoordinator;
 
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    private List<TimeSlot> timeSlots;
+
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
@@ -27,6 +30,7 @@ public class Professor extends User implements Comparable<Professor> {
         this.projects = new ArrayList<>();
         this.secondReaderProjects = new ArrayList<>();
         this.projectCoordinator = projectCoordinator;
+        this.timeSlots = new ArrayList<>();
     }
 
     public Professor(String firstName, String lastName, String email)
