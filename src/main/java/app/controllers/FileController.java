@@ -1,6 +1,8 @@
 package app.controllers;
 
+import app.models.FileAttachment;
 import app.models.Student;
+import app.models.repository.FileAttachmentRepository;
 import app.models.repository.StudentRepository;
 import app.storage.StorageFileNotFoundException;
 import app.storage.StorageService;
@@ -18,10 +20,14 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import java.io.IOException;
 import java.util.stream.Collectors;
 
+import static app.models.FileAttachment.FileAttachmentType;
+
 @Controller
 public class FileController {
     @Autowired
     private StudentRepository studentRepository;
+    @Autowired
+    private FileAttachmentRepository fileAttachmentRepository;
 
     private final StorageService storageService;
 
@@ -51,20 +57,57 @@ public class FileController {
     }
 
     @PostMapping("/student/{id}/upload_proposal")
-    public String uploadFile(@PathVariable Long id,
+    public String uploadProposal(@PathVariable Long id,
                              @RequestParam("file") MultipartFile file,
                              RedirectAttributes redirectAttributes) {
         Student student = studentRepository.findOne(id);
+        uploadFile(file, student.getProject().getProposal());
 
-        storageService.store(file);
         redirectAttributes.addFlashAttribute("message",
                 "You successfully uploaded " + file.getOriginalFilename() + "!");
+        return "redirect:/student";
+    }
 
-        return "redirect:/files";
+    @PostMapping("/student/{id}/upload_draft")
+    public String uploadDraft(@PathVariable Long id,
+                             @RequestParam("file") MultipartFile file,
+                             RedirectAttributes redirectAttributes) {
+        Student student = studentRepository.findOne(id);
+        uploadFile(file, student.getProject().getDraft());
+
+        redirectAttributes.addFlashAttribute("message",
+                "You successfully uploaded " + file.getOriginalFilename() + "!");
+        return "redirect:/student";
+    }
+
+    @PostMapping("/student/{id}/upload_final_report")
+    public String uploadReport(@PathVariable Long id,
+                             @RequestParam("file") MultipartFile file,
+                             RedirectAttributes redirectAttributes) {
+        Student student = studentRepository.findOne(id);
+        uploadFile(file, student.getProject().getReport());
+
+        redirectAttributes.addFlashAttribute("message",
+                "You successfully uploaded " + file.getOriginalFilename() + "!");
+        return "redirect:/student";
     }
 
     @ExceptionHandler(StorageFileNotFoundException.class)
     public ResponseEntity<?> handleStorageFileNotFound(StorageFileNotFoundException exc) {
         return ResponseEntity.notFound().build();
+    }
+
+    private void uploadFile(MultipartFile uploadedFile, FileAttachment oldFile) {
+        FileAttachment fileAttachment = new FileAttachment(
+                uploadedFile.getOriginalFilename(),
+                oldFile.getProjectAssetType(),
+                oldFile.getProject());
+
+        storageService.store(uploadedFile);
+        fileAttachmentRepository.save(fileAttachment);
+        if (oldFile != null) {
+            fileAttachmentRepository.delete(oldFile.getId());
+            // storageService.delete(uploadedFile); TODO(derek): Delete Old File
+        }
     }
 }

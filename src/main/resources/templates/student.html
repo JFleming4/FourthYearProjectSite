@@ -41,10 +41,15 @@
     </div>
     <div>
         <hr/>
+        <div th:if="${project.getProposal() != null}">
+            Proposal: <a th:href="${'/files/' + project.getProposal().getAssetUrl()}" th:text="${project.getProposal().getAssetUrl()}" />
+        </div>
+
         <h3>Upload Proposal (.pdf, .doc, .docx)</h3>
         <form enctype="multipart/form-data" th:action="${'/student/' + student.getId() + '/upload_proposal'}" method="post">
-            <input id="proposal-file" type="file" name="proposal" accept=".pdf,.doc,.docx" />
-            <br>
+
+            <input id="proposal-file" type="file" name="file" accept=".pdf,.doc,.docx" />
+            <br />
             <input type="submit" />
         </form>
     </div>
