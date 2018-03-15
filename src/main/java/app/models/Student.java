@@ -14,11 +14,8 @@ public class Student extends User implements Comparable<Student> {
     private double studentNumber;
     private String program;
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne
     private Project project;
-
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
-    private List<TimeSlot> timeSlots;
 
     public Student(String firstName, String lastName, String email, double studentNumber, String program)
     {
@@ -26,7 +23,6 @@ public class Student extends User implements Comparable<Student> {
         this.studentNumber = studentNumber;
         this.program = program;
         this.project = null;
-        this.timeSlots = new ArrayList<TimeSlot>();
     }
 
     public Student() {
@@ -51,19 +47,6 @@ public class Student extends User implements Comparable<Student> {
         System.out.println("Unable to join this project"); // (for now)
         return false;
     }
-
-    /**
-     * Add a TimeSlot to the list of availability
-     * @param ts the TimeSlot to add
-     */
-    public void addTimeSlot(TimeSlot ts) {
-        if(!timeSlots.contains(ts)) {
-            timeSlots.add(ts);
-            ts.setUser(this);
-        }
-    }
-
-
 
     private void submitFinalReport()
     {
