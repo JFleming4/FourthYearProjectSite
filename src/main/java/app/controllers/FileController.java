@@ -2,10 +2,8 @@ package app.controllers;
 
 import app.models.FileAttachment;
 import app.models.Project;
-import app.models.Student;
 import app.models.repository.FileAttachmentRepository;
 import app.models.repository.ProjectRepository;
-import app.models.repository.StudentRepository;
 import app.storage.StorageFileNotFoundException;
 import app.storage.StorageService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,7 +17,6 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.method.annotation.MvcUriComponentsBuilder;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import java.io.File;
 import java.io.IOException;
 import java.util.stream.Collectors;
 

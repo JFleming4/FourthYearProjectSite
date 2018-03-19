@@ -15,16 +15,26 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
+import org.springframework.core.env.ConfigurableEnvironment;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 
 import java.util.ArrayList;
 @SpringBootApplication
 public class Application {
+    public static final String PRODUCTION = "production";
+    public static final String DEVELOPMENT = "development";
 
     private static final Logger log = LoggerFactory.getLogger(Application.class);
 
     public static void main(String[] args) {
-        SpringApplication.run(Application.class);
+        SpringApplication application = new SpringApplication(Application.class);
+        String spring_env = System.getenv("SPRING_ENV");
+        if (spring_env == null || spring_env.equals(DEVELOPMENT))
+            application.setAdditionalProfiles(DEVELOPMENT);
+        else if (spring_env.equals(PRODUCTION))
+            application.setAdditionalProfiles(PRODUCTION);
+
+        application.run();
     }
 
     @Bean
