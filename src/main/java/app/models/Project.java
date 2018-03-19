@@ -19,7 +19,7 @@ public class Project implements Comparable<Project> {
     @OneToMany(mappedBy = "project", cascade = CascadeType.ALL)
     private List<Student> students;
 
-    @OneToMany(mappedBy = "project", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "project")
     private List<FileAttachment> files;
 
     private String description;
@@ -89,16 +89,6 @@ public class Project implements Comparable<Project> {
             return true;
         }
         return false;
-    }
-
-    /**
-     * @return FileAttachment for the proposal of the project.
-     */
-    public FileAttachment getDraft() {
-        for (FileAttachment file : files) {
-            if (file.getProjectAssetType() == FileAttachmentType.DRAFT) return file;
-        }
-        return null;
     }
 
     /**

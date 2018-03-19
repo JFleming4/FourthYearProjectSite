@@ -1,8 +1,10 @@
 package app.controllers;
 
 import app.models.FileAttachment;
+import app.models.Project;
 import app.models.Student;
 import app.models.repository.FileAttachmentRepository;
+import app.models.repository.ProjectRepository;
 import app.models.repository.StudentRepository;
 import app.storage.StorageFileNotFoundException;
 import app.storage.StorageService;
@@ -17,6 +19,7 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.method.annotation.MvcUriComponentsBuilder;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.stream.Collectors;
 
@@ -25,7 +28,7 @@ import static app.models.FileAttachment.FileAttachmentType;
 @Controller
 public class FileController {
     @Autowired
-    private StudentRepository studentRepository;
+    private ProjectRepository projectRepository;
     @Autowired
     private FileAttachmentRepository fileAttachmentRepository;
 
@@ -56,36 +59,32 @@ public class FileController {
                 "attachment; filename=\"" + file.getFilename() + "\"").body(file);
     }
 
-    @PostMapping("/student/{id}/upload_proposal")
+    @PostMapping("/project/{id}/upload_proposal")
     public String uploadProposal(@PathVariable Long id,
                              @RequestParam("file") MultipartFile file,
                              RedirectAttributes redirectAttributes) {
-        Student student = studentRepository.findOne(id);
-        uploadFile(file, student.getProject().getProposal());
+        Project project = projectRepository.findOne(id);
+        FileAttachment proposal = project.getProposal();
+        if (proposal != null)
+            uploadFile(file, proposal);
+        else
+            uploadFile(file, project, FileAttachmentType.PROPOSAL);
 
         redirectAttributes.addFlashAttribute("message",
                 "You successfully uploaded " + file.getOriginalFilename() + "!");
         return "redirect:/student";
     }
 
-    @PostMapping("/student/{id}/upload_draft")
-    public String uploadDraft(@PathVariable Long id,
-                             @RequestParam("file") MultipartFile file,
-                             RedirectAttributes redirectAttributes) {
-        Student student = studentRepository.findOne(id);
-        uploadFile(file, student.getProject().getDraft());
-
-        redirectAttributes.addFlashAttribute("message",
-                "You successfully uploaded " + file.getOriginalFilename() + "!");
-        return "redirect:/student";
-    }
-
-    @PostMapping("/student/{id}/upload_final_report")
+    @PostMapping("/project/{id}/upload_final_report")
     public String uploadReport(@PathVariable Long id,
                              @RequestParam("file") MultipartFile file,
                              RedirectAttributes redirectAttributes) {
-        Student student = studentRepository.findOne(id);
-        uploadFile(file, student.getProject().getReport());
+        Project project = projectRepository.findOne(id);
+        FileAttachment report = project.getReport();
+        if (report != null)
+            uploadFile(file, report);
+        else
+            uploadFile(file, project, FileAttachmentType.FINAL_REPORT);
 
         redirectAttributes.addFlashAttribute("message",
                 "You successfully uploaded " + file.getOriginalFilename() + "!");
@@ -98,16 +97,15 @@ public class FileController {
     }
 
     private void uploadFile(MultipartFile uploadedFile, FileAttachment oldFile) {
-        FileAttachment fileAttachment = new FileAttachment(
-                uploadedFile.getOriginalFilename(),
-                oldFile.getProjectAssetType(),
-                oldFile.getProject());
+        uploadFile(uploadedFile, oldFile.getProject(), oldFile.getProjectAssetType());
+        fileAttachmentRepository.delete(oldFile.getId());
+        storageService.delete(oldFile.getAssetUrl());
+    }
 
+    private void uploadFile(MultipartFile uploadedFile, Project project, FileAttachmentType fileType) {
         storageService.store(uploadedFile);
-        fileAttachmentRepository.save(fileAttachment);
-        if (oldFile != null) {
-            fileAttachmentRepository.delete(oldFile.getId());
-            storageService.delete(uploadedFile.getOriginalFilename());
-        }
+        fileAttachmentRepository.save(
+                new FileAttachment(uploadedFile.getOriginalFilename(), fileType, project)
+        );
     }
 }
