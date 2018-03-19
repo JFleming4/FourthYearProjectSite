@@ -20,6 +20,9 @@ public class Project implements Comparable<Project> {
     @OneToMany(mappedBy = "project", cascade = CascadeType.ALL)
     private List<FileAttachment> files;
 
+    @OneToMany(mappedBy = "project", cascade = CascadeType.ALL)
+    private List<TimeSlot> timeSlots;
+
     private String description;
 
     @ElementCollection
@@ -72,6 +75,17 @@ public class Project implements Comparable<Project> {
             }
         }
         return false;
+    }
+
+    /**
+     * Add a TimeSlot to the list of availability
+     * @param ts the TimeSlot to add
+     */
+    public void addTimeSlot(TimeSlot ts) {
+        if(!timeSlots.contains(ts)) {
+            timeSlots.add(ts);
+            ts.setProject(this);
+        }
     }
 
     /**

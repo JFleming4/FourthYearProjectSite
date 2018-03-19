@@ -13,7 +13,7 @@ public class TimeSlot implements Comparable<TimeSlot>{
     private int startMinute;
 
     @ManyToOne(cascade = CascadeType.ALL)
-    private User user;
+    private Project project;
 
     /***
      * Create an available time slot
@@ -22,7 +22,7 @@ public class TimeSlot implements Comparable<TimeSlot>{
      * @param startMinute should be 0 or 30
      */
     public TimeSlot(Day day, int startHour, int startMinute) {
-        this.user = null;
+        this.project = null;
         this.day = day;
         this.startHour = startHour;
         this.startMinute = startMinute;
@@ -57,12 +57,12 @@ public class TimeSlot implements Comparable<TimeSlot>{
         this.day = day;
     }
 
-    public User getUser() {
-        return this.user;
+    public Project getProject() {
+        return this.project;
     }
 
-    public void setUser(User user) {
-        this.user = user;
+    public void setProject(Project p) {
+        this.project = p;
     }
 
     public int getStartHour() {
@@ -123,7 +123,7 @@ public class TimeSlot implements Comparable<TimeSlot>{
         if(o instanceof TimeSlot) {
             TimeSlot ts = (TimeSlot) o;
             return ts.day.equals(this.day) && ts.startMinute == this.startMinute &&
-                    ts.startHour == this.startHour && this.user.equals(ts.user);
+                    ts.startHour == this.startHour && this.project.equals(ts.project);
         }
         return false;
     }
