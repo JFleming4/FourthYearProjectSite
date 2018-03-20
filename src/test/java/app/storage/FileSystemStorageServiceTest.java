@@ -86,7 +86,7 @@ public class FileSystemStorageServiceTest {
         try {
             assertEquals(uploadedFile(), resource.getFile());
         } catch (IOException e) {
-            Assert.fail(e.getMessage());
+            fail(e.getMessage());
         }
     }
 

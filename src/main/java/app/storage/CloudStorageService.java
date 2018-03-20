@@ -23,14 +23,18 @@ import java.util.stream.Stream;
 @Service
 @Profile(Application.PRODUCTION)
 public class CloudStorageService implements StorageService {
-    private final static String SYSC_4806_AWS_ACCESS_KEY = System.getenv("SYSC_4806_AWS_ACCESS_KEY");
-    private final static String SYSC_4806_AWS_SECRET_KEY = System.getenv("SYSC_4806_AWS_SECRET_KEY");
-    private final static String SYSC_4806_S3_BUCKET_NAME = System.getenv("SYSC_4806_S3_BUCKET_NAME");
+    private final static String AWS_ACCESS_KEY = System.getenv("SYSC_4806_AWS_ACCESS_KEY");
+    private final static String AWS_SECRET_KEY = System.getenv("SYSC_4806_AWS_SECRET_KEY");
+    private final static String S3_BUCKET_NAME = System.getenv("SYSC_4806_S3_BUCKET_NAME");
 
     private AmazonS3 s3client;
 
+    public CloudStorageService(AmazonS3 s3client) {
+        this.s3client = s3client;
+    }
+
     public CloudStorageService() {
-        AWSCredentials credentials = new BasicAWSCredentials(SYSC_4806_AWS_ACCESS_KEY, SYSC_4806_AWS_SECRET_KEY);
+        AWSCredentials credentials = new BasicAWSCredentials(AWS_ACCESS_KEY, AWS_SECRET_KEY);
 
         this.s3client = AmazonS3ClientBuilder.standard()
             .withCredentials(new AWSStaticCredentialsProvider(credentials))
@@ -51,7 +55,7 @@ public class CloudStorageService implements StorageService {
                     "Cannot store file with relative path outside current directory " + filename
                 );
             }
-            s3client.putObject(SYSC_4806_S3_BUCKET_NAME, filename, String.valueOf(file.getInputStream()));
+            s3client.putObject(S3_BUCKET_NAME, filename, String.valueOf(file.getInputStream()));
         } catch (IOException e) {
             throw new StorageException("Failed to store file " + filename, e);
         }
@@ -69,12 +73,12 @@ public class CloudStorageService implements StorageService {
 
     @Override
     public void delete(String filename) {
-        s3client.deleteObject(SYSC_4806_S3_BUCKET_NAME, filename);
+        s3client.deleteObject(S3_BUCKET_NAME, filename);
     }
 
     @Override
     public Resource loadAsResource(String filename) {
-        URL key = s3client.getUrl(SYSC_4806_S3_BUCKET_NAME, filename);
+        URL key = s3client.getUrl(S3_BUCKET_NAME, filename);
         Resource resource = new UrlResource(key);
         if (resource.exists() || resource.isReadable())
             return resource;
