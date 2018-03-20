@@ -12,6 +12,12 @@ public class StorageProperties {
      */
     private String location = "upload-dir";
 
+    public StorageProperties(String location) {
+        this.location = location;
+    }
+
+    public StorageProperties() {}
+
     public String getLocation() {
         return location;
     }
