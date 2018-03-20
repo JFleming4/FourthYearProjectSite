@@ -20,7 +20,7 @@ public class Project implements Comparable<Project> {
     @OneToMany(mappedBy = "project", cascade = CascadeType.ALL)
     private List<FileAttachment> files;
 
-    @OneToMany(mappedBy = "project", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "project")
     private List<TimeSlot> timeSlots;
 
     private String description;
@@ -85,6 +85,7 @@ public class Project implements Comparable<Project> {
         if(!timeSlots.contains(ts)) {
             timeSlots.add(ts);
             ts.setProject(this);
+            Collections.sort(timeSlots);
         }
     }
 
@@ -131,6 +132,7 @@ public class Project implements Comparable<Project> {
                 && this.students.equals(pro.students)
                 && this.description.equals(pro.description)
                 && this.restrictions.equals(pro.restrictions)
+                && this.timeSlots.equals(pro.timeSlots)
                 && this.maxCapacity == pro.maxCapacity
                 && this.currentCapacity == pro.currentCapacity
                 && this.isArchived == pro.isArchived;
@@ -231,5 +233,13 @@ public class Project implements Comparable<Project> {
 
     public void setFiles(List<FileAttachment> files) {
         this.files = files;
+    }
+
+    public List<TimeSlot> getTimeSlots() {
+        return timeSlots;
+    }
+
+    public void setTimeSlots(List<TimeSlot> timeSlots) {
+        this.timeSlots = timeSlots;
     }
 }

@@ -8,11 +8,13 @@ public class TimeSlot implements Comparable<TimeSlot>{
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
+    private int selected;
+
     private Day day;
     private int startHour;
     private int startMinute;
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne
     private Project project;
 
     /***
@@ -26,6 +28,7 @@ public class TimeSlot implements Comparable<TimeSlot>{
         this.day = day;
         this.startHour = startHour;
         this.startMinute = startMinute;
+        this.selected = 0;
     }
 
     /***
@@ -79,6 +82,14 @@ public class TimeSlot implements Comparable<TimeSlot>{
 
     public void setStartMinute(int sm) {
         this.startMinute = sm;
+    }
+
+    public int getSelected() {
+        return selected;
+    }
+
+    public void setSelected(int selected) {
+        this.selected = selected;
     }
 
     public Long getId() {
