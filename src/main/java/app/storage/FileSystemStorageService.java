@@ -19,7 +19,7 @@ import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
 
 @Service
-@Profile(Application.DEVELOPMENT)
+@Profile({Application.DEVELOPMENT, "default"})
 public class FileSystemStorageService implements StorageService {
 
     private final Path rootLocation;
