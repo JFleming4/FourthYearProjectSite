@@ -52,7 +52,7 @@ public class FileAttachment {
     private String assetUrl;
     private FileAttachmentType projectAssetType;
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne
     private Project project;
 
     public FileAttachment(String assetUrl, FileAttachmentType projectAssetType, Project project) {

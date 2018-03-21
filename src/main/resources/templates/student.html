@@ -38,12 +38,17 @@
     </div>
     <div>
         <hr/>
-        <h3>Upload Proposal (PDF)</h3>
-        <button>Choose File</button>
-        <div style="height: 50px; width: 100px">
-            No file chosen
+        <div th:if="${project.getProposal() != null}">
+            Proposal: <a th:href="${'/files/' + project.getProposal().getAssetUrl()}" th:text="${project.getProposal().getAssetUrl()}" />
         </div>
-        <button disabled="true">Upload</button>
+
+        <h3>Upload Proposal (.pdf, .doc, .docx)</h3>
+        <form enctype="multipart/form-data" th:action="${'/project/' + student.getProject().getId() + '/upload_proposal'}" method="post">
+
+            <input id="proposal-file" type="file" name="file" accept=".pdf,.doc,.docx" />
+            <br />
+            <input type="submit" />
+        </form>
     </div>
     <div>
         <hr/>
@@ -57,12 +62,17 @@
     </div>
     <div>
         <hr/>
-        <h3>Upload Final Report (PDF)</h3>
-        <button>Choose File</button>
-        <div style="height: 50px; width: 100px">
-            No file chosen
+        <div th:if="${project.getReport() != null}">
+            Report: <a th:href="${'/files/' + project.getReport().getAssetUrl()}" th:text="${project.getReport().getAssetUrl()}" />
         </div>
-        <button disabled="true">Upload</button>
+
+        <h3>Upload Final Report (.pdf, .doc, .docx)</h3>
+        <form enctype="multipart/form-data" th:action="${'/project/' + student.getProject().getId() + '/upload_final_report'}" method="post">
+
+            <input id="report-file" type="file" name="file" accept=".pdf,.doc,.docx" />
+            <br />
+            <input type="submit" />
+        </form>
     </div>
 </body>
 </html>

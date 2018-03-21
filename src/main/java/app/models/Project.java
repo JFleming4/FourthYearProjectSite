@@ -5,6 +5,8 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import static app.models.FileAttachment.FileAttachmentType;
+
 @Entity
 public class Project implements Comparable<Project> {
 
@@ -17,7 +19,7 @@ public class Project implements Comparable<Project> {
     @OneToMany(mappedBy = "project", cascade = CascadeType.ALL)
     private List<Student> students;
 
-    @OneToMany(mappedBy = "project", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "project")
     private List<FileAttachment> files;
 
     private String description;
@@ -87,6 +89,26 @@ public class Project implements Comparable<Project> {
             return true;
         }
         return false;
+    }
+
+    /**
+     * @return FileAttachment for the draft of the project's final report.
+     */
+    public FileAttachment getReport() {
+        for (FileAttachment file : files) {
+            if (file.getProjectAssetType() == FileAttachmentType.FINAL_REPORT) return file;
+        }
+        return null;
+    }
+
+    /**
+     * @return FileAttachment for the final report of the project.
+     */
+    public FileAttachment getProposal() {
+        for (FileAttachment file : files) {
+            if (file.getProjectAssetType() == FileAttachmentType.PROPOSAL) return file;
+        }
+        return null;
     }
 
     /**
