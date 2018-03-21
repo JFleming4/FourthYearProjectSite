@@ -14,6 +14,10 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 @Configuration
 @EnableWebSecurity
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
+    private static final String STUDENT = "STUDENT",
+                                PROFESSOR = "PROFESSOR",
+                                COORDINATOR = "COORDINATOR";
+
     @Autowired
     private UserDetailsService authenticatedUserDetailsService;
 
@@ -25,15 +29,18 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.authorizeRequests()
-            .antMatchers("/resources/**", "/registration").permitAll()
-            .anyRequest().authenticated()
+                .antMatchers("/resources/**", "/registration").permitAll()
+                .antMatchers("/student/**").hasRole(STUDENT)
+                .antMatchers("/professor/**").hasRole(PROFESSOR)
+                .antMatchers("/coordinator/**").hasRole(COORDINATOR)
+                .anyRequest().authenticated()
             .and()
             .formLogin()
-            .loginPage("/login")
-            .permitAll()
-            .and()
+                .loginPage("/login")
+                .permitAll()
+                .and()
             .logout()
-            .permitAll();
+                .permitAll();
     }
 
     @Autowired
