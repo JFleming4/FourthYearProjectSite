@@ -4,6 +4,9 @@ import org.junit.Before;
 import org.junit.Test;
 
 import java.util.ArrayList;
+import static app.models.FileAttachment.FileAttachmentType;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNull;
 
 public class ProjectTest {
 
@@ -137,4 +140,19 @@ public class ProjectTest {
         assert project1.isArchived();
     }
 
+    @Test
+    public void getProposal()
+    {
+        FileAttachment proposal = new FileAttachment("file.txt", FileAttachmentType.PROPOSAL, project1);
+        assertEquals(proposal, project1.getProposal());
+        assertNull(project1.getReport());
+    }
+
+    @Test
+    public void getReport()
+    {
+        FileAttachment report = new FileAttachment("file.txt", FileAttachmentType.FINAL_REPORT, project1);
+        assertEquals(report, project1.getReport());
+        assertNull(project1.getProposal());
+    }
 }
