@@ -128,15 +128,18 @@ public class TimeSlot implements Comparable<TimeSlot>{
      * @return true if equal, false otherwise
      */
     public boolean equals(Object o) {
+        if (this == o) return true;
         if(o == null) return false;
-        if(this == null) return false;
         if(o instanceof TimeSlot) {
             TimeSlot ts = (TimeSlot) o;
-            if((this.project != null && ts.project == null) ||
-                    (this.project == null && ts.project != null)) return false;
-            if(this.project != null && (this.project.getId() != ts.project.getId())) return false;
-            return ts.day.equals(this.day) && ts.startMinute == this.startMinute &&
-                    ts.startHour == this.startHour;
+//            if((this.project != null && ts.project == null) ||
+//                    (this.project == null && ts.project != null)) return false;
+//            if(this.project != null && (this.project.getId() != ts.project.getId())) return false;
+            return ts.day.equals(this.day) &&
+                    ts.startMinute == this.startMinute &&
+                    ts.startHour == this.startHour &&
+                    ((this.project == null && ts.project == null) ||
+                                (this.project != null && this.project.equals(ts.project)));
         }
         return false;
     }

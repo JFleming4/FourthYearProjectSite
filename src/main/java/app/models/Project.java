@@ -42,7 +42,7 @@ public class Project implements Comparable<Project> {
         this.projectProf = projectProf;
         this.students = new ArrayList<>();
         this.files = new ArrayList<>();
-
+        this.timeSlots = new ArrayList<>();
         this.description = description;
         this.restrictions = restrictions;
         this.maxCapacity = maxCapacity;
