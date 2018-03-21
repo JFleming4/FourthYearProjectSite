@@ -7,16 +7,16 @@
 <body>
     <h1 th:text="'Professor: '+${professor.firstName}+' '+${professor.lastName}"></h1>
     <p><strong>Email address: </strong><span th:text="${professor.email}"></span></p>
-    <p><strong>Coordinator: </strong><span th:text="${professor.projectCoordinator}"></span></p>
+    <p><strong>Coordinator: </strong><span th:text="${professor.projectCoordinator.firstName}+' '+${professor.projectCoordinator.lastName}"></span></p>
     <button>Change Password</button>
     <button>Log out</button>
 
     <div>
         <hr/>
         <h3>Projects</h3>
-        <button disabled="true">Create</button>
-        <button disabled="true">Archive</button>
-        <button disabled="true">Delete</button>
+        <button>Create</button>
+        <button>Archive</button>
+        <button>Delete</button>
 
         <table>
             <tr>
@@ -32,7 +32,8 @@
                 <td th:text="${project.maxCapacity}"></td>
             </th:block>
         </table>
-        
+    </div>
+    <div>
         <hr/>
         <h3>Second Reader Projects</h3>
 
@@ -50,8 +51,11 @@
                 <td th:text="${secondRead.getMaxCapacity()}"></td>
             </th:block>
         </table>
-
-
     </div>
+    <div>
+        <hr/>
+        <button>View/Update Availability</button>
+    </div>
+
 </body>
 </html>
