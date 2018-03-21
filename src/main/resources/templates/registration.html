@@ -10,6 +10,11 @@
         <input type="text" name="username" placeholder="Username" autofocus="true"></input>
         <input type="password" name="password" placeholder="Password"></input>
         <input type="password" name="passwordConfirm" placeholder="Confirm your password"></input>
+        <select name="roles[0].name">
+            <option value="STUDENT">Student</option>
+            <option value="PROFESSOR">Professor</option>
+            <option value="COORDINATOR">Project Coordinator</option>
+        </select>
         <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
         <button type="submit">Submit</button>
     </form>

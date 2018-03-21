@@ -1,10 +1,8 @@
 package app;
 
-import app.models.Professor;
-import app.models.Project;
-import app.models.ProjectCoordinator;
-import app.models.Student;
+import app.models.*;
 import app.models.repository.ProjectRepository;
+import app.models.repository.RoleRepository;
 import app.models.repository.StudentRepository;
 import app.storage.FileSystemStorageService;
 import app.storage.StorageService;
@@ -18,13 +16,18 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.core.env.ConfigurableEnvironment;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
 @SpringBootApplication
 public class Application {
     public static final String PRODUCTION = "production";
     public static final String DEVELOPMENT = "development";
 
     private static final Logger log = LoggerFactory.getLogger(Application.class);
+    private static final String[] ROLES = {"STUDENT", "PROFESSOR", "COORDINATOR"};
 
     public static void main(String[] args) {
         SpringApplication application = new SpringApplication(Application.class);
@@ -45,7 +48,7 @@ public class Application {
     }
 
     @Bean
-    public CommandLineRunner demo(ProjectRepository projectRepository, StudentRepository studentRepository) {
+    public CommandLineRunner demo(ProjectRepository projectRepository, StudentRepository studentRepository, RoleRepository roleRepository) {
         if(projectRepository.count() > 0){
             return (args) -> {
                 // do nothing since there is already data
@@ -64,6 +67,13 @@ public class Application {
             project.addStudent(student2);
 
             projectRepository.save(project);
+
+            List<String> roles = Arrays.asList(ROLES);
+            for(String roleName : roles) {
+                Role role = new Role();
+                role.setName(roleName);
+                roleRepository.save(role);
+            }
 
             // fetch all students
             log.info("students found with findAll():");
