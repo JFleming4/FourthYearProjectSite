@@ -1,11 +1,45 @@
 $(document).ready(function () {
-    console.log("OVER HERE");
     //var project;
     // Get the timeslots associated with the project
     // Create the add TimeSlot form
+    renderTimeSlots($("#projectId").text());
     buildTimeSlotForm(true);
 
 });
+
+var renderTimeSlots = function(projectId) {
+    var uri = "/presentation/get-times";
+    $.ajax({
+        method: "GET",
+        url: uri,
+        contentType: 'application/json',
+        data: {id: projectId}
+    }).then(function(response) {
+        if(response.length > 0) {
+            var timeSlotsDiv = $("#time-slots");
+            timeSlotsDiv.empty();
+            var title = $(document.createElement("h2")).text("Available Times");
+            timeSlotsDiv.append(title);
+            var form = $(document.createElement("form")).attr("id", "time-select");
+            response.forEach(function(time) {
+               renderTimeSlot(form, time);
+            });
+            timeSlotsDiv.append(form);
+        }
+    })
+}
+
+var renderTimeSlot = function(div, timeSlot) {
+    if(timeSlot.startMinute == 0) timeSlot.startMinute = "00";
+    var timeSlotElem = $(document.createElement("input"))
+        .attr("type", "checkbox")
+        .attr("id", "timeSlot_"+timeSlot.id);
+    var timeSlotLabel = $(document.createElement("label"))
+        .attr("for", "timeSlot_"+timeSlot.id)
+        .text(timeSlot.day + " at " + timeSlot.startHour + ":" + timeSlot.startMinute);
+    var br = $(document.createElement("br"));
+    div.append(timeSlotElem).append(timeSlotLabel).append(br);
+}
 
 var buildTimeSlotForm = function(isProf) {
     if(!isProf) return;
@@ -52,18 +86,19 @@ var timeSlotSubmit = function (event) {
     event.preventDefault();
     var inputs = $(".new-slot-input");
     var params = {
-        day: encodeURIComponent(inputs[0].value),
-        hour: encodeURIComponent(inputs[1].value),
-        minute: encodeURIComponent(inputs[2].value)
+        id: $("#projectId").text(),
+        day: inputs[0].value,
+        hour: inputs[1].value,
+        minute: inputs[2].value
     }
-    var uri = "/project/1/presentation/new-time";
+    var uri = "/presentation/new-time";
     $.ajax({
         method: "POST",
-        uri: uri,
+        url: uri,
         contentType: 'application/json',
-        data: JSON.stringify(params)
+        data: params
     }).then(function(data){
-        console.log(data);
+        renderTimeSlots($("#projectId").text());
     });
 
 

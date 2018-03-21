@@ -10,11 +10,9 @@ import app.models.repository.TimeSlotRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -27,33 +25,45 @@ public class PresentationController {
     @GetMapping("/project/{id}/presentation")
     public String presentation(@PathVariable Long id,
                                Model model) {
-        Project project = projectRepository.findOne(id);
-
-        model.addAttribute("timeSlots", project.getTimeSlots());
+        model.addAttribute("projectId", id);
         return "presentation";
     }
-
-    @PostMapping("/project/{id}/presentation/new-time")
-    public String newTimeSlot(@PathVariable Long id,
-                              @RequestParam("day") String day,
-                              @RequestParam("hour") String hour,
-                              @RequestParam("minute") String min,
-                              Model model) {
+    @GetMapping("/presentation/get-times")
+    @ResponseBody
+    public List<TimeSlot> getTimeSlots(@RequestParam("id") Long id) {
         Project project = projectRepository.findOne(id);
+        List<TimeSlot> times =  project.getTimeSlots();
+        // this response is only to render the timeslot and since there is a reference
+        // to Project in TimeSlot and a reference to TimeSlot in Project it creates an
+        // infinitely long response that the browser won't like
+        for(TimeSlot time: times) {
+            time.setProject(null);
+        }
+        return times;
+    }
+    @PostMapping("/presentation/new-time")
+    public String newTimeSlot(@RequestBody String req) {
+        String [] params = req.split("&");
+        String id = params[0].split("=")[1];
+        String day = params[1].split("=")[1];
+        String hour = params[2].split("=")[1];
+        String minute = params[3].split("=")[1];
+        Project project = projectRepository.findOne(new Long(id));
         try {
-            Day dayParam = Day.valueOf(day);
+            Day dayParam = Day.valueOf(day.toUpperCase());
             int hourParam = new Integer(hour);
             if(hourParam > 18 || hourParam < 8) throw new Exception();
-            int minParam = new Integer(min);
+            int minParam = new Integer(minute);
             if(minParam != 0 && minParam != 30) throw new Exception();
             TimeSlot ts = new TimeSlot(dayParam, hourParam, minParam);
-            project.addTimeSlot(ts);
-            timeSlotRepository.save(ts);
-            projectRepository.save(project);
+            boolean added = project.addTimeSlot(ts);
+            if(added) {
+                timeSlotRepository.save(ts);
+                projectRepository.save(project);
+            }
         } catch(Exception e) {
-
+            e.printStackTrace();
         }
-        model.addAttribute("timeSlots", project.getTimeSlots());
         return "presentation";
     }
 }

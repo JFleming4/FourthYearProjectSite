@@ -33,14 +33,12 @@ public class TimeSlot implements Comparable<TimeSlot>{
 
     /***
      * Create an available time slot
-     * @param day of the week
-     * @param startTime in 24hour clock i.e. 22:30
      */
-    public TimeSlot(Day day, String startTime) {
+    public TimeSlot() {
         this(
-                day,
-                new Integer(startTime.split(":")[0]),
-                new Integer(startTime.split(":")[1])
+                null,
+                0,
+                0
         );
     }
 
@@ -131,10 +129,14 @@ public class TimeSlot implements Comparable<TimeSlot>{
      */
     public boolean equals(Object o) {
         if(o == null) return false;
+        if(this == null) return false;
         if(o instanceof TimeSlot) {
             TimeSlot ts = (TimeSlot) o;
+            if((this.project != null && ts.project == null) ||
+                    (this.project == null && ts.project != null)) return false;
+            if(this.project != null && (this.project.getId() != ts.project.getId())) return false;
             return ts.day.equals(this.day) && ts.startMinute == this.startMinute &&
-                    ts.startHour == this.startHour && this.project.equals(ts.project);
+                    ts.startHour == this.startHour;
         }
         return false;
     }

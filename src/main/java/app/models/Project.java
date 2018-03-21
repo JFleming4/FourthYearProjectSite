@@ -81,12 +81,14 @@ public class Project implements Comparable<Project> {
      * Add a TimeSlot to the list of availability
      * @param ts the TimeSlot to add
      */
-    public void addTimeSlot(TimeSlot ts) {
-        if(!timeSlots.contains(ts)) {
+    public boolean addTimeSlot(TimeSlot ts) {
+        ts.setProject(this);
+        if(!isArchived && !timeSlots.contains(ts)) {
             timeSlots.add(ts);
-            ts.setProject(this);
             Collections.sort(timeSlots);
+            return true;
         }
+        return false;
     }
 
     /**
@@ -122,6 +124,7 @@ public class Project implements Comparable<Project> {
      */
     public boolean equals(Object obj)
     {
+        if (obj == null) return false;
         if (this == obj) return true;
 
         if (!(obj instanceof Project)) return false;
