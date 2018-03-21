@@ -1,10 +1,10 @@
 package app.controllers;
 
-import app.models.AuthenticatedUser;
-import app.models.AuthenticatedUserService;
-import app.models.AuthenticatedUserValidator;
-import app.models.SecurityService;
+import app.models.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -22,6 +22,9 @@ public class AuthenticatedUserController {
 
     @Autowired
     private AuthenticatedUserValidator authenticatedUserValidator;
+
+    @Autowired
+    private UserDetailsService userDetailsService;
 
     @RequestMapping(value = "/registration", method = RequestMethod.GET)
     public String registration(Model model) {
@@ -57,7 +60,9 @@ public class AuthenticatedUserController {
     }
 
     @RequestMapping(value = {"/", "/welcome"}, method = RequestMethod.GET)
-    public String welcome(Model model) {
+    public String welcome(Model model, @AuthenticationPrincipal UserDetails currentUser) {
+        UserDetails userDetails = userDetailsService.loadUserByUsername(currentUser.getUsername());
+        model.addAttribute("currentUser", userDetails);
         return "welcome";
     }
 }

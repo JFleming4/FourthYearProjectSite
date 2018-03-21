@@ -1,13 +1,13 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
 <head>
     <title>Welcome</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
 </head>
 <body>
     <div sec:authorize="isAuthenticated()">
-        <p th:text="'Welcome ' + ${#authentication.}"></p>
+        <p>You're logged in. Welcome <span th:text="${currentUser.username}"></span></p>
     </div>
-    Hello
 </body>
 </html>
