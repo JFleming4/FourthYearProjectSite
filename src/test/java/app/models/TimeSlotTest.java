@@ -8,8 +8,12 @@ public class TimeSlotTest {
 
     @Before
     public void setup() {
-        ts1 = new TimeSlot(Day.MONDAY, 8, 0);
-        ts2 = new TimeSlot(Day.FRIDAY, 14, 30);
+        try {
+            ts1 = new TimeSlot(Day.MONDAY, 8, 0);
+            ts2 = new TimeSlot(Day.FRIDAY, 14, 30);
+        } catch(Exception e) {
+            e.printStackTrace();
+        }
         project = new Project();
     }
 

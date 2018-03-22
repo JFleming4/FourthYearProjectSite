@@ -25,13 +25,22 @@ public class TimeSlotRepositoryTest {
 
     @Before
     public void setup() {
-        ts = new TimeSlot(Day.MONDAY, 8, 0);
+        try {
+            ts = new TimeSlot(Day.MONDAY, 8, 0);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     @Test
     public void testTimeSlot() {
         timeSlotRepository.save(ts);
-        TimeSlot time = timeSlotRepository.findOne(ts.getId());
+        TimeSlot time = null;
+        try {
+            time = timeSlotRepository.findOne(ts.getId());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         assertEquals(ts, time);
     }
 }
