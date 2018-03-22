@@ -3,7 +3,7 @@ package app.models;
 import javax.persistence.*;
 
 @Entity
-public class FileAttachment {
+public class  FileAttachment {
     /**
      * Enumeration of 4th Year Project required files to be submitted
      */
