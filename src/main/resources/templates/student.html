@@ -3,8 +3,10 @@
 <head>
     <title>Fourth Year Project - Student</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <div th:replace="fragments/header :: header-css"/>
 </head>
 <body>
+    <div th:replace="fragments/header :: header"/>
     <h1 th:text="'Student: '+${student.firstName}+' '+${student.lastName}"></h1>
     <p><strong>Student ID: </strong><span th:text="${student.studentNumber}"></span></p>
     <p><strong>Email address: </strong><span th:text="${student.email}"></span></p>
@@ -74,5 +76,6 @@
             <input type="submit" />
         </form>
     </div>
+    <div th:replace="fragments/footer :: footer"/>
 </body>
 </html>
