@@ -17,7 +17,11 @@ public class Student extends User implements Comparable<Student> {
     @ManyToOne
     private Project project;
 
-    public Student(String firstName, String lastName, String email, double studentNumber, String program)
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "authenticated_user_id")
+    private AuthenticatedUser authenticatedUser;
+
+    public Student(String firstName, String lastName, String email, String studentNumber, String program)
     {
         super(firstName, lastName, email);
         this.studentNumber = studentNumber;
@@ -120,5 +124,13 @@ public class Student extends User implements Comparable<Student> {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public AuthenticatedUser getAuthenticatedUser() {
+        return authenticatedUser;
+    }
+
+    public void setAuthenticatedUser(AuthenticatedUser authenticatedUser) {
+        this.authenticatedUser = authenticatedUser;
     }
 }

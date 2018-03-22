@@ -1,7 +1,9 @@
 package app.models;
 
 import app.models.repository.AuthenticatedUserRepository;
+import app.models.repository.ProfessorRepository;
 import app.models.repository.RoleRepository;
+import app.models.repository.StudentRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -12,6 +14,14 @@ import java.util.List;
 
 @Service
 public class UserServiceImpl implements AuthenticatedUserService{
+    private static final String STUDENT = "Student";
+    private static final String PROFESSOR = "Professor";
+    private static final String COORDINATOR = "Coordinator";
+
+    @Autowired
+    private StudentRepository studentRepository;
+    @Autowired
+    private ProfessorRepository professorRepository;
     @Autowired
     private AuthenticatedUserRepository authenticatedUserRepository;
     @Autowired
@@ -23,10 +33,27 @@ public class UserServiceImpl implements AuthenticatedUserService{
     public void save(AuthenticatedUser authenticatedUser) {
         authenticatedUser.setPassword(bCryptPasswordEncoder.encode(authenticatedUser.getPassword()));
 
-        List<Role> assignedRoles = authenticatedUser.getRoles();
+        String type = authenticatedUser.getType();
         List<String> assignedRolesNames = new ArrayList<>();
-        for(Role role : assignedRoles) {
-            assignedRolesNames.add(role.getName());
+        if(type.equals(STUDENT)) {
+            assignedRolesNames.add("ROLE_STUDENT");
+            Student student = studentRepository.findByStudentNumber(authenticatedUser.getNumber());
+            authenticatedUser.setStudent(student);
+            student.setAuthenticatedUser(authenticatedUser);
+
+        }
+        else if(type.equals(PROFESSOR)) {
+            assignedRolesNames.add("ROLE_PROFESSOR");
+            Professor professor = professorRepository.findByProfNumber(authenticatedUser.getNumber());
+            authenticatedUser.setProfessor(professor);
+            professor.setAuthenticatedUser(authenticatedUser);
+        }
+        else if(type.equals(COORDINATOR)){
+            assignedRolesNames.add("ROLE_PROFESSOR");
+            assignedRolesNames.add("ROLE_COORDINATOR");
+            Professor professor = professorRepository.findByProfNumber(authenticatedUser.getNumber());
+            authenticatedUser.setProfessor(professor);
+            professor.setAuthenticatedUser(authenticatedUser);
         }
 
         authenticatedUser.setRoles((List<Role>) roleRepository.findByNameIn(assignedRolesNames));

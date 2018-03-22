@@ -7,7 +7,6 @@ import java.util.List;
 
 @Entity
 public class Professor extends User implements Comparable<Professor> {
-
     @OneToMany(mappedBy = "projectProf", cascade = CascadeType.ALL)
     private List<Project> projects;
 
@@ -16,6 +15,10 @@ public class Professor extends User implements Comparable<Professor> {
 
     @ManyToOne(cascade = CascadeType.ALL)
     private ProjectCoordinator projectCoordinator;
+
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "authenticated_user_id")
+    private AuthenticatedUser authenticatedUser;
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -238,5 +241,13 @@ public class Professor extends User implements Comparable<Professor> {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public AuthenticatedUser getAuthenticatedUser() {
+        return authenticatedUser;
+    }
+
+    public void setAuthenticatedUser(AuthenticatedUser authenticatedUser) {
+        this.authenticatedUser = authenticatedUser;
     }
 }
