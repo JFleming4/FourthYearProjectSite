@@ -8,19 +8,25 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
+import java.util.List;
+
 @Controller
-public class HomeController {
+public class ProjectController {
 
     @Autowired
     private ProjectRepository projectRepository;
 
-    @GetMapping("/student")
-    public String student(Model model) {
+    @GetMapping("/project")
+    public String project(Model model)
+    {
         Project project = projectRepository.findFirstByOrderById();
-        Student student = project.getStudents().get(0);
-        model.addAttribute("student", student);
-        model.addAttribute("project", project);
+        List<Student> students = project.getStudents();
+        List<String> restrictions = project.getRestrictions();
 
-        return "student";
+        model.addAttribute("project", project);
+        model.addAttribute("students", students);
+        model.addAttribute("restrictions", restrictions);
+
+        return "project";
     }
 }
