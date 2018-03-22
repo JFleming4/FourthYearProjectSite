@@ -26,12 +26,34 @@ We will be doing the 4th year project site.
 - [x] [Issue #3 Student Model](https://github.com/JFleming4/FourthYearProjectSite/issues/3)
 - [x] [Issue #2 Prof Model](https://github.com/JFleming4/FourthYearProjectSite/issues/2)
 - [x] [Issue #29 Deploy to Heroku](https://github.com/JFleming4/FourthYearProjectSite/issues/29)
-#### Issues for Milestone 2
-- [ ] [Issue #11 File Attatchments Entity](https://github.com/JFleming4/FourthYearProjectSite/issues/11)
-- [ ] [Issue #15 Oral Presentation Availability Picker](https://github.com/JFleming4/FourthYearProjectSite/issues/15)
-- [ ] [Issue #14 Prof menu](https://github.com/JFleming4/FourthYearProjectSite/issues/14)
-- [ ] [Issue #13 File Uploads](https://github.com/JFleming4/FourthYearProjectSite/issues/13)
+#### Issues for Milestone 2 Complete
+- [x] [Issue #11 File Attatchments Entity](https://github.com/JFleming4/FourthYearProjectSite/issues/11)
+- [x] [Issue #14 Prof menu](https://github.com/JFleming4/FourthYearProjectSite/issues/14)
+- [x] [Issue #13 File Uploads](https://github.com/JFleming4/FourthYearProjectSite/issues/13)
+- [x] [Issue #41 Ensure Availability is Persisted](https://github.com/JFleming4/FourthYearProjectSite/issues/41)
+- [x] [Issue #39 Create Oral Presentation View](https://github.com/JFleming4/FourthYearProjectSite/issues/39)
+- [x] [Issue #14 Prof Menu](https://github.com/JFleming4/FourthYearProjectSite/issues/14)
+- [x] [PR #44 Presentation Template](https://github.com/JFleming4/FourthYearProjectSite/pull/44)
+- [x] [PR #46 Professor & Project Page](https://github.com/JFleming4/FourthYearProjectSite/pull/46)
+- [x] [PR #43 File Uploads for Prosal and Final report](https://github.com/JFleming4/FourthYearProjectSite/pull/43)
+- [x] [Issue #33 Set up S3 buckets and configure heroku to access them](https://github.com/JFleming4/FourthYearProjectSite/issues/33)
+- [x] [Issue #34 Setup a local storage bucket API for local dev and test](https://github.com/JFleming4/FourthYearProjectSite/issues/34)
+- [x] [PR #32 File Attachment Entity](https://github.com/JFleming4/FourthYearProjectSite/pull/32)
+- [x] [Issue #52 Move Malformed TimeSlot Exception to Constructor](https://github.com/JFleming4/FourthYearProjectSite/issues/52)
+
+#### Issues for Milestone 3
 - [ ] [Issue #12 Authentication and Authorization](https://github.com/JFleming4/FourthYearProjectSite/issues/12)
+- [ ] [Issue #15 Oral Presentation Availability Picker](https://github.com/JFleming4/FourthYearProjectSite/issues/15)
+- [ ] [Issue #40 Create Logic for picking a time that works for professor and students](https://github.com/JFleming4/FourthYearProjectSite/issues/40)
+- [ ] [Issue #50 Add Integration Tests for HomeController](https://github.com/JFleming4/FourthYearProjectSite/pull/50)
+- [ ] [Issue #49 Add Bootstrap, main.css, and header+footer fragments](https://github.com/JFleming4/FourthYearProjectSite/pull/49)
+- [ ] [Issue #48 Attach AutherizedUser records to Existing student/professor records](https://github.com/JFleming4/FourthYearProjectSite/pull/48)
+- [ ] [Issue #47 Add basic authentication](https://github.com/JFleming4/FourthYearProjectSite/pull/47)
+- [ ] [Issue #55 Enable profs to create, archive, delete, and edit projects](https://github.com/JFleming4/FourthYearProjectSite/issues/55)
+- [ ] [Issue #54 Only allow the project coordinator to create prof accounts](https://github.com/JFleming4/FourthYearProjectSite/issues/54)
+- [ ] [Issue #53 Uploaded files with the same name delete previous versions](https://github.com/JFleming4/FourthYearProjectSite/issues/53)
+- [ ] [Issue #51 Change Project and professor controller to search by Id instead of grab first](https://github.com/JFleming4/FourthYearProjectSite/issues/51)
+
 #### Unassigned issues
 
 
