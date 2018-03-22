@@ -6,49 +6,71 @@
 </head>
 <body>
     <h1 th:text="'Professor: '+${professor.firstName}+' '+${professor.lastName}"></h1>
-    <p><strong>Email address: </strong><span th:text="${professor.email}"></span></p>
+    <p><strong>ID: </strong><span th:text="${professor.id}"></span></p>
+    <p><strong>Email Address: </strong><span th:text="${professor.email}"></span></p>
     <p><strong>Coordinator: </strong><span th:text="${professor.projectCoordinator.firstName}+' '+${professor.projectCoordinator.lastName}"></span></p>
-    <button>Change Password</button>
-    <button>Log out</button>
+    <button disabled="true">Change Password</button>
+    <button disabled="true">Log out</button>
 
     <div>
         <hr/>
         <h3>Projects</h3>
-        <button>Create</button>
-        <button>Archive</button>
-        <button>Delete</button>
+        <a href="new-project/">Create a New Project</a>
 
-        <table>
+        <table border="2" cellpadding="2">
             <tr>
+                <th>ID</th>
                 <th>Description</th>
                 <th>Restrictions</th>
-                <th>Current Capacity</th>
-                <th>Maximum Capacity</th>
+                <th>Capacity</th>
+                <th>Add Student</th>
+                <th>Archive</th>
+                <th>Delete</th>
             </tr>
             <th:block th:each="project : ${projects}">
-                <td th:text="${project.description}"></td>
-                <td th:text="${project.getRestrictionsToString()}"></td>
-                <td th:text="${project.currentCapacity}"></td>
-                <td th:text="${project.maxCapacity}"></td>
+                <tr>
+                    <td th:text="${project.id}"></td>
+                    <td th:text="${project.description}"></td>
+                    <td th:text="${project.getRestrictionsToString()}"></td>
+                    <td th:text="${project.currentCapacity}+'/'+${project.maxCapacity}"></td>
+
+                    <td th:switch="${project.currentCapacity} &lt; ${project.maxCapacity}">
+                        <a th:case="true" href="new-student/">New Student</a>
+                        <a th:case="false">At Capacity</a>
+                        <a th:case="*" href="new-student/">New Student</a>
+                    </td>
+
+                    <td th:switch="${project.archived}">
+                        <a th:case="false" th:href="${'/professor/archiveProject/'+project.id}">Archive</a>
+                        <a th:case="true" th:href="${'/professor/archiveProject/'+project.id}">Unarchive</a>
+                        <a th:case="*" th:href="${'/professor/archiveProject/'+project.id}">Archive</a>
+                    </td>
+                    <td><a th:href="${'/professor/deleteProject/'+project.id}">Delete</a></td>
+                </tr>
+
             </th:block>
         </table>
     </div>
+
     <div>
         <hr/>
         <h3>Second Reader Projects</h3>
 
-        <table>
+        <table border="2" cellpadding="2">
             <tr>
+                <th>ID</th>
                 <th>Description</th>
                 <th>Restrictions</th>
-                <th>Current Capacity</th>
-                <th>Maximum Capacity</th>
+                <th>Capacity</th>
             </tr>
             <th:block th:each="secondRead : ${secondReader}">
-                <td th:text="${secondRead.getDescription()}"></td>
-                <td th:text="${secondRead.getRestrictionsToString()}"></td>
-                <td th:text="${secondRead.getCurrentCapacity()}"></td>
-                <td th:text="${secondRead.getMaxCapacity()}"></td>
+                <tr>
+                    <td th:text="${secondRead.id}"></td>
+                    <td th:text="${secondRead.description}"></td>
+                    <td th:text="${secondRead.getRestrictionsToString()}"></td>
+                    <td th:text="${secondRead.currentCapacity}+'/'+${secondRead.maxCapacity}"></td>
+                </tr>
+
             </th:block>
         </table>
     </div>

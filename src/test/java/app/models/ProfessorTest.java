@@ -81,7 +81,7 @@ public class ProfessorTest {
         professor1.createProject(D2, restrictions, MAX_CAPACITY);
         Project project = professor1.getProjects().get(0);
 
-        professor1.archiveProject(project);
+        professor1.toggleArchive(project);
 
         assert projectCoordinator1.getProjects().contains(project)
                 && professor1.getProjects().contains(project)

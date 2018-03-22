@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:form="http://www.w3.org/1999/xhtml">
+<head>
+    <title>Fourth Year Project - New Project</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+</head>
+<body>
+    <div>
+        <h1>New Project</h1>
+        <form method="post" action="/save">
+            <table>
+                <tr>
+                    <td>Description: </td>
+                    <td><input type="text" name="desc"/></td>
+                </tr>
+                <tr>
+                    <td>Restrictions: </td>
+                    <td><input type="text" name="rest"/></td>
+                </tr>
+                <tr>
+                    <td>Capacity: </td>
+                    <td><input type="number" name="cap"/></td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td><input type="submit" value="Save"/></td>
+                </tr>
+            </table>
+        </form>
+    </div>
+
+
+</body>
+</html>
+
