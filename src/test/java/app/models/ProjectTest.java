@@ -48,8 +48,8 @@ public class ProjectTest {
 
         projectCoordinator = new ProjectCoordinator(FIRST, LAST, EMAIL);
 
-        professor1 = new Professor(FIRST, LAST, EMAIL, projectCoordinator);
-        professor2 = new Professor(NEW_FIRST, NEW_LAST, NEW_EMAIL, projectCoordinator);
+        professor1 = new Professor(FIRST, LAST, EMAIL, "1", projectCoordinator);
+        professor2 = new Professor(NEW_FIRST, NEW_LAST, NEW_EMAIL, "2", projectCoordinator);
 
         project1 = new Project(professor1, DESCRIPTION, restrictions, MAX_CAPACITY);
         project2 = new Project(professor1, DESCRIPTION, restrictions, MAX_CAPACITY);
