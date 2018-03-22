@@ -43,7 +43,7 @@ public class ProjectRepositoryTest {
     private final String REST_PROG = "ARTS";
     private final String AAALRIGHT = "AAAAAAAAAAAAAAAAAlright";
 
-    private final int STUD_NO1 = 1;
+    private final String STUD_NO1 = "1";
 
     private final String DESCRIPTION = "Project Description";
     private final String NEW_DESC = "New Description";

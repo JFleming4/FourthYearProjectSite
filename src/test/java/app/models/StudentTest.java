@@ -16,10 +16,10 @@ public class StudentTest {
     private final String FIRST = "FirstName";
     private final String LAST = "LastName";
     private final String EMAIL = "first@last.com";
-    private final double STUD_NO = 123456789;
+    private final String STUD_NO = "123456789";
     private final String PROG = "SYSC";
 
-    private final double NEW_STUD_NO = 987654321;
+    private final String NEW_STUD_NO = "987654321";
     private final String NEW_PROG = "ARTS";
 
     private final String DESCRIPTION = "Project Description";
