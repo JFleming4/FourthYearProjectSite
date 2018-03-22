@@ -11,6 +11,10 @@ public class AuthenticatedUser {
     private String password;
     private String passwordConfirm;
     private List<Role> roles;
+    private String type;
+    private String number;
+    private Student student;
+    private Professor professor;
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -36,6 +40,45 @@ public class AuthenticatedUser {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
+
+    @OneToOne(mappedBy = "authenticatedUser",
+                cascade = CascadeType.ALL,
+                fetch = FetchType.LAZY)
+    public Student getStudent() {
+        return student;
+    }
+
+    public void setStudent(Student student) {
+        this.student = student;
+    }
+
+    @OneToOne(mappedBy = "authenticatedUser",
+            cascade = CascadeType.ALL,
+            fetch = FetchType.LAZY)
+    public Professor getProfessor() {
+        return professor;
+    }
+
+    public void setProfessor(Professor professor) {
+        this.professor = professor;
+    }
+
+    @Transient
+    public String getNumber() {
+        return number;
+    }
+
+    public void setNumber(String number) {
+        this.number = number;
     }
 
     @Transient

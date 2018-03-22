@@ -1,6 +1,7 @@
 package app.controllers;
 
 import app.models.*;
+import app.models.repository.AuthenticatedUserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -25,6 +26,9 @@ public class AuthenticatedUserController {
 
     @Autowired
     private UserDetailsService userDetailsService;
+
+    @Autowired
+    private AuthenticatedUserRepository authenticatedUserRepository;
 
     @RequestMapping(value = "/registration", method = RequestMethod.GET)
     public String registration(Model model) {
@@ -62,6 +66,7 @@ public class AuthenticatedUserController {
     @RequestMapping(value = {"/", "/welcome"}, method = RequestMethod.GET)
     public String welcome(Model model, @AuthenticationPrincipal UserDetails currentUser) {
         UserDetails userDetails = userDetailsService.loadUserByUsername(currentUser.getUsername());
+        AuthenticatedUser authenticatedUser = authenticatedUserRepository.findFirstByOrderById();
         model.addAttribute("currentUser", userDetails);
         return "welcome";
     }
