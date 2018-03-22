@@ -27,9 +27,9 @@ public class ProjectTest {
     private final String REST_PROG = "ARTS";
     private final String AAALRIGHT = "AAAAAAAAAAAAAAAAAlright";
 
-    private final int STUD_NO1 = 1;
-    private final int STUD_NO2 = 2;
-    private final int STUD_NO3 = 3;
+    private final String STUD_NO1 = "1";
+    private final String STUD_NO2 = "2";
+    private final String STUD_NO3 = "3";
 
     private final String DESCRIPTION = "Project Description";
     private final String NEW_DESC = "New Description";

@@ -11,7 +11,7 @@ public class Student extends User implements Comparable<Student> {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    private double studentNumber;
+    private String studentNumber;
     private String program;
 
     @ManyToOne
@@ -26,7 +26,7 @@ public class Student extends User implements Comparable<Student> {
     }
 
     public Student() {
-        this(null, null, null, 0, null);
+        this(null, null, null, "0", null);
     }
 
     public void searchForProjects(String searchPhrase)
@@ -87,11 +87,11 @@ public class Student extends User implements Comparable<Student> {
     // Get & Set //
     ///////////////
 
-    public double getStudentNumber() {
+    public String getStudentNumber() {
         return studentNumber;
     }
 
-    public void setStudentNumber(double studentNumber) {
+    public void setStudentNumber(String studentNumber) {
         this.studentNumber = studentNumber;
     }
 
