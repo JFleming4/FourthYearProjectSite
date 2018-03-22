@@ -2,6 +2,8 @@ package app.controllers;
 
 import app.models.*;
 import app.models.repository.AuthenticatedUserRepository;
+import app.models.repository.ProfessorRepository;
+import app.models.repository.StudentRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -26,10 +28,7 @@ public class AuthenticatedUserController {
     private AuthenticatedUserValidator authenticatedUserValidator;
 
     @Autowired
-    private UserDetailsService userDetailsService;
-
-    @Autowired
-    private AuthenticatedUserRepository authenticatedUserRepository;
+    private StudentRepository studentRepository;
 
     @RequestMapping(value = "/registration", method = RequestMethod.GET)
     public String registration(Model model) {
@@ -66,9 +65,19 @@ public class AuthenticatedUserController {
 
     @RequestMapping(value = {"/", "/welcome"}, method = RequestMethod.GET)
     public String welcome(Model model, @AuthenticationPrincipal UserDetails currentUser) {
-        UserDetails userDetails = userDetailsService.loadUserByUsername(currentUser.getUsername());
-        AuthenticatedUser authenticatedUser = authenticatedUserRepository.findFirstByOrderById();
-        model.addAttribute("currentUser", userDetails);
+        AuthenticatedUser authenticatedUser = authenticatedUserService.findByUsername(currentUser.getUsername());
+
+        User user;
+        if(authenticatedUser.getType().equals("Student")) {
+            user = authenticatedUser.getStudent();
+        }
+        else {
+            user = authenticatedUser.getProfessor();
+        }
+        model.addAttribute("user", user);
+        model.addAttribute("currentUser", currentUser);
+        model.addAttribute("authenticatedUser", authenticatedUser);
+
         return "welcome";
     }
 
