@@ -52,9 +52,7 @@ public class PresentationController {
         try {
             Day dayParam = Day.valueOf(day.toUpperCase());
             int hourParam = new Integer(hour);
-            if(hourParam > 18 || hourParam < 8) throw new Exception();
             int minParam = new Integer(minute);
-            if(minParam != 0 && minParam != 30) throw new Exception();
             TimeSlot ts = new TimeSlot(dayParam, hourParam, minParam);
             boolean added = project.addTimeSlot(ts);
             if(added) {

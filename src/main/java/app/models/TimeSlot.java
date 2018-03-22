@@ -23,30 +23,33 @@ public class TimeSlot implements Comparable<TimeSlot>{
      * @param startHour should be 0 - 23
      * @param startMinute should be 0 or 30
      */
-    public TimeSlot(Day day, int startHour, int startMinute) {
+    public TimeSlot(Day day, int startHour, int startMinute) throws Exception {
         this.project = null;
         this.day = day;
         this.startHour = startHour;
         this.startMinute = startMinute;
         this.selected = 0;
+        if(startHour > 18 || startHour < 0) throw new Exception();
+        if(startMinute != 0 && startMinute != 30) throw new Exception();
+
     }
 
     /***
      * Create an available time slot
      */
-    public TimeSlot() {
+    public TimeSlot() throws Exception {
         this(
                 null,
-                0,
+                8,
                 0
         );
     }
 
     /***
-     * create a duplicate TimeSlot with a null user
+     * create a duplicate TimeSlot with a null project
      * @param ts TimeSlot to duplicate
      */
-    public TimeSlot(TimeSlot ts) {
+    public TimeSlot(TimeSlot ts) throws Exception {
         this(ts.day, ts.startHour, ts.startMinute);
     }
 
