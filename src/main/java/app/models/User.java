@@ -1,6 +1,7 @@
 package app.models;
 
 import javax.persistence.MappedSuperclass;
+import java.util.ArrayList;
 
 @MappedSuperclass
 public class User {
@@ -40,7 +41,6 @@ public class User {
         }
         return false;
     }
-
 
     ///////////////
     // Get & Set //

@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <title>Fourth Year Project - Presentation Picker</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"/>
+    <script type="text/javascript" th:src="@{/js/presentation.js}" />
+</head>
+<body>
+<h>Oral Presentation Picker</h>
+<div id="projectId" th:text="${projectId}" style="display: none;"></div>
+<div id="time-slots">
+    <p id="time-title">Your supervisor has not yet made times available</p>
+</div>
+
+<div id="new-time-form"></div>
+</body>
+</html>
