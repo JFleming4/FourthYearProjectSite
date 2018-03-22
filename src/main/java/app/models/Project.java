@@ -5,6 +5,8 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import static app.models.FileAttachment.FileAttachmentType;
+
 @Entity
 public class Project implements Comparable<Project> {
 
@@ -17,8 +19,11 @@ public class Project implements Comparable<Project> {
     @OneToMany(mappedBy = "project", cascade = CascadeType.ALL)
     private List<Student> students;
 
-    @OneToMany(mappedBy = "project", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "project")
     private List<FileAttachment> files;
+
+    @OneToMany(mappedBy = "project")
+    private List<TimeSlot> timeSlots;
 
     private String description;
 
@@ -39,7 +44,7 @@ public class Project implements Comparable<Project> {
         this.projectProf = projectProf;
         this.students = new ArrayList<>();
         this.files = new ArrayList<>();
-
+        this.timeSlots = new ArrayList<>();
         this.description = description;
         this.restrictions = restrictions;
         this.maxCapacity = maxCapacity;
@@ -75,6 +80,20 @@ public class Project implements Comparable<Project> {
     }
 
     /**
+     * Add a TimeSlot to the list of availability
+     * @param ts the TimeSlot to add
+     */
+    public boolean addTimeSlot(TimeSlot ts) {
+        ts.setProject(this);
+        if(!isArchived && !timeSlots.contains(ts)) {
+            timeSlots.add(ts);
+            Collections.sort(timeSlots);
+            return true;
+        }
+        return false;
+    }
+
+    /**
      * Attempt to add a file to the project.
      * @param file FileAttachment to be added
      * @return Boolean whether or not the file was added
@@ -87,6 +106,26 @@ public class Project implements Comparable<Project> {
             return true;
         }
         return false;
+    }
+
+    /**
+     * @return FileAttachment for the draft of the project's final report.
+     */
+    public FileAttachment getReport() {
+        for (FileAttachment file : files) {
+            if (file.getProjectAssetType() == FileAttachmentType.FINAL_REPORT) return file;
+        }
+        return null;
+    }
+
+    /**
+     * @return FileAttachment for the final report of the project.
+     */
+    public FileAttachment getProposal() {
+        for (FileAttachment file : files) {
+            if (file.getProjectAssetType() == FileAttachmentType.PROPOSAL) return file;
+        }
+        return null;
     }
 
     /**
@@ -107,6 +146,7 @@ public class Project implements Comparable<Project> {
      */
     public boolean equals(Object obj)
     {
+        if (obj == null) return false;
         if (this == obj) return true;
 
         if (!(obj instanceof Project)) return false;
@@ -117,6 +157,7 @@ public class Project implements Comparable<Project> {
                 && this.students.equals(pro.students)
                 && this.description.equals(pro.description)
                 && this.restrictions.equals(pro.restrictions)
+                && this.timeSlots.equals(pro.timeSlots)
                 && this.maxCapacity == pro.maxCapacity
                 && this.currentCapacity == pro.currentCapacity
                 && this.isArchived == pro.isArchived;
@@ -235,5 +276,13 @@ public class Project implements Comparable<Project> {
 
     public void setFiles(List<FileAttachment> files) {
         this.files = files;
+    }
+
+    public List<TimeSlot> getTimeSlots() {
+        return timeSlots;
+    }
+
+    public void setTimeSlots(List<TimeSlot> timeSlots) {
+        this.timeSlots = timeSlots;
     }
 }

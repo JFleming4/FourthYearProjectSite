@@ -32,7 +32,7 @@ public class MainConfig {
             URI dbUri = new URI(System.getenv("DATABASE_URL"));
             username = dbUri.getUserInfo().split(":")[0];
             password = dbUri.getUserInfo().split(":")[1];
-            dbUrl = "jdbc:postgress://" + dbUri.getHost() + dbUri.getPath() + ":" + dbUri.getPort() + dbUri.getPath();
+            dbUrl = "jdbc:postgresql://" + dbUri.getHost() + dbUri.getPath() + ":" + dbUri.getPort() + dbUri.getPath();
         }
 
         BasicDataSource basicDataSource = new BasicDataSource();
