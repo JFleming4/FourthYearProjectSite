@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Fourth Year Project - Professor</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+</head>
+<body>
+    <h1 th:text="'Professor: '+${professor.firstName}+' '+${professor.lastName}"></h1>
+    <p><strong>Email address: </strong><span th:text="${professor.email}"></span></p>
+    <p><strong>Coordinator: </strong><span th:text="${professor.projectCoordinator.firstName}+' '+${professor.projectCoordinator.lastName}"></span></p>
+    <button>Change Password</button>
+    <button>Log out</button>
+
+    <div>
+        <hr/>
+        <h3>Projects</h3>
+        <button>Create</button>
+        <button>Archive</button>
+        <button>Delete</button>
+
+        <table>
+            <tr>
+                <th>Description</th>
+                <th>Restrictions</th>
+                <th>Current Capacity</th>
+                <th>Maximum Capacity</th>
+            </tr>
+            <th:block th:each="project : ${projects}">
+                <td th:text="${project.description}"></td>
+                <td th:text="${project.getRestrictionsToString()}"></td>
+                <td th:text="${project.currentCapacity}"></td>
+                <td th:text="${project.maxCapacity}"></td>
+            </th:block>
+        </table>
+    </div>
+    <div>
+        <hr/>
+        <h3>Second Reader Projects</h3>
+
+        <table>
+            <tr>
+                <th>Description</th>
+                <th>Restrictions</th>
+                <th>Current Capacity</th>
+                <th>Maximum Capacity</th>
+            </tr>
+            <th:block th:each="secondRead : ${secondReader}">
+                <td th:text="${secondRead.getDescription()}"></td>
+                <td th:text="${secondRead.getRestrictionsToString()}"></td>
+                <td th:text="${secondRead.getCurrentCapacity()}"></td>
+                <td th:text="${secondRead.getMaxCapacity()}"></td>
+            </th:block>
+        </table>
+    </div>
+    <div>
+        <hr/>
+        <button>View/Update Availability</button>
+    </div>
+
+</body>
+</html>

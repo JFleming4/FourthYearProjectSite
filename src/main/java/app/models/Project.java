@@ -189,6 +189,19 @@ public class Project implements Comparable<Project> {
         return restrictions;
     }
 
+    public String getRestrictionsToString()
+    {
+        StringBuilder builder = new StringBuilder("");
+        for (int i = 0; i < restrictions.size(); i++)
+        {
+            builder.append(restrictions.get(i));
+
+            if (i < restrictions.size() - 1)
+                builder.append(", ");
+        }
+        return builder.toString();
+    }
+
     public void setRestrictions(List<String> restrictions) {
         this.restrictions = restrictions;
     }
