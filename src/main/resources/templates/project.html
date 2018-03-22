@@ -16,10 +16,7 @@
         <p><strong>Capacity: </strong><span th:text="${project.currentCapacity}+'/'+${project.maxCapacity}"></span></p>
         <p><strong>Restrictions:</strong></p>
         <ul>
-            <li th:text="${restrictions}"></li>
-            <th:block th:each="restriction : ${restrictions}">
-                <li th:text="restriction"></li>
-            </th:block>
+            <li th:text="Restrictions Go Here"></li>
         </ul>
     </div>
 
