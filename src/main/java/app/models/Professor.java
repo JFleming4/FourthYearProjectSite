@@ -98,14 +98,8 @@ public class Professor extends User implements Comparable<Professor> {
     {
         if (projects.contains(project))
         {
-            if (!project.isArchived())
-                project.setIsArchived(true);
-            else
-                project.setIsArchived(false);
+            project.toggleIsArchived();
         }
-
-        else
-            project.setIsArchived(false);
     }
 
     /**
@@ -118,12 +112,8 @@ public class Professor extends User implements Comparable<Professor> {
         {
             if (project.getId().equals(id))
             {
-                if (!project.isArchived())
-                    project.setIsArchived(true);
-                else
-                    project.setIsArchived(false);
+                project.toggleIsArchived();
 
-                System.out.println("Project Archive = " + project.isArchived());
             }
         }
     }

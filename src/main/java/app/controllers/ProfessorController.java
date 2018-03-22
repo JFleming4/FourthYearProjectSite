@@ -54,7 +54,7 @@ public class ProfessorController {
 
 
     // Have to get the professor's ID
-    @RequestMapping(value = "/save",method = RequestMethod.POST)
+    @RequestMapping(value = "/save", method = RequestMethod.POST)
     public ModelAndView saveProject(@RequestParam("desc") String description, @RequestParam("rest") String restrictions, @RequestParam("cap") int capacity)
     {
         //professor = professorRepository.findById();
@@ -76,7 +76,9 @@ public class ProfessorController {
         return new ModelAndView("new-student","command", new Student());
     }
 
-    @RequestMapping(value = "/save-student",method = RequestMethod.POST)
+
+    // Not currently working. Need to change the confirmation workflow
+    @RequestMapping(value = "/save-student", method = RequestMethod.POST)
     public ModelAndView addStudent(@RequestParam("id") int id)
     {
         //professor = professorRepository.findById();
@@ -89,13 +91,17 @@ public class ProfessorController {
     }
 
 
-    // Not persisting...have to modify the repository
+    /**
+     * Archive/Unarchive a project from the repository
+     * @param projectID The project to be archived/unarchived
+     * @return Redirect to the professor page
+     */
     @RequestMapping(value = "professor/archiveProject/{projectID}", method = RequestMethod.GET)
-    public ModelAndView archive(/*@PathVariable(name = "id") String id, */@PathVariable(name = "projectID") String projectID)
+    public ModelAndView archive(/*@PathVariable("id") String id, */@PathVariable("projectID") Long projectID)
     {
         //professor = professorRepository.findById(Long.parseLong(id));
         professor = professorRepository.findFirstByOrderById();
-        project = professor.getProject(Long.parseLong(projectID));
+        project = professor.getProject(projectID);
         project.toggleIsArchived();
         projectRepository.save(project);
 
@@ -103,20 +109,22 @@ public class ProfessorController {
     }
 
 
-    // Not persisting...have to modify the repository
+    /**
+     * Delete a project from the repository
+     * @param projectID The project to be deleted
+     * @return Redirect to the professor page
+     */
     @RequestMapping(value = "/professor/deleteProject/{projectID}", method = RequestMethod.GET)
-    public ModelAndView delete(/*@PathVariable(name = "id") String id, */@PathVariable(name = "projectID") String projectID)
+    public ModelAndView delete(/*@PathVariable("id") String id, */@PathVariable("projectID") Long projectID)
     {
         //professor = professorRepository.findById(Long.parseLong(id));
         professor = professorRepository.findFirstByOrderById();
 
-        project = professor.getProject(Long.parseLong(projectID));
+        project = professor.getProject(projectID);
         project.setProjectProf(null);
 
         projectRepository.delete(project);
 
-        //professor.deleteProject(Long.parseLong(projectID));
-        //professorRepository.save(professor);
         return new ModelAndView("redirect:/professor"/* + id*/);
     }
 

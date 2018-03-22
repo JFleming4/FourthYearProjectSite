@@ -8,10 +8,10 @@ import java.util.List;
 @Entity
 public class Project implements Comparable<Project> {
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     private Professor projectProf;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     private Professor secondReader;
 
     @OneToMany(mappedBy = "project", cascade = CascadeType.ALL)
@@ -210,8 +210,7 @@ public class Project implements Comparable<Project> {
 
     public void toggleIsArchived()
     {
-        if (isArchived) isArchived = false;
-        else isArchived = true;
+        isArchived = !isArchived;
     }
 
     public Long getId() {
