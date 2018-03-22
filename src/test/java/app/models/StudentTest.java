@@ -36,7 +36,7 @@ public class StudentTest {
         student2 = new Student(FIRST, LAST, EMAIL, STUD_NO, PROG);
 
         projectCoordinator = new ProjectCoordinator(FIRST, LAST, EMAIL);
-        professor = new Professor(FIRST, LAST, EMAIL, projectCoordinator);
+        professor = new Professor(FIRST, LAST, EMAIL, "1", projectCoordinator);
 
         project1 = new Project(professor, DESCRIPTION, noRestrictions, MAX_CAPACITY);
         project2 = new Project(professor, DESCRIPTION, restrictions, MAX_CAPACITY);

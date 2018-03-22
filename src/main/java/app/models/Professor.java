@@ -21,17 +21,20 @@ public class Professor extends User implements Comparable<Professor> {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    public Professor(String firstName, String lastName, String email, ProjectCoordinator projectCoordinator)
+    private String profNumber;
+
+    public Professor(String firstName, String lastName, String email, String profNumber, ProjectCoordinator projectCoordinator)
     {
         super(firstName, lastName, email);
         this.projects = new ArrayList<>();
         this.secondReaderProjects = new ArrayList<>();
+        this.profNumber = profNumber;
         this.projectCoordinator = projectCoordinator;
     }
 
     public Professor(String firstName, String lastName, String email)
     {
-        this(firstName, lastName, email, null);
+        this(firstName, lastName, email, "0", null);
     }
 
     public Professor() {
@@ -151,6 +154,14 @@ public class Professor extends User implements Comparable<Professor> {
     ///////////////
     // Get & Set //
     ///////////////
+
+    public String getProfNumber() {
+        return profNumber;
+    }
+
+    public void setProfNumber(String profNumber) {
+        this.profNumber = profNumber;
+    }
 
     public List<Project> getProjects() {
         return projects;

@@ -60,7 +60,7 @@ public class ProjectRepositoryTest {
         restrictions.add(REST_PROG);
 
         projectCoordinator = new ProjectCoordinator(FIRST, LAST, EMAIL);
-        professor = new Professor(FIRST, LAST, EMAIL, projectCoordinator);
+        professor = new Professor(FIRST, LAST, EMAIL, "1", projectCoordinator);
         student = new Student(FIRST, LAST, EMAIL, STUD_NO1, PROG);
 
         file = new FileAttachment(ASSET_URL, PROJECT_ASSET_TYPE, project);

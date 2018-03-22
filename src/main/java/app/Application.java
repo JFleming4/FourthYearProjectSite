@@ -95,8 +95,8 @@ public class Application {
             Student student1 = new Student("Justin", "Krol", "justinkrol@cmail.carleton.ca", "1", "Software Engineering");
             Student student2 = new Student("Derek", "Stride", "derekstride@cmail.carleton.ca", "2", "Software Engineering");
             ProjectCoordinator coordinator = new ProjectCoordinator("Sir", "Coordinate", "coordinator@sce.carleton.ca");
-            Professor prof1 = new Professor("Babak", "Esfandiari", "babak@sce.carleton.ca", coordinator);
-            Professor prof2 = new Professor("Samuel", "Ajila", "ajila@sce.carleton.ca", coordinator);
+            Professor prof1 = new Professor("Babak", "Esfandiari", "babak@sce.carleton.ca", "1", coordinator);
+            Professor prof2 = new Professor("Samuel", "Ajila", "ajila@sce.carleton.ca", "2", coordinator);
             Project project = new Project(prof1, "GraphQL Query Planner", new ArrayList<String>(), 4);
 
             project.addStudent(student1);
