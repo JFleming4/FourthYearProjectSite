@@ -20,10 +20,6 @@ public class Professor extends User implements Comparable<Professor> {
     @JoinColumn(name = "authenticated_user_id")
     private AuthenticatedUser authenticatedUser;
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id;
-
     private String profNumber;
 
     public Professor(String firstName, String lastName, String email, String profNumber, ProjectCoordinator projectCoordinator)
@@ -188,14 +184,6 @@ public class Professor extends User implements Comparable<Professor> {
 
     public void setProjectCoordinator(ProjectCoordinator projectCoordinator) {
         this.projectCoordinator = projectCoordinator;
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
     }
 
     public AuthenticatedUser getAuthenticatedUser() {

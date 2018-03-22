@@ -5,10 +5,6 @@ import javax.persistence.*;
 @Entity
 public class Student extends User implements Comparable<Student> {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id;
-
     private String studentNumber;
     private String program;
 
@@ -116,14 +112,6 @@ public class Student extends User implements Comparable<Student> {
         if(!project.getStudents().contains(this)) {
             project.addStudent(this);
         }
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
     }
 
     public AuthenticatedUser getAuthenticatedUser() {
