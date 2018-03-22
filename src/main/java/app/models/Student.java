@@ -1,6 +1,8 @@
 package app.models;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 public class Student extends User implements Comparable<Student> {
@@ -45,8 +47,6 @@ public class Student extends User implements Comparable<Student> {
         System.out.println("Unable to join this project"); // (for now)
         return false;
     }
-
-
 
     private void submitFinalReport()
     {
