@@ -3,19 +3,35 @@
 <head>
     <title>Create account</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <div th:replace="fragments/header :: header-css"/>
 </head>
 <body>
-    <form method="POST" th:object="${userForm}">
-        <h2>Create your account</h2>
-        <input type="text" name="username" placeholder="Username" autofocus="true"></input>
-        <input type="password" name="password" placeholder="Password"></input>
-        <input type="password" name="passwordConfirm" placeholder="Confirm your password"></input>
-        <select name="roles[0].name">
-            <option value="ROLE_STUDENT">Student</option>
-            <option value="ROLE_PROFESSOR">Professor</option>
-            <option value="ROLE_COORDINATOR">Project Coordinator</option>
-        </select>
-        <button type="submit">Submit</button>
-    </form>
+    <div th:replace="fragments/header :: header"/>
+    <div class="container">
+        <form method="POST" class="form-signin" th:object="${userForm}">
+            <h2 class="form-signin-heading">Create your account</h2>
+            <div th:class="'form-group '+${#fields.hasErrors('username') ? 'has-error' : ''}">
+                <input type="text" class="form-control" name="username" placeholder="Username" autofocus="true"></input>
+                <span th:each="e : ${#fields.errors('username')}" th:text="${e}+' '"></span>
+            </div>
+            <div th:class="'form-group '+${#fields.hasErrors('password') ? 'has-error' : ''}">
+                <input type="password" class="form-control" name="password" placeholder="Password"></input>
+                <span th:each="e : ${#fields.errors('password')}" th:text="${e}+' '"></span>
+            </div>
+            <div th:class="'form-group '+${#fields.hasErrors('passwordConfirm') ? 'has-error' : ''}">
+                <input type="password" class="form-control" name="passwordConfirm" placeholder="Confirm your password"></input>
+                <span th:each="e : ${#fields.errors('passwordConfirm')}" th:text="${e}+' '"></span>
+            </div>
+            <div class="form-group">
+                <select class="form-control" name="roles[0].name">
+                    <option value="ROLE_STUDENT">Student</option>
+                    <option value="ROLE_PROFESSOR">Professor</option>
+                    <option value="ROLE_COORDINATOR">Project Coordinator</option>
+                </select>
+            </div>
+            <button class="btn btn-lg btn-primary btn-block" type="submit">Submit</button>
+        </form>
+    </div>
+    <div th:replace="fragments/footer :: footer"/>
 </body>
 </html>
