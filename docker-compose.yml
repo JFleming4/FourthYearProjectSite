@@ -1,0 +1,18 @@
+version: '2'
+services:
+  app:
+    image: springio/fourth-year-project-site
+    ports:
+      - "8080:8080"
+    environment:
+      - SYSC_DATABASE_URL=jdbc:postgresql://mypostgres:5432/mydb
+      - SYSC_DATABASE_USERNAME=postgres
+      - SYSC_DATABASE_PASSWORD=password
+  mypostgres:
+    image: postgres
+    ports:
+      - "5432:5432"
+    environment:
+       - POSTGRES_PASSWORD=password
+       - POSTGRES_USER=postgres
+       - POSTGRES_DB=mydb
