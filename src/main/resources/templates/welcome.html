@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
+<head>
+    <title>Welcome</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+</head>
+<body>
+    <div sec:authorize="isAuthenticated()">
+        <p>You're logged in. Welcome <span th:text="${currentUser.username}"></span> <button onclick="document.forms['logoutForm'].submit()">Logout</button></p>
+        <form id="logoutForm" method="POST" action="/logout">
+        </form>
+    </div>
+</body>
+</html>
