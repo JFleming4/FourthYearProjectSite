@@ -129,6 +129,20 @@ public class Project implements Comparable<Project> {
     }
 
     /**
+     * @return Boolean whether or not the oral presentation has been completed.
+     */
+    public boolean completedOralPresentation() {
+        return true;
+    }
+
+    /**
+     * @return Boolean whether or not the poster fair has been completed.
+     */
+    public boolean completedPosterFair() {
+        return false;
+    }
+
+    /**
      * Add a restriction to the list of restrictions. Sort based on alphabetical order.
      * @param restriction New restriction
      */

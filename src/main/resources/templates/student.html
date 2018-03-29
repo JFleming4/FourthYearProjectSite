@@ -3,78 +3,157 @@
 <head>
     <title>Fourth Year Project - Student</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/student.css}" href="../../css/student.css" />
     <div th:replace="fragments/header :: header-css"/>
 </head>
 <body>
     <div th:replace="fragments/header :: header"/>
-    <h1 th:text="'Student: '+${student.firstName}+' '+${student.lastName}"></h1>
-    <p><strong>Student ID: </strong><span th:text="${student.studentNumber}"></span></p>
-    <p><strong>Email address: </strong><span th:text="${student.email}"></span></p>
-    <p><strong>Program: </strong><span th:text="${student.program}"></span></p>
-    <button>Change Password</button>
-    <button>Log out</button>
-    <div>
-        <hr/>
-        <h3>Project</h3>
-        <button disabled="true">Create/Join</button>
-        <button disabled="true">Drop</button>
-        <p><strong>Project ID: </strong><span th:text="${student.studentNumber}"></span></p>
-        <p><strong>Project Title: </strong><span th:text="${student.email}"></span></p>
-        <p><strong>Supervisor: </strong><span th:text="'Program: '+${student.program}"></span></p>
-        <p><strong>Second Reader: </strong><span th:text="'Program: '+${student.program}"></span></p>
-
-        <hr/>
-        <h4>Other members</h4>
-        <ul>
-            <li th:each="member : ${project.getStudents()}" th:if="${!member.equals(student)}" >
-                <span th:text="${member.firstName}+' '+${member.lastName}+' ('+${member.email}+')'"></span>
-            </li>
-        </ul>
-        <hr/>
-        <h4>Project Status</h4>
-        <p><strong>Proposal: </strong><span>Submitted</span></p>
-        <p><strong>Oral Presentation: </strong><span>Completed</span></p>
-        <p><strong>Poster Fair: </strong><span></span></p>
-        <p><strong>Final Report: </strong><span></span></p>
-
-    </div>
-    <div>
-        <hr/>
-        <div th:if="${project.getProposal() != null}">
-            Proposal: <a th:href="${'/files/' + project.getProposal().getAssetUrl()}" th:text="${project.getProposal().getAssetUrl()}" />
+    <div class="student-container">
+        <div class="panel panel-primary">
+            <div class="panel-heading">
+                Please select one of the following operations
+            </div>
+            <div class="panel-body">
+                <div class="project-timeline">
+                    <div class="timeline-entity">
+                        <b>Project Selection</b>
+                        <div>
+                            <button type="button" class="btn btn-default">Create/Join</button>
+                            <button type="button" class="btn btn-default">Drop</button>
+                        </div>
+                    </div>
+                    <div class="timeline-entity">
+                        <b>Upload Proposal (PDF)</b>
+                        <div th:unless="${project.getProposal() == null}">
+                            Proposal: <a th:href="${'/files/' + project.getProposal().getAssetUrl()}" th:text="${project.getProposal().getAssetUrl()}" />
+                        </div>
+                        <form enctype="multipart/form-data" th:action="${'/project/' + student.getProject().getId() + '/upload_proposal'}" method="post">
+                            <!--<input id="aproposal-file" class="btn btn-default" type="file" name="file" accept=".pdf,.doc,.docx" />-->
+                            <label class="btn btn-default">
+                                Choose File<input id="proposal-file" type="file" name="file" accept=".pdf,.doc,.docx" class="hide" />
+                            </label>
+                            <label class="btn btn-default">
+                                Upload<input type="submit" class="hide" />
+                            </label>
+                        </form>
+                    </div>
+                    <div class="timeline-entity">
+                        <b>Oral Presentation</b>
+                        <button class="btn btn-default">View/Update Availability</button>
+                    </div>
+                    <div class="timeline-entity">
+                        <b>Upload Final Report (PDF)</b>
+                        <div th:unless="${project.getReport() == null}">
+                            Report: <a th:href="${'/files/' + project.getReport().getAssetUrl()}" th:text="${project.getReport().getAssetUrl()}" />
+                        </div>
+                        <form enctype="multipart/form-data" th:action="${'/project/' + student.getProject().getId() + '/upload_final_report'}" method="post">
+                            <label class="btn btn-default">
+                                Choose File<input id="report-file" type="file" name="file" accept=".pdf,.doc,.docx" class="hide" />
+                            </label>
+                            <label class="btn btn-default">
+                                Upload<input type="submit" class="hide" />
+                            </label>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <div class="panel-footer">
+                Note: Only one member of the group needs to submit the Draft Proposal, the Oral Presentation and Project fair information, and the final report. Groups submitting multiple reports must submit hard copy.
+            </div>
         </div>
 
-        <h3>Upload Proposal (.pdf, .doc, .docx)</h3>
-        <form enctype="multipart/form-data" th:action="${'/project/' + student.getProject().getId() + '/upload_proposal'}" method="post">
-
-            <input id="proposal-file" type="file" name="file" accept=".pdf,.doc,.docx" />
-            <br />
-            <input type="submit" />
-        </form>
-    </div>
-    <div>
-        <hr/>
-        <h3>Oral Presentation</h3>
-        <button disabled="true">View/Update Availability</button>
-    </div>
-    <div>
-        <hr/>
-        <h3>Poster Fair</h3>
-        <button>View/Update Demo</button>
-    </div>
-    <div>
-        <hr/>
-        <div th:if="${project.getReport() != null}">
-            Report: <a th:href="${'/files/' + project.getReport().getAssetUrl()}" th:text="${project.getReport().getAssetUrl()}" />
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                Student Details
+            </div>
+            <div class="panel-body">
+                <div class="project-timeline">
+                    <div class="timeline-entity">
+                        <b>Student ID</b>
+                        <span th:text="${student.studentNumber.toString()}"></span>
+                    </div>
+                    <div class="timeline-entity">
+                        <b>Name</b>
+                        <span th:text="''+${student.firstName}+' '+${student.lastName}">></span>
+                    </div>
+                    <div class="timeline-entity">
+                        <b>Email</b>
+                        <span th:text="${student.email}"></span>
+                    </div>
+                    <div class="timeline-entity">
+                        <b>Program</b>
+                        <span th:text="${student.program}"></span>
+                    </div>
+                </div>
+            </div>
         </div>
 
-        <h3>Upload Final Report (.pdf, .doc, .docx)</h3>
-        <form enctype="multipart/form-data" th:action="${'/project/' + student.getProject().getId() + '/upload_final_report'}" method="post">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                Project Details
+            </div>
+            <div class="panel-body">
+                <div class="project-timeline">
+                    <div class="timeline-entity">
+                        <b>Project ID</b>
+                        <span th:text="${project.getId()}"></span>
+                    </div>
+                    <div class="timeline-entity">
+                        <b>Project Title</b>
+                        <span th:text="${project.description}"></span>
+                    </div>
+                    <div class="timeline-entity" th:unless="${project.projectProf == null}">
+                        <b>Supervisor</b>
+                        <span th:text="${project.projectProf.lastName}"></span>
+                    </div>
+                    <div class="timeline-entity" th:unless="${project.secondReader == null}">
+                        <b>Second Reader</b>
+                        <span th:text="${project.secondReader.lastName}"></span>
+                    </div>
+                </div>
+            </div>
+        </div>
 
-            <input id="report-file" type="file" name="file" accept=".pdf,.doc,.docx" />
-            <br />
-            <input type="submit" />
-        </form>
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                Other members
+            </div>
+            <ul class="list-group">
+                <li class="list-group-item" th:each="member : ${project.getStudents()}" th:if="${!member.equals(student)}" >
+                    <span th:text="${member.firstName}+' '+${member.lastName}+' ('+${member.email}+')'"></span>
+                </li>
+            </ul>
+        </div>
+
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                Project Status
+            </div>
+            <div class="panel-body">
+                <div class="project-timeline">
+                    <div class="timeline-entity">
+                        <b>Proposal</b>
+                        <span th:if="${project.getProposal() == null}" class="glyphicon glyphicon-unchecked"></span>
+                        <span th:unless="${project.getProposal() == null}" class="glyphicon glyphicon-check"></span>
+                    </div>
+                    <div class="timeline-entity">
+                        <b>Oral Presentation</b>
+                        <span th:if="${project.completedOralPresentation()}" class="glyphicon glyphicon-unchecked"></span>
+                        <span th:unless="${project.completedOralPresentation()}" class="glyphicon glyphicon-check"></span>
+                    </div>
+                    <div class="timeline-entity">
+                        <b>Poster Fair</b>
+                        <span th:if="${project.completedPosterFair()}" class="glyphicon glyphicon-unchecked"></span>
+                        <span th:unless="${project.completedPosterFair()}" class="glyphicon glyphicon-check"></span>
+                    </div>
+                    <div class="timeline-entity">
+                        <b>Final Report</b>
+                        <span th:if="${project.getReport() == null}" class="glyphicon glyphicon-unchecked"></span>
+                        <span th:unless="${project.getReport() == null}" class="glyphicon glyphicon-check"></span>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
     <div th:replace="fragments/footer :: footer"/>
 </body>
