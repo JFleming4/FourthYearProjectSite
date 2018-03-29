@@ -72,15 +72,50 @@ public class Professor extends User implements Comparable<Professor> {
         }
     }
 
+    /**
+     * Delete the project, removing it from the Professor's and the Project Coordinator's
+     * list of projects.
+     * @param id ID of the project to delete
+     */
+    public void deleteProject(Long id)
+    {
+        for (Project project: projects)
+        {
+            if (project.getId().equals(id))
+            {
+                projectCoordinator.removeProjectFromList(project);
+                this.removeProjectFromList(project);
+            }
+        }
+    }
+
 
     /**
-     * Archive the project, but keep it in the Professor's list of projects
-     * @param project The project to archive
+     * Toggle the project, but keep it in the Professor's list of projects
+     * @param project The project to archive/unarchive
      */
-    public void archiveProject(Project project)
+    public void toggleArchive(Project project)
     {
         if (projects.contains(project))
-            project.setIsArchived(true);
+        {
+            project.toggleIsArchived();
+        }
+    }
+
+    /**
+     * Toggle the project based on ID, but keep it in the Professor's list of projects
+     * @param id ID of the project to archive/unarchive
+     */
+    public void toggleArchive(Long id)
+    {
+        for (Project project: projects)
+        {
+            if (project.getId().equals(id))
+            {
+                project.toggleIsArchived();
+
+            }
+        }
     }
 
 
@@ -117,7 +152,7 @@ public class Professor extends User implements Comparable<Professor> {
      * Add a project to the Professor's project list. Sort based on project description.
      * @param project Project to add
      */
-    protected void addProjectToList(Project project) {
+    public void addProjectToList(Project project) {
         projects.add(project);
         Collections.sort(projects);
     }
@@ -154,6 +189,16 @@ public class Professor extends User implements Comparable<Professor> {
 
     public List<Project> getProjects() {
         return projects;
+    }
+
+    public Project getProject(Long id)
+    {
+        for (Project project: projects)
+        {
+            if (project.getId().equals(id))
+                return project;
+        }
+        return null;
     }
 
     public void setProjects(List<Project> projects) {

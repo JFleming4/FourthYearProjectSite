@@ -8,18 +8,18 @@
 <h1 th:text="'Project: '+${project.description}"></h1>
 
 <p><strong>Professor: </strong><span th:text="${project.projectProf.firstName}+' '+${project.projectProf.lastName}"></span></p>
-<p><strong>Second Reader: </strong><span th:if="${project.secondReader != null}" th:text="${project.secondReader.firstName}+' '+${project.secondReader.lastName}"></span></p>
+<p><strong>Second Reader: </strong><span th:if="${project.secondReader!=null}" th:text="${project.secondReader.firstName}+' '+${project.secondReader.lastName}"></span></p>
 <p><strong>Coordinator: </strong><span th:text="${project.projectProf.projectCoordinator.firstName}+' '+${project.projectProf.projectCoordinator.lastName}"></span></p>
+
     <div>
         <hr/>
         <p><strong>Capacity: </strong><span th:text="${project.currentCapacity}+'/'+${project.maxCapacity}"></span></p>
         <p><strong>Restrictions:</strong></p>
         <ul>
-            <th:block th:each="restriction : ${restrictions}">
-                <li th:text="${restriction}"></li>
-            </th:block>
+            <li th:text="Restrictions Go Here"></li>
         </ul>
     </div>
+
     <div>
         <hr/>
         <h3>Students:</h3>
@@ -29,6 +29,7 @@
             </th:block>
         </ul>
     </div>
+
     <div>
         <hr/>
         <h3>Oral Presentation</h3>

@@ -249,6 +249,11 @@ public class Project implements Comparable<Project> {
         this.isArchived = isArchived;
     }
 
+    public void toggleIsArchived()
+    {
+        isArchived = !isArchived;
+    }
+
     public Long getId() {
         return id;
     }
