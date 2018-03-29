@@ -7,7 +7,7 @@
 <body>
     <h1 th:text="'Professor: '+${professor.firstName}+' '+${professor.lastName}"></h1>
     <p><strong>Email address: </strong><span th:text="${professor.email}"></span></p>
-    <p><strong>Coordinator: </strong><span th:text="${professor.projectCoordinator.firstName}+' '+${professor.projectCoordinator.lastName}"></span></p>
+    <p><strong>Coordinator: </strong><span th:text="${professor.getProjectCoordinator().getFirstName()}+' '+${professor.getProjectCoordinator().getLastName()}"></span></p>
     <button>Change Password</button>
     <button>Log out</button>
 

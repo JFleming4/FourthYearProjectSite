@@ -12,10 +12,9 @@ import java.net.URISyntaxException;
 
 @Configuration
 public class MainConfig {
-    @Bean
-    @Primary
-    @ConfigurationProperties(prefix = "spring.datasource")
-
+//    @Bean
+//    @Primary
+//    @ConfigurationProperties(prefix = "spring.datasource")
     public BasicDataSource dataSource() throws URISyntaxException
     {
         String username;

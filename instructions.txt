@@ -1,0 +1,13 @@
+docker build --no-cache=true --build-arg JAR_FILE=target/fourth-year-project-site-1.0-SNAPSHOT.jar . -t springio/fourth-year-project-site
+
+// get nodes
+kubectl get nodes 
+
+// get pods
+kubectl get pods
+
+// show containers
+kubectl describe deployments
+
+// delete pod
+kubectl delete pod POD_NAME
