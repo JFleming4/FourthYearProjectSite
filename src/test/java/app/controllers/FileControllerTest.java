@@ -94,7 +94,7 @@ public class FileControllerTest {
             mockMvc.perform(fileUpload(projectUrl + "/upload_proposal")
                 .file("file", uploadedFile.getBytes()))
                 .andExpect(status().is3xxRedirection());
-            verify(storageService).store(any(MultipartFile.class));
+            verify(storageService).store(eq(ORIGINAL_FILENAME), any(MultipartFile.class));
         } catch (Exception e) {
             fail(e.getMessage());
         }
@@ -106,7 +106,7 @@ public class FileControllerTest {
             mockMvc.perform(fileUpload(projectUrl + "/upload_final_report")
                     .file("file", uploadedFile.getBytes()))
                     .andExpect(status().is3xxRedirection());
-            verify(storageService).store(any(MultipartFile.class));
+            verify(storageService).store(eq(ORIGINAL_FILENAME), any(MultipartFile.class));
         } catch (Exception e) {
             fail(e.getMessage());
         }

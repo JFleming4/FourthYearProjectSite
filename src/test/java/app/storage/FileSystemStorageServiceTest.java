@@ -12,6 +12,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import static org.hamcrest.CoreMatchers.*;
 import static org.junit.Assert.*;
@@ -41,7 +42,7 @@ public class FileSystemStorageServiceTest {
 
     @Test
     public void store() {
-        storageService.store(uploadedFile);
+        storageService.store(ORIGINAL_FILENAME, uploadedFile);
         assertTrue(uploadedFile().exists());
     }
 
@@ -49,7 +50,7 @@ public class FileSystemStorageServiceTest {
     public void loadAll() {
         String secondFilename = "secondFile.txt";
         store();
-        storageService.store(new MockMultipartFile(FILENAME, secondFilename, CONTENT_TYPE, CONTENT));
+        storageService.store(ORIGINAL_FILENAME, new MockMultipartFile(FILENAME, secondFilename, CONTENT_TYPE, CONTENT));
 
 
         Path path1 = rootPath.relativize(uploadedFile().toPath());

@@ -39,7 +39,7 @@ public class CloudStorageServiceTest {
 
     @Test
     public void store() {
-        storageService.store(uploadedFile);
+        storageService.store(ORIGINAL_FILENAME, uploadedFile);
 
         verify(mockedS3).putObject(anyString(), eq(uploadedFile.getOriginalFilename()), anyString());
     }

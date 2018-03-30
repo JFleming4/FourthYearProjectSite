@@ -30,23 +30,25 @@ public class FileSystemStorageService implements StorageService {
     }
 
     @Override
-    public void store(MultipartFile file) {
-        String filename = StringUtils.cleanPath(file.getOriginalFilename());
+    public void store(String filename, MultipartFile file) {
+        String cleanPath = StringUtils.cleanPath(filename);
         try {
             if (file.isEmpty()) {
-                throw new StorageException("Failed to store empty file " + filename);
+                throw new StorageException("Failed to store empty file " + cleanPath);
             }
-            if (filename.contains("..")) {
+            if (cleanPath.contains("..")) {
                 // This is a security check
                 throw new StorageException(
                         "Cannot store file with relative path outside current directory "
-                                + filename);
+                                + cleanPath);
             }
-            Files.copy(file.getInputStream(), this.rootLocation.resolve(filename),
-                    StandardCopyOption.REPLACE_EXISTING);
+            Path path = rootLocation.resolve(cleanPath);
+            if (!Files.exists(path.getParent()))
+                Files.createDirectories(rootLocation.resolve(cleanPath).getParent());
+            Files.copy(file.getInputStream(), path, StandardCopyOption.REPLACE_EXISTING);
         }
         catch (IOException e) {
-            throw new StorageException("Failed to store file " + filename, e);
+            throw new StorageException("Failed to store file " + cleanPath, e);
         }
     }
 
