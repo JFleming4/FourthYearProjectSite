@@ -24,6 +24,7 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.ByteArrayInputStream;
 
 import static org.junit.Assert.*;
+import static org.mockito.ArgumentMatchers.anyString;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.fileUpload;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
@@ -94,7 +95,7 @@ public class FileControllerTest {
             mockMvc.perform(fileUpload(projectUrl + "/upload_proposal")
                 .file("file", uploadedFile.getBytes()))
                 .andExpect(status().is3xxRedirection());
-            verify(storageService).store(eq(ORIGINAL_FILENAME), any(MultipartFile.class));
+            verify(storageService).store(anyString(), any(MultipartFile.class));
         } catch (Exception e) {
             fail(e.getMessage());
         }
@@ -106,7 +107,7 @@ public class FileControllerTest {
             mockMvc.perform(fileUpload(projectUrl + "/upload_final_report")
                     .file("file", uploadedFile.getBytes()))
                     .andExpect(status().is3xxRedirection());
-            verify(storageService).store(eq(ORIGINAL_FILENAME), any(MultipartFile.class));
+            verify(storageService).store(anyString(), any(MultipartFile.class));
         } catch (Exception e) {
             fail(e.getMessage());
         }
