@@ -3,81 +3,102 @@
 <head>
     <title>Fourth Year Project - Professor</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/professor.css}" href="../../css/professor.css" />
+    <div th:replace="fragments/header :: header-css"/>
 </head>
 <body>
-    <h1 th:text="'Professor: '+${professor.firstName}+' '+${professor.lastName}"></h1>
-    <p><strong>ID: </strong><span th:text="${professor.id}"></span></p>
-    <p><strong>Email Address: </strong><span th:text="${professor.email}"></span></p>
-    <p><strong>Coordinator: </strong><span th:text="${professor.projectCoordinator.firstName}+' '+${professor.projectCoordinator.lastName}"></span></p>
-    <button disabled="true">Change Password</button>
-    <button disabled="true">Log out</button>
+    <div th:replace="fragments/header :: header"/>
+    <div class="professor-container">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                Professor Details
+            </div>
+            <div class="panel-body">
+                <div class="project-timeline">
+                    <div class="timeline-entity">
+                        <b>Professor ID</b>
+                        <span th:text="${professor.getId()}"></span>
+                    </div>
+                    <div class="timeline-entity">
+                        <b>Name</b>
+                        <span th:text="''+${professor.firstName}+' '+${professor.lastName}">></span>
+                    </div>
+                    <div class="timeline-entity">
+                        <b>Email</b>
+                        <span th:text="${professor.email}"></span>
+                    </div>
+                </div>
+            </div>
+        </div>
 
-    <div>
-        <hr/>
-        <h3>Projects</h3>
-        <a href="new-project/">Create a New Project</a>
-
-        <table border="2" cellpadding="2">
-            <tr>
-                <th>ID</th>
-                <th>Description</th>
-                <th>Restrictions</th>
-                <th>Capacity</th>
-                <th>Add Student</th>
-                <th>Archive</th>
-                <th>Delete</th>
-            </tr>
-            <th:block th:each="project : ${projects}">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                Projects
+            </div>
+            <div class="panel-body">
+                <a href="new-project">Create a New Project</a>
+            </div>
+            <table class="table">
                 <tr>
-                    <td th:text="${project.id}"></td>
+                    <th>ID</th>
+                    <th>Description</th>
+                    <th>Restrictions</th>
+                    <th>Capacity</th>
+                    <th>Add Student</th>
+                    <th>Archive</th>
+                    <th>Delete</th>
+                </tr>
+                <th:block th:each="project : ${projects}">
+                    <tr>
+                        <td th:text="${project.id}"></td>
+                        <td th:text="${project.description}"></td>
+                        <td th:if="${project.getRestrictionsToString().equals('')}">None</td>
+                        <td th:unless="${project.getRestrictionsToString().equals('')}" th:text="${project.getRestrictionsToString()}"></td>
+                        <td th:text="${project.currentCapacity}+'/'+${project.maxCapacity}"></td>
+
+                        <td th:switch="${project.currentCapacity} &lt; ${project.maxCapacity}">
+                            <a th:case="true" href="new-student">New Student</a>
+                            <a th:case="false">Full</a>
+                            <a th:case="*" href="new-student">New Student</a>
+                        </td>
+
+                        <td>
+                            <a th:if="${project.archived}" th:text="Unarchive" th:href="${'/professor/archiveProject/'+project.id}" class="btn btn-default" />
+                            <a th:unless="${project.archived}" th:text="Archive" th:href="${'/professor/archiveProject/'+project.id}" class="btn btn-default" />
+                        </td>
+                        <td>
+                            <a th:text="Delete" th:href="${'/professor/deleteProject/'+project.id}" class="btn btn-default" />
+                        </td>
+                    </tr>
+
+                </th:block>
+            </table>
+        </div>
+
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                Second Reader
+            </div>
+            <table class="table">
+                <tr>
+                    <th>Description</th>
+                    <th>Restrictions</th>
+                    <th>Current Capacity</th>
+                    <th>Maximum Capacity</th>
+                </tr>
+                <th:block th:each="project : ${secondReader}">
                     <td th:text="${project.description}"></td>
-                    <td th:text="${project.getRestrictionsToString()}"></td>
-                    <td th:text="${project.currentCapacity}+'/'+${project.maxCapacity}"></td>
-
-                    <td th:switch="${project.currentCapacity} &lt; ${project.maxCapacity}">
-                        <a th:case="true" href="new-student/">New Student</a>
-                        <a th:case="false">At Capacity</a>
-                        <a th:case="*" href="new-student/">New Student</a>
-                    </td>
-
-                    <td th:switch="${project.archived}">
-                        <a th:case="false" th:href="${'/professor/archiveProject/'+project.id}">Archive</a>
-                        <a th:case="true" th:href="${'/professor/archiveProject/'+project.id}">Unarchive</a>
-                        <a th:case="*" th:href="${'/professor/archiveProject/'+project.id}">Archive</a>
-                    </td>
-                    <td><a th:href="${'/professor/deleteProject/'+project.id}">Delete</a></td>
-                </tr>
-
-            </th:block>
-        </table>
+                    <td th:if="${project.getRestrictionsToString().equals('')}">None</td>
+                    <td th:unless="${project.getRestrictionsToString().equals('')}" th:text="${project.getRestrictionsToString()}"></td>
+                    <td th:text="${project.currentCapacity}"></td>
+                    <td th:text="${project.maxCapacity}"></td>
+                </th:block>
+            </table>
+        </div>
+        <div>
+            <hr/>
+            <button class="btn btn-default">View/Update Availability</button>
+        </div>
     </div>
-
-    <div>
-        <hr/>
-        <h3>Second Reader Projects</h3>
-
-        <table border="2" cellpadding="2">
-            <tr>
-                <th>ID</th>
-                <th>Description</th>
-                <th>Restrictions</th>
-                <th>Capacity</th>
-            </tr>
-            <th:block th:each="secondRead : ${secondReader}">
-                <tr>
-                    <td th:text="${secondRead.id}"></td>
-                    <td th:text="${secondRead.description}"></td>
-                    <td th:text="${secondRead.getRestrictionsToString()}"></td>
-                    <td th:text="${secondRead.currentCapacity}+'/'+${secondRead.maxCapacity}"></td>
-                </tr>
-
-            </th:block>
-        </table>
-    </div>
-    <div>
-        <hr/>
-        <button>View/Update Availability</button>
-    </div>
-
 </body>
 </html>
