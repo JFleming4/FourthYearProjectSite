@@ -50,16 +50,16 @@ public class AuthenticatedUserValidator implements Validator{
         String type = authenticatedUser.getType();
         String number = authenticatedUser.getNumber();
 
-        if(type.equals("Student") && !studentRepository.existsByStudentNumber(number)) {
-            errors.rejectValue("Number", "No student record with that number");
+            if(type.equals("Student") && !studentRepository.existsByStudentNumber(number)) {
+            errors.rejectValue("number", "Invalid.userForm.studentNumber");
         }
 
         if((type.equals("Professor") || type.equals("Coordinator")) && !professorRepository.existsByProfNumber(number)) {
-            errors.rejectValue("Number", "No professor record with that number");
+            errors.rejectValue("number", "Invalid.userForm.professorNumber");
         }
 
         if(!(type.equals("Student") || type.equals("Professor") || !type.equals("Coordinator"))) {
-            errors.rejectValue("Number", "Invalid.userForm.type");
+            errors.rejectValue("number", "Invalid.userForm.type");
         }
     }
 }

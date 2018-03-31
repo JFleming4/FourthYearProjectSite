@@ -23,14 +23,14 @@
                 <span th:each="e : ${#fields.errors('passwordConfirm')}" th:text="${e}+' '"></span>
             </div>
             <div th:class="'form-group '+${#fields.hasErrors('number') ? 'has-error' : ''}">
-                <input type="text" name="number" placeholder="Number"></input>
+                <input type="text" class="form-control" name="number" placeholder="Number"></input>
                 <span th:each="e : ${#fields.errors('number')}" th:text="${e}+' '"></span>
             </div>
             <div class="form-group">
-                <select class="form-control" name="roles[0].name">
-                    <option value="ROLE_STUDENT">Student</option>
-                    <option value="ROLE_PROFESSOR">Professor</option>
-                    <option value="ROLE_COORDINATOR">Project Coordinator</option>
+                <select class="form-control" name="type">
+                    <option value="Student">Student</option>
+                    <option value="Professor">Professor</option>
+                    <option value="Coordinator">Project Coordinator</option>
                 </select>
             </div>
             <button class="btn btn-lg btn-primary btn-block" type="submit">Submit</button>
