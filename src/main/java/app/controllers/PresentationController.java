@@ -1,13 +1,15 @@
 package app.controllers;
 
+import app.WebSecurityConfig;
+import app.models.AuthenticatedUser;
 import app.models.Day;
 import app.models.Project;
 import app.models.TimeSlot;
-import app.models.repository.ProfessorRepository;
-import app.models.repository.ProjectRepository;
-import app.models.repository.StudentRepository;
-import app.models.repository.TimeSlotRepository;
+import app.models.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -22,9 +24,19 @@ public class PresentationController {
     private ProjectRepository projectRepository;
     @Autowired
     private TimeSlotRepository timeSlotRepository;
+    @Autowired
+    private UserDetailsService userDetailsService;
+    @Autowired
+    private AuthenticatedUserRepository authenticatedUserRepository;
     @GetMapping("/project/{id}/presentation")
     public String presentation(@PathVariable Long id,
-                               Model model) {
+                               Model model,
+                               @AuthenticationPrincipal UserDetails currentUser) {
+        AuthenticatedUser authUser = authenticatedUserRepository.findByUsername(currentUser.getUsername());
+        if (authUser.getRoles().contains("PROFESSOR") || authUser.getRoles().contains("COORDINATOR")) {
+            // Get the user and check if their id
+            // is the same as the id in the professor of the project
+        }
         model.addAttribute("projectId", id);
         return "presentation";
     }
