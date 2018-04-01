@@ -43,21 +43,21 @@ public class CloudStorageService implements StorageService {
     }
 
     @Override
-    public void store(MultipartFile file) {
-        String filename = StringUtils.cleanPath(file.getOriginalFilename());
+    public void store(String filename, MultipartFile file) {
+        String cleanPath = StringUtils.cleanPath(filename);
         try {
             if (file.isEmpty()) {
-                throw new StorageException("Failed to store empty file " + filename);
+                throw new StorageException("Failed to store empty file " + cleanPath);
             }
-            if (filename.contains("..")) {
+            if (cleanPath.contains("..")) {
                 // This is a security check
                 throw new StorageException(
                     "Cannot store file with relative path outside current directory " + filename
                 );
             }
-            s3client.putObject(S3_BUCKET_NAME, filename, String.valueOf(file.getInputStream()));
+            s3client.putObject(S3_BUCKET_NAME, cleanPath, String.valueOf(file.getInputStream()));
         } catch (IOException e) {
-            throw new StorageException("Failed to store file " + filename, e);
+            throw new StorageException("Failed to store file " + cleanPath, e);
         }
     }
 

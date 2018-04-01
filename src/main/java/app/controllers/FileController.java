@@ -11,14 +11,9 @@ import org.springframework.core.io.Resource;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.servlet.mvc.method.annotation.MvcUriComponentsBuilder;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-
-import java.io.IOException;
-import java.util.stream.Collectors;
 
 import static app.models.FileAttachment.FileAttachmentType;
 
@@ -85,13 +80,19 @@ public class FileController {
     private void uploadFile(MultipartFile uploadedFile, FileAttachment oldFile) {
         uploadFile(uploadedFile, oldFile.getProject(), oldFile.getProjectAssetType());
         fileAttachmentRepository.delete(oldFile.getId());
-        storageService.delete(oldFile.getAssetUrl());
+        String filename = getKey(oldFile.getProject(), oldFile.getProjectAssetType(), oldFile.getAssetUrl());
+        storageService.delete(filename);
     }
 
     private void uploadFile(MultipartFile uploadedFile, Project project, FileAttachmentType fileType) {
-        storageService.store(uploadedFile);
+        String filename = getKey(project, fileType, uploadedFile.getOriginalFilename());
+        storageService.store(filename, uploadedFile);
         fileAttachmentRepository.save(
-                new FileAttachment(uploadedFile.getOriginalFilename(), fileType, project)
+                new FileAttachment(filename, fileType, project)
         );
+    }
+
+    private String getKey(Project project, FileAttachmentType fileType, String filename) {
+        return project.getDescription() + "-" + fileType + "-" + filename;
     }
 }
