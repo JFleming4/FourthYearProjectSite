@@ -27,9 +27,9 @@ public class ProjectTest {
     private final String REST_PROG = "ARTS";
     private final String AAALRIGHT = "AAAAAAAAAAAAAAAAAlright";
 
-    private final int STUD_NO1 = 1;
-    private final int STUD_NO2 = 2;
-    private final int STUD_NO3 = 3;
+    private final String STUD_NO1 = "1";
+    private final String STUD_NO2 = "2";
+    private final String STUD_NO3 = "3";
 
     private final String DESCRIPTION = "Project Description";
     private final String NEW_DESC = "New Description";
@@ -48,8 +48,8 @@ public class ProjectTest {
 
         projectCoordinator = new ProjectCoordinator(FIRST, LAST, EMAIL);
 
-        professor1 = new Professor(FIRST, LAST, EMAIL, projectCoordinator);
-        professor2 = new Professor(NEW_FIRST, NEW_LAST, NEW_EMAIL, projectCoordinator);
+        professor1 = new Professor(FIRST, LAST, EMAIL, "1", projectCoordinator);
+        professor2 = new Professor(NEW_FIRST, NEW_LAST, NEW_EMAIL, "2", projectCoordinator);
 
         project1 = new Project(professor1, DESCRIPTION, restrictions, MAX_CAPACITY);
         project2 = new Project(professor1, DESCRIPTION, restrictions, MAX_CAPACITY);

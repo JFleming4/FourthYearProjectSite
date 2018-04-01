@@ -35,7 +35,7 @@ public class StudentRepositoryTest {
     private final String FIRST = "FirstName";
     private final String LAST = "LastName";
     private final String EMAIL = "first@last.com";
-    private final double STUD_NO = 123456789;
+    private final String STUD_NO = "123456789";
     private final String PROG = "SYSC";
 
     private final String DESCRIPTION = "Project Description";
