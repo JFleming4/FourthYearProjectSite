@@ -9,7 +9,7 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface ProfessorRepository extends CrudRepository<Professor, Long> {
     Professor findFirstByOrderById();
-
     //Professor findById(@Param("id") Long id);
-
+    Professor findByProfNumber(String number);
+    boolean existsByProfNumber(String number);
 }

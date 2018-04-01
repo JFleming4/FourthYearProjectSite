@@ -7,17 +7,17 @@ import java.util.List;
 @Entity
 public class Student extends User implements Comparable<Student> {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id;
-
-    private double studentNumber;
+    private String studentNumber;
     private String program;
 
     @ManyToOne
     private Project project;
 
-    public Student(String firstName, String lastName, String email, double studentNumber, String program)
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "authenticated_user_id")
+    private AuthenticatedUser authenticatedUser;
+
+    public Student(String firstName, String lastName, String email, String studentNumber, String program)
     {
         super(firstName, lastName, email);
         this.studentNumber = studentNumber;
@@ -26,7 +26,7 @@ public class Student extends User implements Comparable<Student> {
     }
 
     public Student() {
-        this(null, null, null, 0, null);
+        this(null, null, null, "0", null);
     }
 
     public void searchForProjects(String searchPhrase)
@@ -87,11 +87,11 @@ public class Student extends User implements Comparable<Student> {
     // Get & Set //
     ///////////////
 
-    public double getStudentNumber() {
+    public String getStudentNumber() {
         return studentNumber;
     }
 
-    public void setStudentNumber(double studentNumber) {
+    public void setStudentNumber(String studentNumber) {
         this.studentNumber = studentNumber;
     }
 
@@ -114,11 +114,11 @@ public class Student extends User implements Comparable<Student> {
         }
     }
 
-    public Long getId() {
-        return id;
+    public AuthenticatedUser getAuthenticatedUser() {
+        return authenticatedUser;
     }
 
-    public void setId(Long id) {
-        this.id = id;
+    public void setAuthenticatedUser(AuthenticatedUser authenticatedUser) {
+        this.authenticatedUser = authenticatedUser;
     }
 }

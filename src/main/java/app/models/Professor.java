@@ -7,7 +7,6 @@ import java.util.List;
 
 @Entity
 public class Professor extends User implements Comparable<Professor> {
-
     @OneToMany(mappedBy = "projectProf", cascade = CascadeType.ALL)
     private List<Project> projects;
 
@@ -17,21 +16,24 @@ public class Professor extends User implements Comparable<Professor> {
     @ManyToOne(cascade = CascadeType.ALL)
     private ProjectCoordinator projectCoordinator;
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id;
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "authenticated_user_id")
+    private AuthenticatedUser authenticatedUser;
 
-    public Professor(String firstName, String lastName, String email, ProjectCoordinator projectCoordinator)
+    private String profNumber;
+
+    public Professor(String firstName, String lastName, String email, String profNumber, ProjectCoordinator projectCoordinator)
     {
         super(firstName, lastName, email);
         this.projects = new ArrayList<>();
         this.secondReaderProjects = new ArrayList<>();
+        this.profNumber = profNumber;
         this.projectCoordinator = projectCoordinator;
     }
 
     public Professor(String firstName, String lastName, String email)
     {
-        this(firstName, lastName, email, null);
+        this(firstName, lastName, email, "0", null);
     }
 
     public Professor() {
@@ -187,6 +189,14 @@ public class Professor extends User implements Comparable<Professor> {
     // Get & Set //
     ///////////////
 
+    public String getProfNumber() {
+        return profNumber;
+    }
+
+    public void setProfNumber(String profNumber) {
+        this.profNumber = profNumber;
+    }
+
     public List<Project> getProjects() {
         return projects;
     }
@@ -221,11 +231,11 @@ public class Professor extends User implements Comparable<Professor> {
         this.projectCoordinator = projectCoordinator;
     }
 
-    public Long getId() {
-        return id;
+    public AuthenticatedUser getAuthenticatedUser() {
+        return authenticatedUser;
     }
 
-    public void setId(Long id) {
-        this.id = id;
+    public void setAuthenticatedUser(AuthenticatedUser authenticatedUser) {
+        this.authenticatedUser = authenticatedUser;
     }
 }

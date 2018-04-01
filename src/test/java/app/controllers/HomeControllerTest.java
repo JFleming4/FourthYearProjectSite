@@ -2,10 +2,8 @@ package app.controllers;
 
 import app.Application;
 import app.TestConfig;
-import app.models.Project;
-import app.models.Student;
+import app.models.*;
 import app.models.repository.ProjectRepository;
-import app.models.repository.StudentRepository;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -17,6 +15,8 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.hamcrest.Matchers;
+
+import java.util.ArrayList;
 
 import static org.junit.Assert.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
@@ -34,25 +34,26 @@ public class HomeControllerTest {
     @Autowired
     private ProjectRepository projectRepository;
 
-    @Autowired
-    private StudentRepository studentRepository;
-
     private Project project;
     private Student student;
 
     @Before
     public void setUp() {
-        project = new Project();
-        student = new Student();
-        projectRepository.save(project);
-        studentRepository.save(student);
+        student = new Student("Justin", "Krol", "justinkrol@cmail.carleton.ca", "1", "Software Engineering");
+        ProjectCoordinator coordinator = new ProjectCoordinator("Sir", "Coordinate", "coordinator@sce.carleton.ca");
+        Professor prof = new Professor("Babak", "Esfandiari", "babak@sce.carleton.ca", "1", coordinator);
+        project = new Project(prof, "GraphQL Query Planner", new ArrayList<String>(), 4);
+
+        project.addStudent(student);
+
     }
 
     @Test
     @WithMockUser(username = "username", roles={"STUDENT"})
     public void getStudentTemplate() {
+        projectRepository.save(project);
         try {
-            mockMvc.perform(get("/student"))
+            mockMvc.perform(get("/student/"+student.getId()))
                     .andExpect(status().isOk())
                     .andExpect(content().string(Matchers.containsString("<title>Fourth Year Project - Student</title>")));
         } catch (Exception e) {

@@ -12,7 +12,6 @@ public class ProjectCoordinator extends Professor {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-
     public ProjectCoordinator(String firstName, String lastName, String email)
     {
         super(firstName, lastName, email);

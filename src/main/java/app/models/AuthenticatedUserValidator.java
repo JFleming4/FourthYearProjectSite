@@ -1,6 +1,9 @@
 package app.models;
 
+import app.models.repository.ProfessorRepository;
+import app.models.repository.StudentRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;
 import org.springframework.validation.ValidationUtils;
@@ -10,6 +13,12 @@ import org.springframework.validation.Validator;
 public class AuthenticatedUserValidator implements Validator{
     @Autowired
     private AuthenticatedUserService authenticatedUserService;
+
+    @Autowired
+    private StudentRepository studentRepository;
+
+    @Autowired
+    private ProfessorRepository professorRepository;
 
     @Override
     public boolean supports(Class<?> aClass) {
@@ -35,6 +44,22 @@ public class AuthenticatedUserValidator implements Validator{
 
         if (!authenticatedUser.getPasswordConfirm().equals(authenticatedUser.getPassword())) {
             errors.rejectValue("passwordConfirm", "Diff.userForm.passwordConfirm");
+        }
+
+        // Check if valid record exists to attach this account
+        String type = authenticatedUser.getType();
+        String number = authenticatedUser.getNumber();
+
+            if(type.equals("Student") && !studentRepository.existsByStudentNumber(number)) {
+            errors.rejectValue("number", "Invalid.userForm.studentNumber");
+        }
+
+        if((type.equals("Professor") || type.equals("Coordinator")) && !professorRepository.existsByProfNumber(number)) {
+            errors.rejectValue("number", "Invalid.userForm.professorNumber");
+        }
+
+        if(!(type.equals("Student") || type.equals("Professor") || !type.equals("Coordinator"))) {
+            errors.rejectValue("number", "Invalid.userForm.type");
         }
     }
 }

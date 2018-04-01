@@ -43,7 +43,7 @@ public class ProjectRepositoryTest {
     private final String REST_PROG = "ARTS";
     private final String AAALRIGHT = "AAAAAAAAAAAAAAAAAlright";
 
-    private final int STUD_NO1 = 1;
+    private final String STUD_NO1 = "1";
 
     private final String DESCRIPTION = "Project Description";
     private final String NEW_DESC = "New Description";
@@ -60,7 +60,7 @@ public class ProjectRepositoryTest {
         restrictions.add(REST_PROG);
 
         projectCoordinator = new ProjectCoordinator(FIRST, LAST, EMAIL);
-        professor = new Professor(FIRST, LAST, EMAIL, projectCoordinator);
+        professor = new Professor(FIRST, LAST, EMAIL, "1", projectCoordinator);
         student = new Student(FIRST, LAST, EMAIL, STUD_NO1, PROG);
 
         file = new FileAttachment(ASSET_URL, PROJECT_ASSET_TYPE, project);

@@ -49,7 +49,7 @@ public class ProfessorRepositoryTest {
         restrictions.add(PROG);
 
         projectCoordinator = new ProjectCoordinator(FIRST, LAST, EMAIL);
-        professor = new Professor(FIRST, LAST, EMAIL, projectCoordinator);
+        professor = new Professor(FIRST, LAST, EMAIL, "1", projectCoordinator);
         project = new Project(professor, D1, restrictions, MAX_CAPACITY);
     }
 

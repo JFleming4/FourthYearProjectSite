@@ -16,10 +16,10 @@ public class StudentTest {
     private final String FIRST = "FirstName";
     private final String LAST = "LastName";
     private final String EMAIL = "first@last.com";
-    private final double STUD_NO = 123456789;
+    private final String STUD_NO = "123456789";
     private final String PROG = "SYSC";
 
-    private final double NEW_STUD_NO = 987654321;
+    private final String NEW_STUD_NO = "987654321";
     private final String NEW_PROG = "ARTS";
 
     private final String DESCRIPTION = "Project Description";
@@ -36,7 +36,7 @@ public class StudentTest {
         student2 = new Student(FIRST, LAST, EMAIL, STUD_NO, PROG);
 
         projectCoordinator = new ProjectCoordinator(FIRST, LAST, EMAIL);
-        professor = new Professor(FIRST, LAST, EMAIL, projectCoordinator);
+        professor = new Professor(FIRST, LAST, EMAIL, "1", projectCoordinator);
 
         project1 = new Project(professor, DESCRIPTION, noRestrictions, MAX_CAPACITY);
         project2 = new Project(professor, DESCRIPTION, restrictions, MAX_CAPACITY);
