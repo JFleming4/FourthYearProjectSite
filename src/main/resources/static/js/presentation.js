@@ -2,8 +2,8 @@ $(document).ready(function () {
     //var project;
     // Get the timeslots associated with the project
     // Create the add TimeSlot form
-    renderTimeSlots($("#projectId").text());
-    buildTimeSlotForm(true);
+    renderTimeSlots(PROJECT_ID);
+    buildTimeSlotForm(IS_SUPERVISOR);
 
 });
 
@@ -86,7 +86,7 @@ var timeSlotSubmit = function (event) {
     event.preventDefault();
     var inputs = $(".new-slot-input");
     var params = {
-        id: $("#projectId").text(),
+        id: PROJECT_ID,
         day: inputs[0].value,
         hour: inputs[1].value,
         minute: inputs[2].value
@@ -98,7 +98,7 @@ var timeSlotSubmit = function (event) {
         contentType: 'application/json',
         data: params
     }).then(function(data){
-        renderTimeSlots($("#projectId").text());
+        renderTimeSlots(PROJECT_ID);
     });
 
 
