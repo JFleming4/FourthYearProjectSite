@@ -53,7 +53,7 @@ public class HomeControllerTest {
     public void getStudentTemplate() {
         projectRepository.save(project);
         try {
-            mockMvc.perform(get("/student/"+student.getId()))
+            mockMvc.perform(get("/studentMenu/"))
                     .andExpect(status().isOk())
                     .andExpect(content().string(Matchers.containsString("<title>Fourth Year Project - Student</title>")));
         } catch (Exception e) {
