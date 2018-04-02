@@ -38,7 +38,7 @@ public class ProfessorController {
     private Project project;
     private Student student;
 
-    @RequestMapping(value = "/professor", method = RequestMethod.GET)
+    @RequestMapping(value = "/facultyMenu", method = RequestMethod.GET)
     public String professor(@AuthenticationPrincipal UserDetails currentUser, Model model/*, @PathVariable Long id*/)
     {
         AuthenticatedUser authenticatedUser = authenticatedUserService.findByUsername(currentUser.getUsername());
@@ -71,7 +71,7 @@ public class ProfessorController {
         professor.createProject(description, restrictionsList, capacity);
         professorRepository.save(professor);
 
-        return new ModelAndView("redirect:/professor");
+        return new ModelAndView("redirect:/facultyMenu");
     }
 
     @RequestMapping("/new-student/")
@@ -91,7 +91,7 @@ public class ProfessorController {
 
         professorRepository.save(professor);
 
-        return new ModelAndView("redirect:/professor"/* + professor.getId()*/);
+        return new ModelAndView("redirect:/facultyMenu");
     }
 
 
@@ -100,7 +100,7 @@ public class ProfessorController {
      * @param projectID The project to be archived/unarchived
      * @return Redirect to the professor page
      */
-    @RequestMapping(value = "professor/archiveProject/{projectID}", method = RequestMethod.GET)
+    @RequestMapping(value = "facultyMenu/archiveProject/{projectID}", method = RequestMethod.GET)
     public ModelAndView archive(@AuthenticationPrincipal UserDetails currentUser, @PathVariable("projectID") Long projectID)
     {
         AuthenticatedUser authenticatedUser = authenticatedUserService.findByUsername(currentUser.getUsername());
@@ -110,7 +110,7 @@ public class ProfessorController {
         project.toggleIsArchived();
         projectRepository.save(project);
 
-        return new ModelAndView("redirect:/professor");
+        return new ModelAndView("redirect:/facultyMenu");
     }
 
 
@@ -119,7 +119,7 @@ public class ProfessorController {
      * @param projectID The project to be deleted
      * @return Redirect to the professor page
      */
-    @RequestMapping(value = "/professor/deleteProject/{projectID}", method = RequestMethod.GET)
+    @RequestMapping(value = "/facultyMenu/deleteProject/{projectID}", method = RequestMethod.GET)
     public ModelAndView delete(@AuthenticationPrincipal UserDetails currentUser, @PathVariable("projectID") Long projectID)
     {
         AuthenticatedUser authenticatedUser = authenticatedUserService.findByUsername(currentUser.getUsername());
@@ -130,6 +130,6 @@ public class ProfessorController {
 
         projectRepository.delete(project);
 
-        return new ModelAndView("redirect:/professor");
+        return new ModelAndView("redirect:/facultyMenu");
     }
 }

@@ -20,7 +20,7 @@ public class HomeController {
     @Autowired
     private AuthenticatedUserRepository authenticatedUserService;
 
-    @GetMapping("/student")
+    @GetMapping("/studentMenu")
     public String student(@AuthenticationPrincipal UserDetails currentUser, Model model) {
         AuthenticatedUser authenticatedUser = authenticatedUserService.findByUsername(currentUser.getUsername());
         Student student = authenticatedUser.getStudent();
