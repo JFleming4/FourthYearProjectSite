@@ -3,6 +3,7 @@ package app.controllers;
 import app.Application;
 import app.TestConfig;
 import app.models.*;
+import app.models.repository.AuthenticatedUserRepository;
 import app.models.repository.ProjectRepository;
 import org.junit.Before;
 import org.junit.Test;
@@ -27,12 +28,16 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @ContextConfiguration(classes = { TestConfig.class })
 @AutoConfigureMockMvc
 public class HomeControllerTest {
+    private static final String USERNAME = "username";
 
     @Autowired
     private MockMvc mockMvc;
 
     @Autowired
     private ProjectRepository projectRepository;
+
+    @Autowired
+    private AuthenticatedUserRepository authenticatedUserRepository;
 
     private Project project;
     private Student student;
@@ -49,9 +54,9 @@ public class HomeControllerTest {
     }
 
     @Test
-    @WithMockUser(username = "username", roles={"STUDENT"})
+    @WithMockUser(username = USERNAME, roles={"STUDENT"})
     public void getStudentTemplate() {
-        projectRepository.save(project);
+        authenticateStudent();
         try {
             mockMvc.perform(get("/studentMenu/"))
                     .andExpect(status().isOk())
@@ -59,5 +64,19 @@ public class HomeControllerTest {
         } catch (Exception e) {
             fail(e.getMessage());
         }
+    }
+
+    private void authenticateStudent() {
+        // The authenticated user must be saved with the same name as WithMockUser
+        // It should be saved before the student is saved (Cascaded from project) because the authenticated user
+        // has transient properties that are flushed when clearing the session. Therefore, you must use the
+        // AuthenticatedUserRepository to save it without associations.
+        AuthenticatedUser authenticatedUser = new AuthenticatedUser();
+        authenticatedUser.setUsername(USERNAME);
+        authenticatedUserRepository.save(authenticatedUser);
+
+        // finally you need to actually persist the student.
+        student.setAuthenticatedUser(authenticatedUser);
+        projectRepository.save(project);
     }
 }
