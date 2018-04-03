@@ -12,6 +12,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -27,19 +28,19 @@ public class PresentationController {
     private ProfessorRepository professorRepository;
     @GetMapping("/project/{id}/presentation")
     public String presentation(@PathVariable Long id,
-                               Model model,
-                               @AuthenticationPrincipal UserDetails currentUser) {
-        AuthenticatedUser authenticatedUser = authenticatedUserService.findByUsername(currentUser.getUsername());
-        User user;
-        boolean isSupervisor = false;
-        if(!authenticatedUser.getType().equals("Student")) {
+                               Model model
+                               /*@AuthenticationPrincipal UserDetails currentUser*/) {
+        //AuthenticatedUser authenticatedUser = authenticatedUserService.findByUsername(currentUser.getUsername());
+        //User user;
+        boolean isSupervisor = true;
+        /*if(!authenticatedUser.getType().equals("Student")) {
             user = authenticatedUser.getProfessor();
             Project p = projectRepository.findById(id);
             Professor prof = (Professor) user;
             if(prof.getProjects().contains(p)) {
                 isSupervisor = true;
             }
-        }
+        }*/
         model.addAttribute("projectId", id);
         model.addAttribute("isSupervisor", isSupervisor);
         return "presentation";
@@ -56,6 +57,29 @@ public class PresentationController {
             time.setProject(null);
         }
         return times;
+    }
+
+    @PostMapping("/presentation/update")
+    public String updateTimeSlots(@RequestBody TimeSlotRequest req,
+                                  @AuthenticationPrincipal UserDetails currentUser) {
+        AuthenticatedUser authenticatedUser = authenticatedUserService.findByUsername(currentUser.getUsername());
+        User user;
+        Long projectId = req.getId();
+        Project proj = projectRepository.findOne(projectId);
+        if(authenticatedUser.getType().equals("Student")) {
+            user = authenticatedUser.getStudent();
+            Student stud = (Student) user;
+            if(stud.getProject().equals(proj)) {
+                updateTimes(req.getTimeSlots());
+            }
+        } else {
+            user = authenticatedUser.getProfessor();
+            Professor prof = (Professor) user;
+            if(prof.getProjects().contains(proj) || prof.getSecondReaderProjects().contains(proj)) {
+                updateTimes(req.getTimeSlots());
+            }
+        }
+        return "presentation";
     }
     @PostMapping("/presentation/new-time")
     public String newTimeSlot(@RequestBody String req,
@@ -91,5 +115,13 @@ public class PresentationController {
             e.printStackTrace();
         }
         return "presentation";
+    }
+
+    public void updateTimes(List<TimeSlot> times) {
+        for(TimeSlot time: times) {
+            TimeSlot t = timeSlotRepository.findOne(time.getId());
+            t.setSelected(time.getSelected());
+            timeSlotRepository.save(t);
+        }
     }
 }

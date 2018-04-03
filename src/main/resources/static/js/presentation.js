@@ -24,6 +24,12 @@ var renderTimeSlots = function(projectId) {
             response.forEach(function(time) {
                renderTimeSlot(form, time);
             });
+            var submit = $(document.createElement("input"))
+                .attr("type", "submit")
+                .attr("value", "Update")
+                .attr("id", "time-select-submit")
+                .click(timeSelectSubmit);
+            form.append(submit);
             timeSlotsDiv.append(form);
         }
     })
@@ -33,7 +39,9 @@ var renderTimeSlot = function(div, timeSlot) {
     if(timeSlot.startMinute == 0) timeSlot.startMinute = "00";
     var timeSlotElem = $(document.createElement("input"))
         .attr("type", "checkbox")
-        .attr("id", "timeSlot_"+timeSlot.id);
+        .attr("id", "timeSlot_"+timeSlot.id)
+        .addClass("times")
+        .prop("checked", timeSlot.selected);
     var timeSlotLabel = $(document.createElement("label"))
         .attr("for", "timeSlot_"+timeSlot.id)
         .text(timeSlot.day + " at " + timeSlot.startHour + ":" + timeSlot.startMinute);
@@ -100,7 +108,27 @@ var timeSlotSubmit = function (event) {
     }).then(function(data){
         renderTimeSlots(PROJECT_ID);
     });
-
-
+}
+var timeSelectSubmit = function (event) {
+    event.preventDefault();
+    var inputs = $(".times");
+    var params = {
+        id: PROJECT_ID,
+        timeSlots: []
+    };
+    inputs.each(function (input) {
+        var time = {
+            id : $(inputs[input]).attr("id").substr(9),
+            selected: $(inputs[input]).is(":checked")
+        };
+        params.timeSlots.push(time);
+    });
+    var uri = "/presentation/update";
+    $.ajax({
+        method: "POST",
+        url: uri,
+        contentType: 'application/json',
+        data: JSON.stringify(params)
+    });
 }
 
