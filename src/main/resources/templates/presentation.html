@@ -5,14 +5,44 @@
     <title>Fourth Year Project - Presentation Picker</title>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"/>
     <script type="text/javascript" th:src="@{/js/presentation.js}" />
+    <div th:replace="fragments/header :: header-css"/>
 </head>
 <body>
-<h>Oral Presentation Picker</h>
-<div id="projectId" th:text="${projectId}" style="display: none;"></div>
-<div id="time-slots">
-    <p id="time-title">Your supervisor has not yet made times available</p>
-</div>
+    <div th:replace="fragments/header :: header"/>
+    <h>Oral Presentation Picker</h>
+    <div id="projectId" th:text="${projectId}" style="display: none;"></div>
+    <div id="time-slots">
+        <p id="time-title">Your supervisor has not yet made times available</p>
+    </div>
 
-<div id="new-time-form"></div>
+    <div id="new-time-form"></div>
+    <form>
+        <select class="new-slot-input" name="day">
+            <option value="Monday">Monday</option>
+            <option value="Tuesday">Tuesday</option>
+            <option value="Wednesday">Wednesday</option>
+            <option value="Thursday">Thursday</option>
+            <option value="Friday">Friday</option>
+        </select>
+        <select class="new-slot-input" name="hour">
+            <option value="8">8</option>
+            <option value="9">9</option>
+            <option value="10">10</option>
+            <option value="11">11</option>
+            <option value="12">12</option>
+            <option value="13">13</option>
+            <option value="14">14</option>
+            <option value="15">15</option>
+            <option value="16">16</option>
+            <option value="17">17</option>
+            <option value="18">18</option>
+        </select>
+        <select class="new-slot-input" name="minute">
+            <option value="00">00</option>
+            <option value="30">30</option>
+        </select>
+        <br/>
+        <input type="submit" id="time-slot-submit" class="btn btn-default" />
+    </form>
 </body>
 </html>
