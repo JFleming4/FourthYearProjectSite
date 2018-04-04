@@ -9,10 +9,10 @@
     <div sec:authorize="isAuthenticated()">
         <p>You're logged in. Welcome <span th:text="${user.firstName}+' '+${user.lastName}+'!'"></span></p>
         <div sec:authorize="hasRole('ROLE_STUDENT')">
-            <a th:href="'/student/'+${user.id}">Go to student page</a>
+            <a href="/studentMenu">Go to student page</a>
         </div>
         <div sec:authorize="hasRole('ROLE_PROFESSOR')">
-            <a href="/professor">Go to professor page</a>
+            <a href="/facultyMenu">Go to professor page</a>
         </div>
         <div sec:authorize="hasRole('ROLE_COORDINATOR')">
             <a href="/coordinator">Go to coordinator page</a>

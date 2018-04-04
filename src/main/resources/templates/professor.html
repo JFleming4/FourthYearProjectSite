@@ -63,11 +63,11 @@
                         </td>
 
                         <td>
-                            <a th:if="${project.archived}" th:text="Unarchive" th:href="${'/professor/archiveProject/'+project.id}" class="btn btn-default" />
-                            <a th:unless="${project.archived}" th:text="Archive" th:href="${'/professor/archiveProject/'+project.id}" class="btn btn-default" />
+                            <a th:if="${project.archived}" th:text="Unarchive" th:href="${'/facultyMenu/archiveProject/'+project.id}" class="btn btn-default" />
+                            <a th:unless="${project.archived}" th:text="Archive" th:href="${'/facultyMenu/archiveProject/'+project.id}" class="btn btn-default" />
                         </td>
                         <td>
-                            <a th:text="Delete" th:href="${'/professor/deleteProject/'+project.id}" class="btn btn-default" />
+                            <a th:text="Delete" th:href="${'/facultyMenu/deleteProject/'+project.id}" class="btn btn-default" />
                         </td>
                     </tr>
 
