@@ -39,7 +39,7 @@
                     </div>
                     <div class="timeline-entity">
                         <b>Oral Presentation</b>
-                        <button class="btn btn-default">View/Update Availability</button>
+                            <a th:text="'View/Update Availability'" th:href="${'/project/'+project.id+'/presentation'}" class="btn btn-default"></a>
                     </div>
                     <div class="timeline-entity">
                         <b>Upload Final Report (PDF)</b>

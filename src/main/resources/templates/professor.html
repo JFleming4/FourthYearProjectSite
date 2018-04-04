@@ -98,7 +98,7 @@
                     <td th:text="${project.currentCapacity}"></td>
                     <td th:text="${project.maxCapacity}"></td>
                     <td>
-                        <a th:text="Delete" th:href="${'/facultyMenu/deleteProject/'+project.id}" class="btn btn-default" />
+                        <a th:text="'View/Update Availability'" th:href="${'/project/'+project.id+'/presentation'}" class="btn btn-default"></a>
                     </td>
 
                 </th:block>
