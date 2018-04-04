@@ -55,7 +55,7 @@ public class CloudStorageService implements StorageService {
                     "Cannot store file with relative path outside current directory " + filename
                 );
             }
-            s3client.putObject(S3_BUCKET_NAME, cleanPath, String.valueOf(file.getInputStream()));
+            s3client.putObject(bucket(), cleanPath, String.valueOf(file.getInputStream()));
         } catch (IOException e) {
             throw new StorageException("Failed to store file " + cleanPath, e);
         }
@@ -73,12 +73,12 @@ public class CloudStorageService implements StorageService {
 
     @Override
     public void delete(String filename) {
-        s3client.deleteObject(S3_BUCKET_NAME, filename);
+        s3client.deleteObject(bucket(), filename);
     }
 
     @Override
     public Resource loadAsResource(String filename) {
-        URL key = s3client.getUrl(S3_BUCKET_NAME, filename);
+        URL key = s3client.getUrl(bucket(), filename);
         Resource resource = new UrlResource(key);
         if (resource.exists() || resource.isReadable())
             return resource;
@@ -93,5 +93,10 @@ public class CloudStorageService implements StorageService {
     @Override
     public void init() {
 
+    }
+
+    private String bucket() {
+        if (S3_BUCKET_NAME == null) return "DEFAULT_BUCKET";
+        return S3_BUCKET_NAME;
     }
 }

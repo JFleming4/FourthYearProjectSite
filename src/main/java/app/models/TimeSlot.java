@@ -8,11 +8,10 @@ public class TimeSlot implements Comparable<TimeSlot>{
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    private int selected;
-
     private Day day;
     private int startHour;
     private int startMinute;
+    private boolean selected;
 
     @ManyToOne
     private Project project;
@@ -28,10 +27,15 @@ public class TimeSlot implements Comparable<TimeSlot>{
         this.day = day;
         this.startHour = startHour;
         this.startMinute = startMinute;
-        this.selected = 0;
+        this.selected = false;
         if(startHour > 18 || startHour < 0) throw new Exception();
         if(startMinute != 0 && startMinute != 30) throw new Exception();
 
+    }
+    public TimeSlot(Long id, boolean selected) throws Exception {
+        this(null, 8, 0);
+        this.selected = selected;
+        this.id = id;
     }
 
     /***
@@ -85,11 +89,11 @@ public class TimeSlot implements Comparable<TimeSlot>{
         this.startMinute = sm;
     }
 
-    public int getSelected() {
+    public boolean getSelected() {
         return selected;
     }
 
-    public void setSelected(int selected) {
+    public void setSelected(boolean selected) {
         this.selected = selected;
     }
 
