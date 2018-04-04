@@ -34,9 +34,10 @@ public class ProfessorController {
     @Autowired
     private AuthenticatedUserRepository authenticatedUserService;
 
-    private Professor professor;
+    private Professor professor, reader;
     private Project project;
     private Student student;
+
 
     @RequestMapping(value = "/facultyMenu", method = RequestMethod.GET)
     public String professor(@AuthenticationPrincipal UserDetails currentUser, Model model/*, @PathVariable Long id*/)
@@ -51,12 +52,24 @@ public class ProfessorController {
         return "professor";
     }
 
+    /**
+     * Navigate to the New Project Page
+     * @return Redirect to the "new-project" page
+     */
     @RequestMapping("/new-project")
     public ModelAndView createNewProject()
     {
         return new ModelAndView("new-project","command", new Project());
     }
 
+    /**
+     * Save the Project to the Professor
+     * @param currentUser Logged in User
+     * @param description Project Description
+     * @param restrictions Project Restrictions
+     * @param capacity Project Capacity
+     * @return Redirect to the "facultyMenu" page
+     */
     @RequestMapping(value = "/save", method = RequestMethod.POST)
     public ModelAndView saveProject(@AuthenticationPrincipal UserDetails currentUser,
                                     @RequestParam("desc") String description,
@@ -74,21 +87,77 @@ public class ProfessorController {
         return new ModelAndView("redirect:/facultyMenu");
     }
 
-    @RequestMapping("/new-student/")
-    public ModelAndView addStudentById()
+    /**
+     * Navigate to the Add Student Page
+     * @param model Model
+     * @param projectID Project ID to link Student
+     * @return Redirect to the "new-student" page
+     */
+    @RequestMapping("/new-student/{projectID}")
+    public ModelAndView addStudentById(Model model, @PathVariable("projectID") Long projectID)
     {
+        model.addAttribute("students", studentRepository.findAll());
+        model.addAttribute("projectID", projectID);
         return new ModelAndView("new-student","command", new Student());
     }
 
 
-    // Not currently working. Need to change the confirmation workflow
+    /**
+     * Save the Student to the Project
+     * @param currentUser Logged in user
+     * @param id Student's ID
+     * @param projectID Project's ID
+     * @return Redirect to the "facultyMenu" page
+     */
     @RequestMapping(value = "/save-student", method = RequestMethod.POST)
-    public ModelAndView addStudent(@AuthenticationPrincipal UserDetails currentUser, @RequestParam("id") Long id)
+    public ModelAndView addStudent(@AuthenticationPrincipal UserDetails currentUser,
+                                   @RequestParam("id") Long id,
+                                   @RequestParam("projectID") Long projectID)
     {
         AuthenticatedUser authenticatedUser = authenticatedUserService.findByUsername(currentUser.getUsername());
         Professor professor = authenticatedUser.getProfessor();
         student = studentRepository.findOne(id);
+        project = projectRepository.findOne(projectID);
 
+        project.addStudent(student);
+        professorRepository.save(professor);
+
+        return new ModelAndView("redirect:/facultyMenu");
+    }
+
+    /**
+     * Navigate to the Add Second Reader page
+     * @param model Model
+     * @param projectID Project ID to link Second Reader
+     * @return Redirect to "add-reader" page
+     */
+    @RequestMapping("/add-reader/{projectID}")
+    public ModelAndView addReaderById(Model model, @PathVariable("projectID") Long projectID)
+    {
+        model.addAttribute("readers", professorRepository.findAll());
+        model.addAttribute("projectID", projectID);
+        return new ModelAndView("add-reader","command", new Professor());
+    }
+
+    /**
+     * Save Second Reader to the Project
+     * @param currentUser Logged in user
+     * @param id Second Reader's ID
+     * @param projectID Project's ID
+     * @return Redirect to the "facultyMenu" page
+     */
+    @RequestMapping(value = "/save-reader", method = RequestMethod.POST)
+    public ModelAndView addReader(@AuthenticationPrincipal UserDetails currentUser,
+                                  @RequestParam("id") Long id,
+                                  @RequestParam("projectID") Long projectID)
+    {
+        AuthenticatedUser authenticatedUser = authenticatedUserService.findByUsername(currentUser.getUsername());
+        Professor professor = authenticatedUser.getProfessor();
+
+        reader = professorRepository.findOne(id);
+        project = projectRepository.findOne(projectID);
+
+        project.setSecondReader(reader);
         professorRepository.save(professor);
 
         return new ModelAndView("redirect:/facultyMenu");
@@ -127,6 +196,8 @@ public class ProfessorController {
 
         project = professor.getProject(projectID);
         project.setProjectProf(null);
+        project.setSecondReader(null);
+        project.setStudents(null);
 
         projectRepository.delete(project);
 
