@@ -79,8 +79,9 @@ public class Application {
             ProjectCoordinator coordinator = new ProjectCoordinator("Sir", "Coordinate", "coordinator@sce.carleton.ca");
             Professor prof1 = new Professor("Babak", "Esfandiari", "babak@sce.carleton.ca", "1", coordinator);
             Professor prof2 = new Professor("Samuel", "Ajila", "ajila@sce.carleton.ca", "2", coordinator);
-            Project project = new Project(prof1, "GraphQL Query Planner", new ArrayList<String>(), 4);
+            Project project = new Project(prof1, "GraphQL Query Planner", new ArrayList<>(), 4);
 
+            project.setSecondReader(prof2);
             project.addStudent(student1);
             project.addStudent(student2);
 
