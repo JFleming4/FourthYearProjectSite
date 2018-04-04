@@ -85,7 +85,7 @@
                             <a th:text="Delete" th:href="${'/facultyMenu/deleteProject/'+project.id}" class="btn btn-default" />
                         </td>
                         <td>
-                            <a th:text="'View/Update Availability'" th:href="${'/project/'+project.id+'/presentation'}" class="btn btn-default"></a>
+                            <a th:text="'View/Edit Availability'" th:href="${'/project/'+project.id+'/presentation'}" class="btn btn-default"></a>
                         </td>
                     </tr>
 
@@ -113,7 +113,7 @@
                         <td th:text="${project.currentCapacity}"></td>
                         <td th:text="${project.maxCapacity}"></td>
                         <td>
-                            <a th:text="'View/Update Availability'" th:href="${'/project/'+project.id+'/presentation'}" class="btn btn-default"></a>
+                            <a th:text="'View/Edit Availability'" th:href="${'/project/'+project.id+'/presentation'}" class="btn btn-default"></a>
                         </td>
                     </tr>
 
