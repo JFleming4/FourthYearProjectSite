@@ -40,8 +40,8 @@ public class TimeSlotTest {
 
     @Test
     public void getSetSelected() {
-        ts1.setSelected(2);
-        assert ts1.getSelected() == 2;
+        ts1.setSelected(true);
+        assert ts1.getSelected();
     }
 
     @Test
