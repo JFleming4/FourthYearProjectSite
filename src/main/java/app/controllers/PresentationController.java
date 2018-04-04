@@ -66,15 +66,16 @@ public class PresentationController {
         Project proj = projectRepository.findOne(pid);
         if(authenticatedUser.getType().equals("Student")) {
             Student stud = authenticatedUser.getStudent();
-            if(stud.getProject().equals(proj)) {
-                updateTimes(id, proj);
+            if(!stud.getProject().equals(proj)) {
+                return "redirect:/project/" + stud.getProject().getId() + "/presentation";
             }
         } else {
             Professor prof = authenticatedUser.getProfessor();
-            if(prof.getProjects().contains(proj) || prof.getSecondReaderProjects().contains(proj)) {
-                updateTimes(id, proj);
+            if(!prof.getProjects().contains(proj) && !prof.getSecondReaderProjects().contains(proj)) {
+                return "redirect:/professor";
             }
         }
+        updateTimes(id, proj);
         return "redirect:/project/" + pid + "/presentation";
     }
     @PostMapping("/project/{id}/presentation/new-time")
@@ -88,10 +89,10 @@ public class PresentationController {
         if(!authenticatedUser.getType().equals("Student")) {
             Professor prof = authenticatedUser.getProfessor();
             if(!prof.getProjects().contains(project)) {
-                return "redirect:/project/" + id + "/presentation";
+                return "redirect:/professor";
             }
         } else {
-            return "redirect:/project/" + id + "/presentation";
+            return "redirect:/project/" + authenticatedUser.getStudent().getProject().getId() + "/presentation";
         }
         try {
             Day dayParam = Day.valueOf(day.toUpperCase());
@@ -110,7 +111,6 @@ public class PresentationController {
     }
 
     public void updateTimes(String id, Project proj) {
-        System.out.println(id);
         for(TimeSlot time: proj.getTimeSlots()) {
             time.setSelected(time.getId().equals(new Long(id)));
             timeSlotRepository.save(time);
