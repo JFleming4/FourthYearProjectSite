@@ -39,7 +39,6 @@ public class ProfessorControllerTest {
     @Before
     public void setUp() {
         projectCoordinator = new ProjectCoordinator("Sir", "Coord", "coord@carleton.ca");
-
     }
 
     @Test

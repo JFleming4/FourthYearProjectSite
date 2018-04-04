@@ -35,9 +35,6 @@ public class ProfessorController {
     @Autowired
     private ProfessorValidator professorValidator;
 
-    @Autowired
-    private AuthenticatedUserService authenticatedUserService;
-
     private Professor professor;
     private Project project;
     private Student student;
@@ -52,20 +49,13 @@ public class ProfessorController {
         model.addAttribute("projects", professor.getProjects());
         model.addAttribute("secondReader", professor.getSecondReaderProjects());
 
+        if(professor instanceof ProjectCoordinator) {
+            List<Professor> professors = (List) professorRepository.findAll();
+
+            model.addAttribute("professors", professors);
+        }
+
         return "professor";
-    }
-
-    @RequestMapping(value = "/coordinator", method = RequestMethod.GET)
-    public String coordinator(Model model, @AuthenticationPrincipal UserDetails currentUser)
-    {
-        AuthenticatedUser authenticatedUser = authenticatedUserService.findByUsername(currentUser.getUsername());
-        Professor coordinator = authenticatedUser.getProfessor();
-        List<Professor> professors = (List) professorRepository.findAll();
-
-        model.addAttribute("coordinator", coordinator);
-        model.addAttribute("professors", professors);
-
-        return "coordinator";
     }
 
     @RequestMapping("/new-project")
