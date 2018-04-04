@@ -1,0 +1,18 @@
+.timeslot-container {
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.timeline {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+}
+
+.timeline-entity {
+    display: flex;
+    flex-direction: column;
+    padding: 10px;
+    flex: 1 0 auto;
+    min-width: 0;
+}
