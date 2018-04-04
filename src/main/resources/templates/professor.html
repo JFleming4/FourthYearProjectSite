@@ -107,6 +107,7 @@
                 <th:block th:each="project : ${secondReader}">
                     <tr>
                         <td th:text="${project.description}"></td>
+
                         <td th:if="${project.getRestrictionsToString().equals('')}">None</td>
                         <td th:unless="${project.getRestrictionsToString().equals('')}" th:text="${project.getRestrictionsToString()}"></td>
                         <td th:text="${project.currentCapacity}"></td>
