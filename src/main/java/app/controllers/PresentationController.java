@@ -29,12 +29,10 @@ public class PresentationController {
                                Model model,
                                 @AuthenticationPrincipal UserDetails currentUser) {
         AuthenticatedUser authenticatedUser = authenticatedUserService.findByUsername(currentUser.getUsername());
-        User user;
-        boolean isSupervisor = true;
+        boolean isSupervisor = false;
         if(!authenticatedUser.getType().equals("Student")) {
-            user = authenticatedUser.getProfessor();
             Project p = projectRepository.findById(id);
-            Professor prof = (Professor) user;
+            Professor prof = authenticatedUser.getProfessor();
             if (prof.getProjects().contains(p)) {
                 isSupervisor = true;
             }
@@ -61,31 +59,20 @@ public class PresentationController {
                                   @RequestParam("timeSlot") String id,
                                   @AuthenticationPrincipal UserDetails currentUser) {
 
-        System.out.println();
-        System.out.println();
-        System.out.println();
-        System.out.println();
         if(id.split(",").length > 1) {
-            System.out.println("skipping");
             return "redirect:/project/" + pid + "/presentation";
         }
         AuthenticatedUser authenticatedUser = authenticatedUserService.findByUsername(currentUser.getUsername());
-        User user;
+
         Project proj = projectRepository.findOne(pid);
         if(authenticatedUser.getType().equals("Student")) {
-            System.out.println("student");
-            user = authenticatedUser.getStudent();
-            Student stud = (Student) user;
+            Student stud = authenticatedUser.getStudent();
             if(stud.getProject().equals(proj)) {
-                System.out.println("about to update");
                 updateTimes(id, proj);
             }
         } else {
-            System.out.println("professor");
-            user = authenticatedUser.getProfessor();
-            Professor prof = (Professor) user;
+            Professor prof = authenticatedUser.getProfessor();
             if(prof.getProjects().contains(proj) || prof.getSecondReaderProjects().contains(proj)) {
-                System.out.println("about to update");
                 updateTimes(id, proj);
             }
         }
@@ -98,11 +85,9 @@ public class PresentationController {
                               @RequestParam("minute") String minute,
                                 @AuthenticationPrincipal UserDetails currentUser) {
         AuthenticatedUser authenticatedUser = authenticatedUserService.findByUsername(currentUser.getUsername());
-        User user;
         Project project = projectRepository.findById(id);
         if(!authenticatedUser.getType().equals("Student")) {
-            user = authenticatedUser.getProfessor();
-            Professor prof = (Professor) user;
+            Professor prof = authenticatedUser.getProfessor();
             if(!prof.getProjects().contains(project)) {
                 return "redirect:/project/" + id + "/presentation";
             }
@@ -128,14 +113,8 @@ public class PresentationController {
     public void updateTimes(String id, Project proj) {
         System.out.println(id);
         for(TimeSlot time: proj.getTimeSlots()) {
-            TimeSlot t = timeSlotRepository.findOne(time.getId());
-            System.out.println();
-            System.out.println(id);
-            System.out.println(t.getId());
-            System.out.println(t.getId().equals(new Long(id)));
-            System.out.println();
-            t.setSelected(t.getId().equals(new Long(id)));
-            timeSlotRepository.save(t);
+            time.setSelected(time.getId().equals(new Long(id)));
+            timeSlotRepository.save(time);
         }
     }
 }
