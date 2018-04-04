@@ -1,28 +1,24 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" xmlns:form="http://www.w3.org/1999/xhtml">
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <title>Fourth Year Project - New Student</title>
+    <title>Fourth Year Project - Add Student To Project</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <div th:replace="fragments/header :: header-css"/>
 </head>
 <body>
-<div>
-    <h1>Add Student to Project</h1>
-    <form method="post" action="/save-student">
-        <table>
-            <tr>
-                <td>Student ID: </td>
-                <td><input type="number" name="desc"/></td>
-            </tr>
-
-            <tr>
-                <td></td>
-                <td><input type="submit" value="Add Student"/></td>
-            </tr>
-        </table>
-    </form>
-</div>
-
-
+    <div th:replace="fragments/header :: header"/>
+    <div class="container">
+        <h1 th:text="'Add Student to Project ' + ${projectID}"></h1>
+        <form method="post" action="/save-student">
+            <input type="hidden" name="projectID" th:value="${projectID}"/>
+            <select class="form-control" name="id">
+                <th:block th:each="student : ${students}">
+                    <option name="id" th:value="${student.getId()}" th:text="${student.getFirstName()}+' '+${student.getLastName()}"></option>
+                </th:block>
+            </select>
+            <button class="btn btn-lg btn-primary btn-block" type="submit">Add Student</button>
+        </form>
+    </div>
 
 </body>
 </html>

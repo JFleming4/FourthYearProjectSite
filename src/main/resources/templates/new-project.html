@@ -1,31 +1,28 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" xmlns:form="http://www.w3.org/1999/xhtml">
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
     <title>Fourth Year Project - New Project</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <div th:replace="fragments/header :: header-css"/>
 </head>
 <body>
-    <div>
+    <div th:replace="fragments/header :: header"/>
+    <div class="container">
         <h1>New Project</h1>
         <form method="post" action="/save">
-            <table>
-                <tr>
-                    <td>Description: </td>
-                    <td><input type="text" name="desc"/></td>
-                </tr>
-                <tr>
-                    <td>Restrictions: </td>
-                    <td><input type="text" name="rest"/></td>
-                </tr>
-                <tr>
-                    <td>Capacity: </td>
-                    <td><input type="number" name="cap"/></td>
-                </tr>
-                <tr>
-                    <td></td>
-                    <td><input type="submit" value="Save"/></td>
-                </tr>
-            </table>
+            <div>
+                <input class="form-control" type="text" name="desc" placeholder="Project Description"/>
+            </div>
+
+            <div>
+                <input class="form-control" type="text" name="rest" placeholder="Restrictions"/>
+            </div>
+
+            <div>
+                <input class="form-control" type="number" name="cap" placeholder="Student Capacity"/>
+            </div>
+
+            <button class="btn btn-lg btn-primary btn-block" type="submit">Save</button>
         </form>
     </div>
 
