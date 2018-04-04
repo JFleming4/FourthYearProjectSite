@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Fourth Year Project - Coordinator</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/professor.css}" href="../../css/professor.css" />
+    <div th:replace="fragments/header :: header-css"/>
+</head>
+<body>
+<div th:replace="fragments/header :: header"/>
+<div class="professor-container">
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            Coordinator Details
+        </div>
+        <div class="panel-body">
+            <div class="project-timeline">
+                <div class="timeline-entity">
+                    <b>Professor ID</b>
+                    <span th:text="${coordinator.getId()}"></span>
+                </div>
+                <div class="timeline-entity">
+                    <b>Name</b>
+                    <span th:text="''+${coordinator.firstName}+' '+${coordinator.lastName}">></span>
+                </div>
+                <div class="timeline-entity">
+                    <b>Email</b>
+                    <span th:text="${coordinator.email}"></span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            Professors
+        </div>
+        <div class="panel-body">
+            <a href="professors/new">Create new professor</a>
+        </div>
+        <table class="table">
+            <tr>
+                <th>Professor #</th>
+                <th>Name</th>
+                <th>Email</th>
+            </tr>
+            <th:block th:each="professor : ${professors}">
+                <tr>
+                    <td th:text="${professor.getProfNumber()}"></td>
+                    <td th:text="${professor.getFirstName() + ' ' + professor.getLastName()}"></td>
+                    <td th:text="${professor.getEmail()}"></td>
+                </tr>
+            </th:block>
+        </table>
+    </div>
+</div>
+</body>
+</html>

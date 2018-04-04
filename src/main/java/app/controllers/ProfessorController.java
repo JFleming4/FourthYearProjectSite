@@ -1,14 +1,8 @@
 package app.controllers;
 
-import app.models.AuthenticatedUser;
-import app.models.Professor;
-import app.models.Project;
-import app.models.Student;
-import app.models.repository.AuthenticatedUserRepository;
+import app.models.*;
+import app.models.repository.*;
 import app.models.validators.ProfessorValidator;
-import app.models.repository.ProfessorRepository;
-import app.models.repository.ProjectRepository;
-import app.models.repository.StudentRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -41,6 +35,9 @@ public class ProfessorController {
     @Autowired
     private ProfessorValidator professorValidator;
 
+    @Autowired
+    private AuthenticatedUserService authenticatedUserService;
+
     private Professor professor;
     private Project project;
     private Student student;
@@ -56,6 +53,19 @@ public class ProfessorController {
         model.addAttribute("secondReader", professor.getSecondReaderProjects());
 
         return "professor";
+    }
+
+    @RequestMapping(value = "/coordinator", method = RequestMethod.GET)
+    public String coordinator(Model model, @AuthenticationPrincipal UserDetails currentUser)
+    {
+        AuthenticatedUser authenticatedUser = authenticatedUserService.findByUsername(currentUser.getUsername());
+        Professor coordinator = authenticatedUser.getProfessor();
+        List<Professor> professors = (List) professorRepository.findAll();
+
+        model.addAttribute("coordinator", coordinator);
+        model.addAttribute("professors", professors);
+
+        return "coordinator";
     }
 
     @RequestMapping("/new-project")
