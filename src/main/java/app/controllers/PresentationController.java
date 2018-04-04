@@ -86,13 +86,14 @@ public class PresentationController {
                                 @AuthenticationPrincipal UserDetails currentUser) {
         AuthenticatedUser authenticatedUser = authenticatedUserService.findByUsername(currentUser.getUsername());
         Project project = projectRepository.findById(id);
-        if(!authenticatedUser.getType().equals("Student")) {
+        if(authenticatedUser.getType().equals("Student")) {
+            return "redirect:/project/" + authenticatedUser.getStudent().getProject().getId() + "/presentation";
+
+        } else {
             Professor prof = authenticatedUser.getProfessor();
             if(!prof.getProjects().contains(project)) {
                 return "redirect:/professor";
             }
-        } else {
-            return "redirect:/project/" + authenticatedUser.getStudent().getProject().getId() + "/presentation";
         }
         try {
             Day dayParam = Day.valueOf(day.toUpperCase());
