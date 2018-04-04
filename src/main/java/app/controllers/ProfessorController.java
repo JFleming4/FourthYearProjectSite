@@ -115,13 +115,21 @@ public class ProfessorController {
                                    @RequestParam("projectID") Long projectID)
     {
         AuthenticatedUser authenticatedUser = authenticatedUserService.findByUsername(currentUser.getUsername());
-        Professor professor = authenticatedUser.getProfessor();
-        student = studentRepository.findOne(id);
-        project = projectRepository.findOne(projectID);
 
-        project.addStudent(student);
-        professorRepository.save(professor);
+        if (authenticatedUser.getType().equals("Professor"))
+        {
+            Professor professor = authenticatedUser.getProfessor();
+            project = projectRepository.findOne(projectID);
 
+            if (!professor.getProjects().contains(project))
+            {
+                return new ModelAndView("redirect:/facultyMenu");
+            }
+
+            student = studentRepository.findOne(id);
+            project.addStudent(student);
+            professorRepository.save(professor);
+        }
         return new ModelAndView("redirect:/facultyMenu");
     }
 
@@ -152,14 +160,21 @@ public class ProfessorController {
                                   @RequestParam("projectID") Long projectID)
     {
         AuthenticatedUser authenticatedUser = authenticatedUserService.findByUsername(currentUser.getUsername());
-        Professor professor = authenticatedUser.getProfessor();
 
-        reader = professorRepository.findOne(id);
-        project = projectRepository.findOne(projectID);
+        if (authenticatedUser.getType().equals("Professor"))
+        {
+            Professor professor = authenticatedUser.getProfessor();
+            project = projectRepository.findOne(projectID);
 
-        project.setSecondReader(reader);
-        professorRepository.save(professor);
+            if (!professor.getProjects().contains(project))
+            {
+                return new ModelAndView("redirect:/facultyMenu");
+            }
 
+            reader = professorRepository.findOne(id);
+            project.setSecondReader(reader);
+            professorRepository.save(professor);
+        }
         return new ModelAndView("redirect:/facultyMenu");
     }
 
@@ -195,8 +210,8 @@ public class ProfessorController {
         Professor professor = authenticatedUser.getProfessor();
 
         project = professor.getProject(projectID);
-        project.setProjectProf(null);
         project.setSecondReader(null);
+        project.setProjectProf(null);
         project.setStudents(null);
 
         projectRepository.delete(project);
