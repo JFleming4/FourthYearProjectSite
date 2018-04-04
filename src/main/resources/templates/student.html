@@ -100,7 +100,7 @@
                     </div>
                     <div class="timeline-entity">
                         <b>Project Title</b>
-                        <span th:text="${project.description}"></span>
+                        <a th:href="${'/project/' + project.id}" th:text="${project.description}"></a>
                     </div>
                     <div class="timeline-entity" th:unless="${project.projectProf == null}">
                         <b>Supervisor</b>

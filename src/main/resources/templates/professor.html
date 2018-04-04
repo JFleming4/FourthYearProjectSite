@@ -52,7 +52,9 @@
                 <th:block th:each="project : ${projects}">
                     <tr>
                         <td th:text="${project.id}"></td>
-                        <td th:text="${project.description}"></td>
+                        <td>
+                            <a th:text="${project.description}" th:href="${'project/'+project.id}"></a>
+                        </td>
                         <td th:if="${project.getRestrictionsToString().equals('')}">None</td>
                         <td th:unless="${project.getRestrictionsToString().equals('')}" th:text="${project.getRestrictionsToString()}"></td>
                         <td th:text="${project.currentCapacity}+'/'+${project.maxCapacity}"></td>
