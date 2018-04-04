@@ -72,7 +72,7 @@ public class PresentationController {
         } else {
             Professor prof = authenticatedUser.getProfessor();
             if(!prof.getProjects().contains(proj) && !prof.getSecondReaderProjects().contains(proj)) {
-                return "redirect:/professor";
+                return "redirect:/facultyMenu";
             }
         }
         updateTimes(id, proj);
@@ -92,7 +92,7 @@ public class PresentationController {
         } else {
             Professor prof = authenticatedUser.getProfessor();
             if(!prof.getProjects().contains(project)) {
-                return "redirect:/professor";
+                return "redirect:/facultyMenu";
             }
         }
         try {
