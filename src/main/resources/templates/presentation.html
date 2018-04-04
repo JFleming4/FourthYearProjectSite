@@ -27,6 +27,7 @@
                                 <span th:if="${timeslot.getStartMinute() == 0}" th:text="${timeslot.getDay()}+' '+${timeslot.getStartHour()}+':'+${timeslot.getStartMinute()}+'0'" />
                                 <span th:unless="${timeslot.getStartMinute() == 0}" th:text="${timeslot.getDay()}+' '+${timeslot.getStartHour()}+':'+${timeslot.getStartMinute()}+''" />
                             </li>
+                            <li ></li>
                         </ul>
                         <input type="submit" class="btn btn-default pull-right" />
                     </form>

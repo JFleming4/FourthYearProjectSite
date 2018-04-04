@@ -126,7 +126,8 @@ public class TimeSlot implements Comparable<TimeSlot>{
      * @return the string representation of the object
      */
     public String toString() {
-        return this.day + " at " + this.startHour + ":" + this.startMinute;
+        String minute = (this.startMinute == 0) ? "00" : "30";
+        return this.day + " at " + this.startHour + ":" + minute;
     }
 
     /***
