@@ -39,20 +39,17 @@ public class ProfessorControllerTest {
     @Autowired
     private ProjectRepository projectRepository;
 
-    @Autowired
-    private ProfessorRepository professorRepository;
 
     @Autowired
     private AuthenticatedUserRepository authenticatedUserRepository;
 
     private Professor professor;
     private Project project;
-    private Student student;
 
     @Before
     public void setUp()
     {
-        student = new Student("Mike", "Hawk", "mikehawk@cmail.carleton.ca", "42", "Software");
+        Student student = new Student("Mike", "Hawk", "mikehawk@cmail.carleton.ca", "42", "Software");
         ProjectCoordinator coordinator = new ProjectCoordinator("Sir", "Coordinate", "coordinator@sce.carleton.ca");
         professor = new Professor("Babak", "Esfandiari", "babak@sce.carleton.ca", "1", coordinator);
         project = new Project(professor, "GraphQL Query Planner", new ArrayList<String>(), 4);
@@ -65,14 +62,14 @@ public class ProfessorControllerTest {
     @WithMockUser(username = USERNAME, roles={"PROFESSOR"})
     public void getProfessorTemplate()
     {
-//        authenticateProfessor();
-//        try {
-//            mockMvc.perform(get("/professor/"))
-//                    .andExpect(status().isOk())
-//                    .andExpect(content().string(Matchers.containsString("<title>Fourth Year Project - Professor</title>")));
-//        } catch (Exception e) {
-//            fail(e.getMessage());
-//        }
+        authenticateProfessor();
+        try {
+            mockMvc.perform(get("/facultyMenu/"))
+                    .andExpect(status().isOk())
+                    .andExpect(content().string(Matchers.containsString("<title>Fourth Year Project - Professor</title>")));
+        } catch (Exception e) {
+            fail(e.getMessage());
+        }
     }
 
     private void authenticateProfessor()
