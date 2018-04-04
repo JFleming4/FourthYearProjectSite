@@ -17,9 +17,6 @@
         <div sec:authorize="hasRole('ROLE_COORDINATOR')">
             <a href="/coordinator">Go to coordinator page</a>
         </div>
-        <button onclick="document.forms['logoutForm'].submit()">Logout</button>
-        <form id="logoutForm" method="POST" action="/logout">
-        </form>
     </div>
 </body>
 </html>
