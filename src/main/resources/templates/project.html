@@ -3,8 +3,10 @@
 <head>
     <title>Fourth Year Project - Project</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <div th:replace="fragments/header :: header-css"/>
 </head>
 <body>
+<div th:replace="fragments/header :: header"/>
 <h1 th:text="'Project: '+${project.description}"></h1>
 
 <p><strong>Professor: </strong><span th:text="${project.projectProf.firstName}+' '+${project.projectProf.lastName}"></span></p>
@@ -16,7 +18,7 @@
         <p><strong>Capacity: </strong><span th:text="${project.currentCapacity}+'/'+${project.maxCapacity}"></span></p>
         <p><strong>Restrictions:</strong></p>
         <ul>
-            <li th:text="Restrictions Go Here"></li>
+            <li th:text="'Restrictions Go Here'"></li>
         </ul>
     </div>
 
@@ -33,7 +35,7 @@
     <div>
         <hr/>
         <h3>Oral Presentation</h3>
-        <a th:href="@{'/project/{id}/presentation'(id=${project.id})}">View/Update Availability</a>
+        <a th:href="@{'/project/{id}/presentation'(id=${project.id}) }" class="btn btn-default">View/Update Availability</a>
     </div>
 
 </body>

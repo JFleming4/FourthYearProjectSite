@@ -49,11 +49,14 @@
                     <th>Add Student</th>
                     <th>Archive</th>
                     <th>Delete</th>
+                    <th>Oral Presentation</th>
                 </tr>
                 <th:block th:each="project : ${projects}">
                     <tr>
                         <td th:text="${project.id}"></td>
-                        <td th:text="${project.description}"></td>
+                        <td>
+                            <a th:text="${project.description}" th:href="${'project/'+project.id}"></a>
+                        </td>
                         <td th:if="${project.getRestrictionsToString().equals('')}">None</td>
                         <td th:unless="${project.getRestrictionsToString().equals('')}" th:text="${project.getRestrictionsToString()}"></td>
                         <td th:text="${project.currentCapacity}+'/'+${project.maxCapacity}"></td>
@@ -71,6 +74,9 @@
                         <td>
                             <a th:text="Delete" th:href="${'/facultyMenu/deleteProject/'+project.id}" class="btn btn-default" />
                         </td>
+                        <td>
+                            <a th:text="'View/Update Availability'" th:href="${'/project/'+project.id+'/presentation'}" class="btn btn-default"></a>
+                        </td>
                     </tr>
 
                 </th:block>
@@ -87,6 +93,7 @@
                     <th>Restrictions</th>
                     <th>Current Capacity</th>
                     <th>Maximum Capacity</th>
+                    <th>Oral Presentation</th>
                 </tr>
                 <th:block th:each="project : ${secondReader}">
                     <td th:text="${project.description}"></td>
@@ -94,12 +101,12 @@
                     <td th:unless="${project.getRestrictionsToString().equals('')}" th:text="${project.getRestrictionsToString()}"></td>
                     <td th:text="${project.currentCapacity}"></td>
                     <td th:text="${project.maxCapacity}"></td>
+                    <td>
+                        <a th:text="'View/Update Availability'" th:href="${'/project/'+project.id+'/presentation'}" class="btn btn-default"></a>
+                    </td>
+
                 </th:block>
             </table>
-        </div>
-        <div>
-            <hr/>
-            <button class="btn btn-default">View/Update Availability</button>
         </div>
     </div>
 </body>

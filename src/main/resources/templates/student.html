@@ -41,7 +41,7 @@
                     </div>
                     <div class="timeline-entity">
                         <b>Oral Presentation</b>
-                        <button class="btn btn-default">View/Update Availability</button>
+                            <a th:text="'View/Update Availability'" th:href="${'/project/'+project.id+'/presentation'}" class="btn btn-default"></a>
                     </div>
                     <div class="timeline-entity">
                         <b>Upload Final Report (PDF)</b>
@@ -102,7 +102,7 @@
                     </div>
                     <div class="timeline-entity">
                         <b>Project Title</b>
-                        <span th:text="${project.description}"></span>
+                        <a th:href="${'/project/' + project.id}" th:text="${project.description}"></a>
                     </div>
                     <div class="timeline-entity" th:unless="${project.projectProf == null}">
                         <b>Supervisor</b>
