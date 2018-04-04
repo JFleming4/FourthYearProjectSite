@@ -20,10 +20,10 @@
                     Available times
                 </div>
                 <div class="panel-body">
-                    <form id="time-select">
+                    <form action="presentation/update" method="post" id="time-select">
                         <ul class="list-group">
                             <li class="list-group-item" th:each="timeslot : ${project.getTimeSlots()}">
-                                <input type="checkbox" />
+                                <input th:id="${timeslot.getId()}" name="timeSlot" type="checkbox" th:value="${timeslot.getId()}" th:checked="${timeslot.getSelected()}"/>
                                 <span th:if="${timeslot.getStartMinute() == 0}" th:text="${timeslot.getDay()}+' '+${timeslot.getStartHour()}+':'+${timeslot.getStartMinute()}+'0'" />
                                 <span th:unless="${timeslot.getStartMinute() == 0}" th:text="${timeslot.getDay()}+' '+${timeslot.getStartHour()}+':'+${timeslot.getStartMinute()}+''" />
                             </li>
@@ -37,10 +37,7 @@
         <div id="new-time-form"></div>
 
         <div class="panel panel-default">
-            <div class="panel-heading">
-                Professor Details
-            </div>
-            <div class="panel-body">
+            <div th:style="${isSupervisor} ? 'display:block' : 'display:none'" class="panel-body">
                 <form action="presentation/new-time" method="post">
                     <div class="timeline">
                         <div class="timeline-entity">
