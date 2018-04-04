@@ -30,14 +30,13 @@ public class PresentationController {
                                 @AuthenticationPrincipal UserDetails currentUser) {
         AuthenticatedUser authenticatedUser = authenticatedUserService.findByUsername(currentUser.getUsername());
         boolean isSupervisor = false;
+        Project p = projectRepository.findById(id);
         if(!authenticatedUser.getType().equals("Student")) {
-            Project p = projectRepository.findById(id);
             Professor prof = authenticatedUser.getProfessor();
-            if (prof.getProjects().contains(p)) {
-                isSupervisor = true;
-            }
+            isSupervisor = prof.getProjects().contains(p);
+
         }
-        model.addAttribute("project", projectRepository.findById(id));
+        model.addAttribute("project", p);
         model.addAttribute("isSupervisor", isSupervisor);
         return "presentation";
     }
