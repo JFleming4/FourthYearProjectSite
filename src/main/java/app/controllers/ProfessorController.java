@@ -35,6 +35,7 @@ public class ProfessorController {
     @Autowired
     private ProfessorValidator professorValidator;
 
+
     private Professor professor, reader;
     private Project project;
     private Student student;
@@ -92,7 +93,6 @@ public class ProfessorController {
         return "redirect:/facultyMenu";
     }
 
-    // Have to get the professor's ID
     /**
      * Save the Project to the Professor
      * @param currentUser Logged in User
