@@ -49,7 +49,7 @@ public class AuthenticatedUserController {
 
         securityService.autologin(userForm.getUsername(), userForm.getPasswordConfirm());
 
-        return "redirect:/welcome";
+        return "redirect:/";
     }
 
     @RequestMapping(value = "/login", method = RequestMethod.GET)
@@ -63,22 +63,14 @@ public class AuthenticatedUserController {
         return "login";
     }
 
-    @RequestMapping(value = {"/", "/welcome"}, method = RequestMethod.GET)
-    public String welcome(Model model, @AuthenticationPrincipal UserDetails currentUser) {
+    @RequestMapping(value = {"/"}, method = RequestMethod.GET)
+    public String welcome(@AuthenticationPrincipal UserDetails currentUser) {
         AuthenticatedUser authenticatedUser = authenticatedUserService.findByUsername(currentUser.getUsername());
 
-        User user;
         if(authenticatedUser.getType().equals("Student")) {
-            user = authenticatedUser.getStudent();
+            return "redirect:/studentMenu";
         }
-        else {
-            user = authenticatedUser.getProfessor();
-        }
-        model.addAttribute("user", user);
-        model.addAttribute("currentUser", currentUser);
-        model.addAttribute("authenticatedUser", authenticatedUser);
-
-        return "welcome";
+        return "redirect:/facultyMenu";
     }
 
     @GetMapping("/403")
