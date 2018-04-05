@@ -125,7 +125,7 @@ public class ProfessorController {
      * @param projectID Project ID to link Student
      * @return Redirect to the "new-student" page
      */
-    @RequestMapping("/new-student/{projectID}")
+    @RequestMapping("project/{projectID}/new-student")
     public ModelAndView addStudentById(Model model, @PathVariable("projectID") Long projectID)
     {
         model.addAttribute("students", studentRepository.findAll());
@@ -171,7 +171,7 @@ public class ProfessorController {
      * @param projectID Project ID to link Second Reader
      * @return Redirect to "add-reader" page
      */
-    @RequestMapping("/add-reader/{projectID}")
+    @RequestMapping("project/{projectID}/add-reader")
     public ModelAndView addReaderById(Model model, @PathVariable("projectID") Long projectID)
     {
         model.addAttribute("readers", professorRepository.findAll());

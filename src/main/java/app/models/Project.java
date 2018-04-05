@@ -70,7 +70,7 @@ public class Project implements Comparable<Project> {
                 if (!students.contains(student))
                 {
                     students.add(student);
-                    if(student.getProject() != this){
+                    if(student.getProject().equals(this)){
                         student.setProject(this);
                     }
                     currentCapacity++;

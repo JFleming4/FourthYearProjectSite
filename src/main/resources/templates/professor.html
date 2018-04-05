@@ -64,17 +64,17 @@
                         <td th:unless="${project.getRestrictionsToString().equals('')}" th:text="${project.getRestrictionsToString()}"></td>
 
                         <td th:switch="${project.getSecondReader() == null}">
-                            <a th:case="true" th:href="'add-reader/'+${project.getId()}" class="btn btn-default">Add Reader</a>
+                            <a th:case="true" th:href="'project/'+${project.getId()}+'/add-reader'" class="btn btn-default">Add Reader</a>
                             <p th:case="false" th:text="${project.getSecondReader().getFirstName()}+' '+${project.getSecondReader().getLastName()}"></p>
-                            <a th:case="*" th:href="'add-reader/'+${project.getId()}" class="btn btn-default">Add Reader</a>
+                            <a th:case="*" th:href="'project/'+${project.getId()}+'/add-reader'" class="btn btn-default">Add Reader</a>
                         </td>
 
                         <td th:text="${project.currentCapacity}+'/'+${project.maxCapacity}"></td>
 
                         <td th:switch="${project.currentCapacity} &lt; ${project.maxCapacity}">
-                            <a th:case="true" th:href="'new-student/'+${project.getId()}" class="btn btn-default">Add Student</a>
+                            <a th:case="true" th:href="'project/'+${project.getId()}+'/new-student'" class="btn btn-default">Add Student</a>
                             <a th:case="false" class="btn btn-default" disabled="true">Add Student</a>
-                            <a th:case="*" th:href="'new-student/'+${project.getId()}" class="btn btn-default">Add Student</a>
+                            <a th:case="*" th:href="'project/'+${project.getId()}+'/new-student'" class="btn btn-default">Add Student</a>
                         </td>
 
                         <td>
