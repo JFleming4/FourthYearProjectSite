@@ -67,17 +67,24 @@ public class Project implements Comparable<Project> {
         {
             if (!restrictions.contains(student.getProgram()))
             {
-                students.add(student);
-                if(student.getProject() != this){
-                    student.setProject(this);
+                if (!students.contains(student))
+                {
+                    if (!student.hasProject())
+                    {
+                        students.add(student);
+                        student.setProject(this);
+                        currentCapacity++;
+                        Collections.sort(students);
+                        return true;
+                    }
                 }
-                currentCapacity++;
-                Collections.sort(students);
-                return true;
+
             }
         }
         return false;
     }
+
+
 
     /**
      * Add a TimeSlot to the list of availability
@@ -281,7 +288,7 @@ public class Project implements Comparable<Project> {
     }
 
     public void setSecondReader(Professor secondReader) {
-        this.secondReader = secondReader;
+        if (!this.projectProf.equals(secondReader)) this.secondReader = secondReader;
     }
 
     public List<FileAttachment> getFiles() {

@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Fourth Year Project - Add Reader To Project</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <div th:replace="fragments/header :: header-css"/>
+</head>
+<body>
+<div th:replace="fragments/header :: header"/>
+<div class="container">
+    <h1 th:text="'Add Reader to Project ' + ${projectID}"></h1>
+    <form method="post" action="/save-reader">
+        <input type="hidden" name="projectID" th:value="${projectID}"/>
+        <select class="form-control" name="id">
+            <th:block th:each="reader : ${readers}">
+                <option name="id" th:value="${reader.getId()}" th:text="${reader.getFirstName()}+' '+${reader.getLastName()}"></option>
+            </th:block>
+        </select>
+        <button class="btn btn-lg btn-primary btn-block" type="submit">Add Reader</button>
+    </form>
+</div>
+
+</body>
+</html>
+
