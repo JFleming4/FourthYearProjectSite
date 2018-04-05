@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:form="http://www.w3.org/1999/xhtml">
+<head>
+    <title>Fourth Year Project - New Professor</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <div th:replace="fragments/header :: header-css"/>
+</head>
+<body>
+<div th:replace="fragments/header :: header"/>
+<div class="container">
+    <a href="/facultyMenu">Back</a>
+    <h1>Create new professor</h1>
+    <form method="POST" action="/professors" class="form" th:object="${professorForm}">
+        <div th:class="'form-group '+${#fields.hasErrors('profNumber') ? 'has-error' : ''}">
+            <input type="text" class="form-control" name="profNumber" placeholder="Professor #" autofocus="true" th:value="${professorForm.profNumber}"></input>
+            <span th:each="e : ${#fields.errors('profNumber')}" th:text="${e}+' '"></span>
+        </div>
+        <div th:class="'form-group '+${#fields.hasErrors('firstName') ? 'has-error' : ''}">
+            <input type="text" class="form-control" name="firstName" placeholder="First name" th:value="${professorForm.firstName}"></input>
+            <span th:each="e : ${#fields.errors('firstName')}" th:text="${e}+' '"></span>
+        </div>
+        <div th:class="'form-group '+${#fields.hasErrors('lastName') ? 'has-error' : ''}">
+            <input type="text" class="form-control" name="lastName" placeholder="Last name" th:value="${professorForm.lastName}"></input>
+            <span th:each="e : ${#fields.errors('lastName')}" th:text="${e}+' '"></span>
+        </div>
+        <div th:class="'form-group '+${#fields.hasErrors('email') ? 'has-error' : ''}">
+            <input type="text" class="form-control" name="email" placeholder="Email" th:value="${professorForm.email}"></input>
+            <span th:each="e : ${#fields.errors('email')}" th:text="${e}+' '"></span>
+        </div>
+        <button class="btn btn-lg btn-primary btn-block" type="submit">Create</button>
+    </form>
+</div>
+<div th:replace="fragments/footer :: footer"/>
+</body>
+</html>
+
