@@ -26,13 +26,16 @@
                                 <input th:id="${timeslot.getId()}" name="timeSlot" type="checkbox" th:value="${timeslot.getId()}" th:checked="${timeslot.getSelected()}"/>
                                 <span th:if="${timeslot.getStartMinute() == 0}" th:text="${timeslot.getDay()}+' '+${timeslot.getStartHour()}+':'+${timeslot.getStartMinute()}+'0'" />
                                 <span th:unless="${timeslot.getStartMinute() == 0}" th:text="${timeslot.getDay()}+' '+${timeslot.getStartHour()}+':'+${timeslot.getStartMinute()}+''" />
-                                <button type="submit" name="action" class="btn btn-default" th:value="${timeslot.getId()}">Delete</button>
+                                <span  th:id="${timeslot.getId()}"  class="btn btn-default delete" th:text="Delete"/>
                             </li>
                         </ul>
                         <input type="submit" name="action" class="btn btn-default pull-right" value="Update"/>
                     </form>
                 </div>
             </div>
+        </div>
+        <div th:each="timeslot : ${project.getTimeSlots()}" style="display:none;">
+            <form th:id="'time_'+${timeslot.getId()}" method="POST" th:action="${'/project/'+ project.getId()+'/delete/' + timeslot.getId()}"></form>
         </div>
 
         <div id="new-time-form"></div>

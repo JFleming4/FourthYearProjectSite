@@ -53,6 +53,27 @@ public class PresentationController {
         }
         return times;
     }
+    @PostMapping("/project/{pid}/delete/{tid}")
+    public String deleteTimeSlot(@PathVariable Long tid,
+                                 @PathVariable Long pid,
+                                 @AuthenticationPrincipal UserDetails currentUser) {
+        AuthenticatedUser authenticatedUser = authenticatedUserService.findByUsername(currentUser.getUsername());
+        if(authenticatedUser.getType().equals("Student")) {
+            Student stud = authenticatedUser.getStudent();
+            return "redirect:/project/" + stud.getProject().getId() + "/presentation";
+        } else {
+            Project proj = projectRepository.findById(pid);
+            Professor prof = authenticatedUser.getProfessor();
+            if(prof.getProjects().contains(proj)) {
+                proj.removeTimeSlot(tid);
+                projectRepository.save(proj);
+                timeSlotRepository.delete(tid);
+                return "redirect:/project/" + pid + "/presentation";
+            }
+            return "redirect:/facultyMenu";
+        }
+    }
+
     @PostMapping("/project/{pid}/presentation/update")
     public String updateTimeSlots(@PathVariable Long pid,
                                   @RequestParam("action") String action,
@@ -72,15 +93,6 @@ public class PresentationController {
             if(!prof.getProjects().contains(proj) && !prof.getSecondReaderProjects().contains(proj)) {
                 return "redirect:/facultyMenu";
             }
-        }
-        if(!action.toLowerCase().equals("update")) {
-            if(authenticatedUser.getType().equals("Student")) {
-                return "redirect:/project/" + pid + "/presentation";
-            }
-            proj.removeTimeSlot(new Long(action));
-            projectRepository.save(proj);
-            timeSlotRepository.delete(new Long(action));
-            return "redirect:/project/" + pid + "/presentation";
         }
         if(id == null) {
             updateTimes("-1", proj);
