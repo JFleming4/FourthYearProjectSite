@@ -53,18 +53,33 @@ public class PresentationController {
         }
         return times;
     }
+    @PostMapping("/project/{pid}/delete/{tid}")
+    public String deleteTimeSlot(@PathVariable Long tid,
+                                 @PathVariable Long pid,
+                                 @AuthenticationPrincipal UserDetails currentUser) {
+        AuthenticatedUser authenticatedUser = authenticatedUserService.findByUsername(currentUser.getUsername());
+        if(authenticatedUser.getType().equals("Student")) {
+            Student stud = authenticatedUser.getStudent();
+            return "redirect:/project/" + stud.getProject().getId() + "/presentation";
+        } else {
+            Project proj = projectRepository.findById(pid);
+            Professor prof = authenticatedUser.getProfessor();
+            if(prof.getProjects().contains(proj)) {
+                proj.removeTimeSlot(tid);
+                projectRepository.save(proj);
+                timeSlotRepository.delete(tid);
+                return "redirect:/project/" + pid + "/presentation";
+            }
+            return "redirect:/facultyMenu";
+        }
+    }
+
     @PostMapping("/project/{pid}/presentation/update")
     public String updateTimeSlots(@PathVariable Long pid,
+                                  @RequestParam("action") String action,
                                   @RequestParam(value = "timeSlot", required = false) String id,
                                   @AuthenticationPrincipal UserDetails currentUser) {
         Project proj = projectRepository.findOne(pid);
-        if(id == null) {
-            updateTimes("-1", proj);
-            return "redirect:/project/" + pid + "/presentation";
-        }
-        if(id.split(",").length > 1) {
-            return "redirect:/project/" + pid + "/presentation";
-        }
         AuthenticatedUser authenticatedUser = authenticatedUserService.findByUsername(currentUser.getUsername());
 
 
@@ -78,6 +93,13 @@ public class PresentationController {
             if(!prof.getProjects().contains(proj) && !prof.getSecondReaderProjects().contains(proj)) {
                 return "redirect:/facultyMenu";
             }
+        }
+        if(id == null) {
+            updateTimes("-1", proj);
+            return "redirect:/project/" + pid + "/presentation";
+        }
+        if(id.split(",").length > 1) {
+            return "redirect:/project/" + pid + "/presentation";
         }
         updateTimes(id, proj);
         return "redirect:/project/" + pid + "/presentation";
