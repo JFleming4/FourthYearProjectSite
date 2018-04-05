@@ -26,7 +26,7 @@
                                 <input th:id="${timeslot.getId()}" name="timeSlot" type="checkbox" th:value="${timeslot.getId()}" th:checked="${timeslot.getSelected()}"/>
                                 <span th:if="${timeslot.getStartMinute() == 0}" th:text="${timeslot.getDay()}+' '+${timeslot.getStartHour()}+':'+${timeslot.getStartMinute()}+'0'" />
                                 <span th:unless="${timeslot.getStartMinute() == 0}" th:text="${timeslot.getDay()}+' '+${timeslot.getStartHour()}+':'+${timeslot.getStartMinute()}+''" />
-                                <span  th:id="${timeslot.getId()}"  class="btn btn-default delete" th:text="Delete"/>
+                                <span th:if="${isSupervisor}" th:id="${timeslot.getId()}"  class="btn btn-default delete" th:text="Delete"/>
                             </li>
                         </ul>
                         <input type="submit" name="action" class="btn btn-default pull-right" value="Update"/>
