@@ -11,7 +11,7 @@
 <body>
     <div class="timeslot-container">
         <div th:replace="fragments/header :: header"/>
-        <h>Oral Presentation Picker</h>
+        <h1>Oral Presentation Picker</h1>
         <div id="projectId" th:text="${project.getId()}" style="display: none;"></div>
         <div id="time-slots">
             <p th:if="${project.getTimeSlots().size() == 0}" id="time-title">Your supervisor has not yet made times available</p>
@@ -26,18 +26,22 @@
                                 <input th:id="${timeslot.getId()}" name="timeSlot" type="checkbox" th:value="${timeslot.getId()}" th:checked="${timeslot.getSelected()}"/>
                                 <span th:if="${timeslot.getStartMinute() == 0}" th:text="${timeslot.getDay()}+' '+${timeslot.getStartHour()}+':'+${timeslot.getStartMinute()}+'0'" />
                                 <span th:unless="${timeslot.getStartMinute() == 0}" th:text="${timeslot.getDay()}+' '+${timeslot.getStartHour()}+':'+${timeslot.getStartMinute()}+''" />
+                                <span  th:id="${timeslot.getId()}"  class="btn btn-default delete" th:text="Delete"/>
                             </li>
                         </ul>
-                        <input type="submit" class="btn btn-default pull-right" />
+                        <input type="submit" name="action" class="btn btn-default pull-right" value="Update"/>
                     </form>
                 </div>
             </div>
+        </div>
+        <div th:each="timeslot : ${project.getTimeSlots()}" style="display:none;">
+            <form th:id="'time_'+${timeslot.getId()}" method="POST" th:action="${'/project/'+ project.getId()+'/delete/' + timeslot.getId()}"></form>
         </div>
 
         <div id="new-time-form"></div>
 
         <div class="panel panel-default">
-            <div th:style="${isSupervisor} ? 'display:block' : 'display:none'" class="panel-body">
+            <div th:if="${isSupervisor}"  class="panel-body">
                 <form action="presentation/new-time" method="post">
                     <div class="timeline">
                         <div class="timeline-entity">
