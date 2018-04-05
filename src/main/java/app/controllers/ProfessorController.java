@@ -78,11 +78,15 @@ public class ProfessorController {
     }
 
     @RequestMapping(value = "/professors", method = RequestMethod.POST)
-    public String createProfessor(@ModelAttribute("professorForm") Professor professorForm,
+    public String createProfessor(@AuthenticationPrincipal UserDetails currentUser,
+                                  @ModelAttribute("professorForm") Professor professorForm,
                                   BindingResult bindingResult,
                                   Model model,
                                   RedirectAttributes redirectAttributes,
                                   HttpServletResponse response) {
+        AuthenticatedUser authenticatedUser = authenticatedUserService.findByUsername(currentUser.getUsername());
+        ProjectCoordinator coordinator = (ProjectCoordinator) authenticatedUser.getProfessor();
+        professorForm.setProjectCoordinator(coordinator);
         professorValidator.validate(professorForm, bindingResult);
         if (bindingResult.hasErrors()) {
             response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
