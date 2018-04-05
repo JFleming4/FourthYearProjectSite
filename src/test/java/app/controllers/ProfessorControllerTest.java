@@ -51,8 +51,6 @@ public class ProfessorControllerTest {
     @Before
     public void setUp()
     {
-        Student student = new Student("Mike", "Hawk", "mikehawk@cmail.carleton.ca", "42", "Software");
-
         ProjectCoordinator coordinator = new ProjectCoordinator("Sir", "Coordinate", "coordinator@sce.carleton.ca");
         professor = new Professor("Babak", "Esfandiari", "babak@sce.carleton.ca", "1", coordinator);
         project = new Project(professor, "GraphQL Query Planner", new ArrayList<String>(), 4);
@@ -71,7 +69,6 @@ public class ProfessorControllerTest {
         } catch (Exception e) {
             fail(e.getMessage());
         }
-
     }
 
     private void authenticateProfessor()

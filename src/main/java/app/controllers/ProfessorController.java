@@ -35,7 +35,6 @@ public class ProfessorController {
     @Autowired
     private ProfessorValidator professorValidator;
 
-
     private Professor professor, reader;
     private Project project;
     private Student student;
@@ -92,6 +91,7 @@ public class ProfessorController {
         redirectAttributes.addFlashAttribute("message","Professor succesfully created");
         return "redirect:/facultyMenu";
     }
+
 
     /**
      * Save the Project to the Professor
