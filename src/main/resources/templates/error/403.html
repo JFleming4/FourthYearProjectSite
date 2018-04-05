@@ -1,5 +1,6 @@
 <!DOCTYPE HTML>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
 <head>
     <div th:replace="fragments/header :: header-css"/>
 </head>
@@ -13,7 +14,12 @@
         <h1>403 - Access is denied</h1>
         <div>
             <p>You do not have permission to access this page.</p>
-            <a href="/welcome">Home</a>
+            <div sec:authorize="hasRole('ROLE_STUDENT')" th:class="${#httpServletRequest.requestURI == '/studentMenu' ? 'active' : ''}">
+                <a href="/studentMenu">Dashboard</a>
+            </div>
+            <div sec:authorize="hasRole('ROLE_PROFESSOR')" th:class="${#httpServletRequest.requestURI == '/facultyMenu' ? 'active' : ''}">
+                <a href="/facultyMenu">Dashboard</a>
+            </div>
         </div>
     </div>
 
