@@ -146,6 +146,30 @@
                     </th:block>
                 </table>
             </div>
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    Students
+                </div>
+                <div class="panel-body">
+                    <a href="students/new">Create new student</a>
+                </div>
+                <table class="table">
+                    <tr>
+                        <th>Student #</th>
+                        <th>Name</th>
+                        <th>Email</th>
+                        <th>Program</th>
+                    </tr>
+                    <th:block th:each="student : ${students}">
+                        <tr>
+                            <td th:text="${student.getStudentNumber()}"></td>
+                            <td th:text="${student.getFirstName() + ' ' + student.getLastName()}"></td>
+                            <td th:text="${student.getEmail()}"></td>
+                            <td th:text="${student.getProgram()}"></td>
+                        </tr>
+                    </th:block>
+                </table>
+            </div>
         </div>
     </div>
 </body>

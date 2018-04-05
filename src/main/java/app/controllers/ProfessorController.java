@@ -52,8 +52,10 @@ public class ProfessorController {
 
         if(professor instanceof ProjectCoordinator) {
             List<Professor> professors = (List) professorRepository.findAll();
+            List<Student> students = (List) studentRepository.findAll();
 
             model.addAttribute("professors", professors);
+            model.addAttribute("students", students);
         }
 
         return "professor";
@@ -71,7 +73,7 @@ public class ProfessorController {
 
     @RequestMapping(value = "/professors/new", method = RequestMethod.GET)
     public String newProfessor(Model model) {
-        model.addAttribute("professorForm", new Professor());
+        model.addAttribute("professorForm", new Professor(null, null, null, null, null));
         return "professor/new";
     }
 

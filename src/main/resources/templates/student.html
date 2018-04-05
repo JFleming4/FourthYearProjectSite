@@ -8,7 +8,26 @@
 </head>
 <body>
     <div th:replace="fragments/header :: header"/>
-    <div class="student-container">
+    <div th:if="${project == null}" class="student-container">
+        <h3>Dashboard</h3>
+        <hr/>
+        <div class="panel panel-primary">
+            <div class="panel-heading">
+                Please perform the following action.
+            </div>
+            <div class="panel-body">
+                <div class="project-timeline">
+                    <div class="timeline-entity">
+                        <b>Project Selection</b>
+                        <div>
+                            <p>Contact your professor to add you to a project.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div th:unless="${project == null}" class="student-container">
         <h3>Dashboard</h3>
         <hr/>
         <div class="panel panel-primary">
@@ -17,13 +36,6 @@
             </div>
             <div class="panel-body">
                 <div class="project-timeline">
-                    <div class="timeline-entity">
-                        <b>Project Selection</b>
-                        <div>
-                            <button type="button" class="btn btn-default">Create/Join</button>
-                            <button type="button" class="btn btn-default">Drop</button>
-                        </div>
-                    </div>
                     <div class="timeline-entity">
                         <b>Upload Proposal (PDF)</b>
                         <div th:unless="${project.getProposal() == null}">
