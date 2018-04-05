@@ -35,6 +35,10 @@
     <div>
         <hr/>
         <h3>Oral Presentation</h3>
+        <div th:unless="${selectedTime == null}" >
+            <h4>Selected Time</h4>
+            <span th:text="${selectedTime}"></span>
+        </div><br/>
         <a th:href="@{'/project/{id}/presentation'(id=${project.id}) }" class="btn btn-default">View/Update Availability</a>
     </div>
 

@@ -55,15 +55,19 @@ public class PresentationController {
     }
     @PostMapping("/project/{pid}/presentation/update")
     public String updateTimeSlots(@PathVariable Long pid,
-                                  @RequestParam("timeSlot") String id,
+                                  @RequestParam(value = "timeSlot", required = false) String id,
                                   @AuthenticationPrincipal UserDetails currentUser) {
-
+        Project proj = projectRepository.findOne(pid);
+        if(id == null) {
+            updateTimes("-1", proj);
+            return "redirect:/project/" + pid + "/presentation";
+        }
         if(id.split(",").length > 1) {
             return "redirect:/project/" + pid + "/presentation";
         }
         AuthenticatedUser authenticatedUser = authenticatedUserService.findByUsername(currentUser.getUsername());
 
-        Project proj = projectRepository.findOne(pid);
+
         if(authenticatedUser.getType().equals("Student")) {
             Student stud = authenticatedUser.getStudent();
             if(!stud.getProject().equals(proj)) {
