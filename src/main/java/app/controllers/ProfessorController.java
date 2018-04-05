@@ -244,6 +244,9 @@ public class ProfessorController {
         project = professor.getProject(projectID);
         project.setSecondReader(null);
         project.setProjectProf(null);
+        for (Student student: project.getStudents()) {
+            student.setProject(null);
+        }
         project.setStudents(null);
 
         projectRepository.delete(project);

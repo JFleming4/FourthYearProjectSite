@@ -69,13 +69,14 @@ public class Project implements Comparable<Project> {
             {
                 if (!students.contains(student))
                 {
-                    students.add(student);
-                    if(student.getProject().equals(this)){
+                    if (!student.hasProject())
+                    {
+                        students.add(student);
                         student.setProject(this);
+                        currentCapacity++;
+                        Collections.sort(students);
+                        return true;
                     }
-                    currentCapacity++;
-                    Collections.sort(students);
-                    return true;
                 }
 
             }
