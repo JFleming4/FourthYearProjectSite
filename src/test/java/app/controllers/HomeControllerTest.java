@@ -5,6 +5,7 @@ import app.TestConfig;
 import app.models.*;
 import app.models.repository.AuthenticatedUserRepository;
 import app.models.repository.ProjectRepository;
+import app.models.repository.StudentRepository;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -12,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.security.test.context.support.WithMockUser;
+import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
@@ -21,6 +23,7 @@ import java.util.ArrayList;
 
 import static org.junit.Assert.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @RunWith(SpringRunner.class)
@@ -29,6 +32,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @AutoConfigureMockMvc
 public class HomeControllerTest {
     private static final String USERNAME = "username";
+    private static final String COORDINATOR = "coordinator";
 
     @Autowired
     private MockMvc mockMvc;
@@ -38,6 +42,9 @@ public class HomeControllerTest {
 
     @Autowired
     private AuthenticatedUserRepository authenticatedUserRepository;
+
+    @Autowired
+    private StudentRepository studentRepository;
 
     private Project project;
     private Student student;
@@ -65,6 +72,47 @@ public class HomeControllerTest {
             fail(e.getMessage());
         }
     }
+
+
+    @Test
+    @WithMockUser(username = COORDINATOR, roles={"COORDINATOR"})
+    public void getNewStudentPage() {
+        try {
+            mockMvc.perform(get("/students/new"))
+                    .andExpect(status().isOk())
+                    .andExpect(content().string(Matchers.containsString("<title>Fourth Year Project - New Student</title>")));
+        } catch (Exception e) {
+            fail(e.getMessage());
+        }
+    }
+
+    @Test
+    @WithMockUser(username = COORDINATOR, roles={"COORDINATOR"})
+    @DirtiesContext(methodMode = DirtiesContext.MethodMode.BEFORE_METHOD)
+    public void postCreateStudentSuccess() {
+        try {
+            mockMvc.perform(
+                    post("/students")
+                            .flashAttr("studentForm", new Student("Justin", "Krol", "justin@carleton.ca", "3", "Engineering"))
+            ).andExpect(status().is3xxRedirection());
+        } catch (Exception e) {
+            fail(e.getMessage());
+        }
+    }
+
+//    @Test
+//    @WithMockUser(username = COORDINATOR, roles={"COORDINATOR"})
+//    public void postCreateStudentFailsWithDuplicateStudentNumber() {
+//        try {
+//            studentRepository.save(student);
+//            mockMvc.perform(
+//                    post("/students")
+//                            .flashAttr("studentForm", new Student("Justin", "Krol", "justin@carleton.ca", "1", "Engineering"))
+//            ).andExpect(status().isBadRequest());
+//        } catch (Exception e) {
+//            fail(e.getMessage());
+//        }
+//    }
 
     private void authenticateStudent() {
         // The authenticated user must be saved with the same name as WithMockUser

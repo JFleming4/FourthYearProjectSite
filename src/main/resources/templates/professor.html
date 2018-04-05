@@ -39,13 +39,14 @@
                 Projects
             </div>
             <div class="panel-body">
-                <a href="new-project">Create a New Project</a>
+                <a href="new-project" class="btn btn-default">Create a New Project</a>
             </div>
             <table class="table">
                 <tr>
                     <th>ID</th>
                     <th>Description</th>
                     <th>Restrictions</th>
+                    <th>Second Reader</th>
                     <th>Capacity</th>
                     <th>Add Student</th>
                     <th>Archive</th>
@@ -58,14 +59,22 @@
                         <td>
                             <a th:text="${project.description}" th:href="${'project/'+project.id}"></a>
                         </td>
+
                         <td th:if="${project.getRestrictionsToString().equals('')}">None</td>
                         <td th:unless="${project.getRestrictionsToString().equals('')}" th:text="${project.getRestrictionsToString()}"></td>
+
+                        <td th:switch="${project.getSecondReader() == null}">
+                            <a th:case="true" th:href="'project/'+${project.getId()}+'/add-reader'" class="btn btn-default">Add Reader</a>
+                            <p th:case="false" th:text="${project.getSecondReader().getFirstName()}+' '+${project.getSecondReader().getLastName()}"></p>
+                            <a th:case="*" th:href="'project/'+${project.getId()}+'/add-reader'" class="btn btn-default">Add Reader</a>
+                        </td>
+
                         <td th:text="${project.currentCapacity}+'/'+${project.maxCapacity}"></td>
 
                         <td th:switch="${project.currentCapacity} &lt; ${project.maxCapacity}">
-                            <a th:case="true" href="new-student">New Student</a>
-                            <a th:case="false">Full</a>
-                            <a th:case="*" href="new-student">New Student</a>
+                            <a th:case="true" th:href="'project/'+${project.getId()}+'/new-student'" class="btn btn-default">Add Student</a>
+                            <a th:case="false" class="btn btn-default" disabled="true">Add Student</a>
+                            <a th:case="*" th:href="'project/'+${project.getId()}+'/new-student'" class="btn btn-default">Add Student</a>
                         </td>
 
                         <td>
@@ -76,7 +85,7 @@
                             <a th:text="Delete" th:href="${'/facultyMenu/deleteProject/'+project.id}" class="btn btn-default" />
                         </td>
                         <td>
-                            <a th:text="'View/Update Availability'" th:href="${'/project/'+project.id+'/presentation'}" class="btn btn-default"></a>
+                            <a th:text="'View/Edit Availability'" th:href="${'/project/'+project.id+'/presentation'}" class="btn btn-default"></a>
                         </td>
                     </tr>
 
@@ -97,14 +106,18 @@
                     <th>Oral Presentation</th>
                 </tr>
                 <th:block th:each="project : ${secondReader}">
-                    <td th:text="${project.description}"></td>
-                    <td th:if="${project.getRestrictionsToString().equals('')}">None</td>
-                    <td th:unless="${project.getRestrictionsToString().equals('')}" th:text="${project.getRestrictionsToString()}"></td>
-                    <td th:text="${project.currentCapacity}"></td>
-                    <td th:text="${project.maxCapacity}"></td>
-                    <td>
-                        <a th:text="'View/Update Availability'" th:href="${'/project/'+project.id+'/presentation'}" class="btn btn-default"></a>
-                    </td>
+                    <tr>
+                        <td th:text="${project.description}"></td>
+
+                        <td th:if="${project.getRestrictionsToString().equals('')}">None</td>
+                        <td th:unless="${project.getRestrictionsToString().equals('')}" th:text="${project.getRestrictionsToString()}"></td>
+                        <td th:text="${project.currentCapacity}"></td>
+                        <td th:text="${project.maxCapacity}"></td>
+                        <td>
+                            <a th:text="'View/Edit Availability'" th:href="${'/project/'+project.id+'/presentation'}" class="btn btn-default"></a>
+                        </td>
+                    </tr>
+
 
                 </th:block>
             </table>
@@ -129,6 +142,30 @@
                             <td th:text="${professor.getProfNumber()}"></td>
                             <td th:text="${professor.getFirstName() + ' ' + professor.getLastName()}"></td>
                             <td th:text="${professor.getEmail()}"></td>
+                        </tr>
+                    </th:block>
+                </table>
+            </div>
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    Students
+                </div>
+                <div class="panel-body">
+                    <a href="students/new">Create new student</a>
+                </div>
+                <table class="table">
+                    <tr>
+                        <th>Student #</th>
+                        <th>Name</th>
+                        <th>Email</th>
+                        <th>Program</th>
+                    </tr>
+                    <th:block th:each="student : ${students}">
+                        <tr>
+                            <td th:text="${student.getStudentNumber()}"></td>
+                            <td th:text="${student.getFirstName() + ' ' + student.getLastName()}"></td>
+                            <td th:text="${student.getEmail()}"></td>
+                            <td th:text="${student.getProgram()}"></td>
                         </tr>
                     </th:block>
                 </table>

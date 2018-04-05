@@ -30,7 +30,7 @@ public class ProjectRepositoryTest {
 
     private Project project;
     private ProjectCoordinator projectCoordinator;
-    private Professor professor;
+    private Professor professor, reader;
     private Student student;
     private FileAttachment file;
     private List<String> restrictions;
@@ -61,6 +61,7 @@ public class ProjectRepositoryTest {
 
         projectCoordinator = new ProjectCoordinator(FIRST, LAST, EMAIL);
         professor = new Professor(FIRST, LAST, EMAIL, "1", projectCoordinator);
+        reader = new Professor(LAST, FIRST, EMAIL, "2", projectCoordinator);
         student = new Student(FIRST, LAST, EMAIL, STUD_NO1, PROG);
 
         file = new FileAttachment(ASSET_URL, PROJECT_ASSET_TYPE, project);
@@ -89,12 +90,12 @@ public class ProjectRepositoryTest {
 
     @Test
     public void testSecondReaderAssociation() {
-        project.setSecondReader(professor);
+        project.setSecondReader(reader);
         projectRepository.save(project);
 
         Project actualProject = projectRepository.findOne(project.getId());
 
-        assertEquals(professor, actualProject.getSecondReader());
+        assertEquals(reader, actualProject.getSecondReader());
     }
 
     @Test
