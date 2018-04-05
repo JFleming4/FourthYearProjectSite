@@ -37,7 +37,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/resources/**", "/registration", "/files/**", "/project/**").permitAll()
                 .antMatchers("/student/**").hasRole(STUDENT)
                 .antMatchers("/professor/**").hasRole(PROFESSOR)
-                .antMatchers("/coordinator/**").hasRole(COORDINATOR)
+                .antMatchers("/professors/**").hasRole(COORDINATOR)
                 .anyRequest().authenticated()
             .and()
             .formLogin()

@@ -1,21 +1,19 @@
 package app.controllers;
 
-import app.models.AuthenticatedUser;
-import app.models.Professor;
-import app.models.Project;
-import app.models.Student;
-import app.models.repository.AuthenticatedUserRepository;
-import app.models.repository.ProfessorRepository;
-import app.models.repository.ProjectRepository;
-import app.models.repository.StudentRepository;
+import app.models.*;
+import app.models.repository.*;
+import app.models.validators.ProfessorValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import javax.servlet.http.HttpServletResponse;
 import java.util.Arrays;
 import java.util.List;
 
@@ -34,6 +32,9 @@ public class ProfessorController {
     @Autowired
     private AuthenticatedUserRepository authenticatedUserService;
 
+    @Autowired
+    private ProfessorValidator professorValidator;
+
     private Professor professor;
     private Project project;
     private Student student;
@@ -48,6 +49,12 @@ public class ProfessorController {
         model.addAttribute("projects", professor.getProjects());
         model.addAttribute("secondReader", professor.getSecondReaderProjects());
 
+        if(professor instanceof ProjectCoordinator) {
+            List<Professor> professors = (List) professorRepository.findAll();
+
+            model.addAttribute("professors", professors);
+        }
+
         return "professor";
     }
 
@@ -57,6 +64,30 @@ public class ProfessorController {
         return new ModelAndView("new-project","command", new Project());
     }
 
+    @RequestMapping(value = "/professors/new", method = RequestMethod.GET)
+    public String newProfessor(Model model) {
+        model.addAttribute("professorForm", new Professor());
+        return "professor/new";
+    }
+
+    @RequestMapping(value = "/professors", method = RequestMethod.POST)
+    public String createProfessor(@ModelAttribute("professorForm") Professor professorForm,
+                                  BindingResult bindingResult,
+                                  Model model,
+                                  RedirectAttributes redirectAttributes,
+                                  HttpServletResponse response) {
+        professorValidator.validate(professorForm, bindingResult);
+        if (bindingResult.hasErrors()) {
+            response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+            return "professor/new";
+        }
+        professorRepository.save(professorForm);
+
+        redirectAttributes.addFlashAttribute("message","Professor succesfully created");
+        return "redirect:/facultyMenu";
+    }
+
+    // Have to get the professor's ID
     @RequestMapping(value = "/save", method = RequestMethod.POST)
     public ModelAndView saveProject(@AuthenticationPrincipal UserDetails currentUser,
                                     @RequestParam("desc") String description,
@@ -73,13 +104,6 @@ public class ProfessorController {
 
         return new ModelAndView("redirect:/facultyMenu");
     }
-
-    @RequestMapping("/new-student/")
-    public ModelAndView addStudentById()
-    {
-        return new ModelAndView("new-student","command", new Student());
-    }
-
 
     // Not currently working. Need to change the confirmation workflow
     @RequestMapping(value = "/save-student", method = RequestMethod.POST)

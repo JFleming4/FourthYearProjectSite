@@ -61,7 +61,7 @@ public class AuthenticatedUserValidator implements Validator{
         if(type.equals("Coordinator") && !(professorRepository.findByProfNumber(number) instanceof ProjectCoordinator)) {
             errors.rejectValue("number", "Invalid.userForm.professorNumber.coordinator");
         }
-
+        
         if(!(type.equals("Student") || type.equals("Professor") || type.equals("Coordinator"))) {
             errors.rejectValue("type", "Invalid.userForm.type");
         }

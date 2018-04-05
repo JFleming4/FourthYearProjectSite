@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
 <head>
     <title>Fourth Year Project - Professor</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
@@ -107,6 +108,31 @@
 
                 </th:block>
             </table>
+        </div>
+        <div sec:authorize="hasRole('ROLE_COORDINATOR')">
+            <h3>Coordinator Menu</h3>
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    Professors
+                </div>
+                <div class="panel-body">
+                    <a href="professors/new">Create new professor</a>
+                </div>
+                <table class="table">
+                    <tr>
+                        <th>Professor #</th>
+                        <th>Name</th>
+                        <th>Email</th>
+                    </tr>
+                    <th:block th:each="professor : ${professors}">
+                        <tr>
+                            <td th:text="${professor.getProfNumber()}"></td>
+                            <td th:text="${professor.getFirstName() + ' ' + professor.getLastName()}"></td>
+                            <td th:text="${professor.getEmail()}"></td>
+                        </tr>
+                    </th:block>
+                </table>
+            </div>
         </div>
     </div>
 </body>
