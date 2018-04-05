@@ -53,7 +53,7 @@ public class FileController {
 
         redirectAttributes.addFlashAttribute("message",
                 "You successfully uploaded " + file.getOriginalFilename() + "!");
-        return "redirect:/student";
+        return "redirect:/studentMenu";
     }
 
     @PostMapping("/project/{id}/upload_final_report")
@@ -69,7 +69,7 @@ public class FileController {
 
         redirectAttributes.addFlashAttribute("message",
                 "You successfully uploaded " + file.getOriginalFilename() + "!");
-        return "redirect:/student";
+        return "redirect:/studentMenu";
     }
 
     @ExceptionHandler(StorageFileNotFoundException.class)

@@ -114,6 +114,10 @@ public class Student extends User implements Comparable<Student> {
         }
     }
 
+    public boolean hasProject() {
+        return (project != null);
+    }
+
     public AuthenticatedUser getAuthenticatedUser() {
         return authenticatedUser;
     }
