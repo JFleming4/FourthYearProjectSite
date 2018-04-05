@@ -93,6 +93,18 @@ public class Project implements Comparable<Project> {
         return false;
     }
 
+    public void removeTimeSlot(Long id) {
+        int indexDelete = -1;
+        for(int i=0; i< this.timeSlots.size(); i++) {
+            if(this.timeSlots.get(i).getId().equals(id)) {
+                indexDelete = i;
+                break;
+            }
+        }
+        if(indexDelete >= 0)
+            this.timeSlots.remove(indexDelete);
+    }
+
     /**
      * Attempt to add a file to the project.
      * @param file FileAttachment to be added

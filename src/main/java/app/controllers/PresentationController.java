@@ -55,16 +55,10 @@ public class PresentationController {
     }
     @PostMapping("/project/{pid}/presentation/update")
     public String updateTimeSlots(@PathVariable Long pid,
+                                  @RequestParam("action") String action,
                                   @RequestParam(value = "timeSlot", required = false) String id,
                                   @AuthenticationPrincipal UserDetails currentUser) {
         Project proj = projectRepository.findOne(pid);
-        if(id == null) {
-            updateTimes("-1", proj);
-            return "redirect:/project/" + pid + "/presentation";
-        }
-        if(id.split(",").length > 1) {
-            return "redirect:/project/" + pid + "/presentation";
-        }
         AuthenticatedUser authenticatedUser = authenticatedUserService.findByUsername(currentUser.getUsername());
 
 
@@ -78,6 +72,22 @@ public class PresentationController {
             if(!prof.getProjects().contains(proj) && !prof.getSecondReaderProjects().contains(proj)) {
                 return "redirect:/facultyMenu";
             }
+        }
+        if(!action.toLowerCase().equals("update")) {
+            if(authenticatedUser.getType().equals("Student")) {
+                return "redirect:/project/" + pid + "/presentation";
+            }
+            proj.removeTimeSlot(new Long(action));
+            projectRepository.save(proj);
+            timeSlotRepository.delete(new Long(action));
+            return "redirect:/project/" + pid + "/presentation";
+        }
+        if(id == null) {
+            updateTimes("-1", proj);
+            return "redirect:/project/" + pid + "/presentation";
+        }
+        if(id.split(",").length > 1) {
+            return "redirect:/project/" + pid + "/presentation";
         }
         updateTimes(id, proj);
         return "redirect:/project/" + pid + "/presentation";
