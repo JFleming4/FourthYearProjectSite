@@ -35,7 +35,7 @@
     <div>
         <hr/>
         <h3>Oral Presentation</h3>
-        <div th:style="${selectedTime != null} ? 'display:block' : 'display:none'">
+        <div th:unless="${selectedTime == null}" >
             <h4>Selected Time</h4>
             <span th:text="${selectedTime}"></span>
         </div><br/>
